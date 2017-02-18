@@ -1,0 +1,5 @@
+Many mixed Nash
+2,5
+5,3
+3,3
+4,3
