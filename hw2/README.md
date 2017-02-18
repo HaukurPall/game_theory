@@ -1,6 +1,6 @@
 # Nash equilibrium solver
 ### Authors
-Haukur Páll and Greg
+Haukur Páll Jónsson and Grzegorz Lisowski
 ## Running the code
 ### Prerequisites
 - python 3.5+
