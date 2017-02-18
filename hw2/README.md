@@ -5,6 +5,7 @@ Haukur Páll Jónsson and Grzegorz Lisowski
 ### Prerequisites
 - python 3.5+
 - numpy
+
 ### Game definition
 1st line is the name of the game.
 2nd line is the first row of utilities for player 1, values are separated with ",".
