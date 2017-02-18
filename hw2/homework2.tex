@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+
+\title{Homework 1}
+\author{Haukur Páll Jónsson\\
+Game Theory}
+
+\maketitle
+
+\begin{question}{1}
+Compute all (mixed and pure) Nash equilibria for each of the following two normal-form games.
+\end{question}
+\begin{answer}{}
+For both games we have a row player, Rowena, and a column player, Colin. We enumerate the pure strategies s.t. $S_1=(T,L)$, $S_2=(T,R)$, $S_3=(B,L)$, $S_4=(B,R)$.
+\end{answer}
+\begin{answer}{a)}
+First we start with finding the pure Nash equilibriums:
+We consider Rowena's best response, $S^*$, given Colin's action, $S_{-R}$ (all actions but Rowena's). Since $A_C={L, R}$ thus Rowena's best response, given Colin's action $L$: \\
+Since $u_R(T,L) > u_R(B,L)$ then $s^*=T$, thus $(T,L))=S_1$ is Rowena's best response given Colin's action $L$.
+Similarly, since $u_R(B,R) > u_R(T,R)$ then $s^*=B$, thus $(B,R))=S_4$. Thus $S_1$ and $S_4$ are Rowena's best responses given Colin's actions.
+Similarly we consider Colin's best response, $s^*$ given Rowena's action $s_{-C}$: \\
+Since $u_C(T,L) > u_C(T,R)$ then $s^*=L$, thus $(T,L)=S_1$ \\
+Since $u_C(B,R) > u_C(B,L)$ then $s^*=R$, thus $(B,R)=S_4$ \\
+Then we can see that for both Rowena and Colin $S_1$ and $S_4$ are best responses.
+Thus $S_1$ and $S_4$ are a pure Nash equilibriums.
+Furthermore since all the responses were strictly better $S_1$ and $S_4$ are a strict pure Nash equilibrium.
+
+Now let us find the mixed equilibriums:
+Let us assume that with probability $q$ that Colin plays $L$, and $1-q$ he plays $R$ and similiarly that with probability $p$ Rowena plays $T$ and $1-p$ she plays $B$.
+We assume Rowena is indifferent to her action, this implies that $U_R(T,s_{-R})=U_R(B,s_{-R})$ so we get $5q+3(1-q)=2q+7(1-q)$ which we solve and get $q=4/7$.
+We do the same for Colin: $U_C(L,s_{-C})=U_C(R,s_{-C})$ so we get $8p+2(1-p)=4p+3(1-p)$ which we solve and get $p=1/5$. Thus there is a Nash equilibrium with $(S_R(1/5,4/5), S_C(4/7,3/7))$
+
+\end{answer}
+\begin{answer}{b)}
+Let us first find the pure Nash equilibriums: Start with Rowena given Colin's actions: \\
+$u_R(B,L) > u_R(T,L)$ then $(B,L)$ is her best response. \\
+$u_R(T,R) > u_R(B,R)$ then $(T,R)$ is her best response. \\
+Now for Colin: \\
+Since $u_C(T,L) \geq u_C(T,R)$ and $u_C(T,L) \leq u_C(T,R)$ then $(T,L)$ and $(T,R)$ are his best responses. \\
+Since $u_C(B,L) > u_C(B,R)$ then $(B,L)$.
+
+Therefore $(B,L)$ is a strict pure Nash equilibrium and $(T,R)$ is also a pure Nash equilibrium, but not strict.
+
+Let us check if there is a mixed Nash equilibrium. Start with Rowena, using a similar argument as above:
+$U_R(T,s_{-R})=U_R(B,s_{-R})$ so we get $2q+5(1-q)=5q+3(1-q)$ which we solve and get $q=2/5$.
+$U_C(L,s_{-C})=U_C(R,s_{-C})$ so we get $3p+4(1-p)=3p+3(1-p)$ which we solve and get $p=1$.
+Thus only Colin is playing a mixed strategy in the mixed equilibrium: $(S_R(1.0,0.0), S_C(2/5,3/5))$
+
+\end{answer}
+\begin{question}{2}
+Find all pure Nash equilibria of the number's game.
+\end{question}
+\begin{answer}{a)}
+Lets assume that all players think in the same way.
+Lets assume that player 1 takes action $a_1$ and player 2 $a_2$, etc. up to player n, $a_n$.
+These actions are guesses on numbers, we can therefore calculate the average guess: $avg(a)\sum{i=1}{n}{\frac{a_i}{n}}$. Since the winner is the player which guesses closest to $avg(a)*2/3$ it is in each player's best interest to guess $avg(a)*2/3$.
+This means that for all players their best response is to do action $a_i'=avg(a)*2/3$. \\
+Then, we caluclate the average again with the updated strategies: \\
+$avg(a')\sum{i=1}{n}{\frac{a_i'}{n}}=\sum{i=1}{n}{\frac{avg(a)*2/3}{n}}=2/3\frac{avg(a)*n}{n}=avg(a)*2/3$. \\
+This reasoning is then applied iteratively, i.e. $a_i'=avg(a)*(2/3)^n$, $n$ tends to $\inf$. Then our question then becomes: When does the update stop paying off? Or, where does the update function have a fixed point, i.e. when $avg(a)*2/3 - avg(a)=0$.
+In this example it is clear that the only fixed point is when $avg(a)=0$. That is, for all players i, $a_i=0$.
+Then by lemma 2 (from slides) $a_i=0$ is a Nash equilirium and it is pure.
+\end{answer}
+\begin{answer}{b)}
+If we only consider integers as guesses then we use a similiar argument as in a) but only change $a_i'=avg(a)*2/3$ to be $a_i'=round(avg(a)*2/3)$.
+Then again we solve $round(avg(a)*2/3) - avg(a)=0$.
+This gives two solutions, namely $a_i=0$ and $a_i=1$.
+It is thus dependant on where the players consider the inital $avg(a)$ to be what Nash equilibrium is reached. if they assume it to be between 0 and 3/4 they will converge to 0, otherwise they will converge to 1. But to be clear; $a_i=0$ and $a_i=1$ are both Nash equilibriums.
+\end{answer}
+\begin{answer}{c)}
+We use a similiar arugument as in a) and b) but only change $a_i'=round(avg(a)*2/3)$ to be $a_i'=round(avg(a)*9/10)$
+Then again we solve $round(avg(a)*9/10) - avg(a)=0$.
+This gives atleast 4 solutions, namely $a_i=1$, $a_i=2$, $a_i=3$ and $a_i=4$, depending on how 'round' is defined we might add  $a_i=0$ and $a_i=5$. But for our purposes it makes sense to have all 6 solutions, thus we add $a_i=0$ and $a_i=5$. And similarly as in b) there is convergence to different solutions depending on what the inital $avg(a)$ is believed to be.
+\end{answer}
+\begin{question}{3}
+Non-finite action profiles
+\end{question}
+\begin{answer}{a)}
+Let us now consider if we drop the assumption that $A$ is finite, but is instead infinite. Nash's theorem breaks down if we assume that $A$ can be infinite. This happens when applying Brouwer's fixed point theorem. Our function $f$ maps $S$ to $S$ but in fact $S$ is not compact any more thus does not satisfy the compactness criteria for the theorem. $S$ is not bounded because it is defined as $S \subseteq [0,1]^{m}$ and now $m=$ goes to infinity.
+\end{answer}
+\begin{answer}{b)}
+We can present a simple counter-example of a normal form game, with an infinite action profile, which has no Nash equilibrium. Lets assume that we have a enumerably infinite action profiles, labelled from $a_1$, $a_2$ and up. Let us further assume that for each action if $i<j$ then $u(a_i)<u(a_j)$ for all players. That is, there is an ever increasing utility. Here there is no best response to the opponent since there is never an action to be played. Since if we assume that some player has decided an action, $a_k$ that implies that that action is best for her but clearly $a_{k+1}$ is a better action. Thus, there is no rational action in this game. Thus, there is no Nash equilibrium in this game.
+\end{answer}
+\begin{question}{4}
+Iterated prioner's dilemma
+\end{question}
+\begin{answer}{a)}
+The tit for tat strategy simply plays what the opponent played the last turn, starting from co-operation. It can be discribed as a Moore machine like so: \\
+2 \\
+C,0,1 \\
+D,0,1 \\
+\end{answer}
+\begin{answer}{b)}
+We (Silvan and Haukur) attempt a strategy which attempts to defect once and then only collaborates. Furthermore, we allow our opponent to defect once when it is not in response to our defect. If our opponent defects more than twice we will defect for the rest of the game. This strategy should do well against co-operative strategies with punishing mechanisms and will win strategies which allow at least one defect without punishment. It should also do well against very offensive strategies, by only defecting early. It will also play well against itself. \\
+7 \\
+C,1,3 \\
+D,2,2 \\
+C,2,5 \\
+C,4,6 \\
+D,5,5 \\
+C,5,6 \\
+D,6,6
+\end{answer}
+
+\end{document}

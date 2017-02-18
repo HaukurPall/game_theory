@@ -109,8 +109,8 @@ def main():
     # all strategies are nash
     p_1 = np.array([[0, 0],[0, 0]])
     p_2 = np.array([[0, 0],[0, 0]])
-    p_1 = np.array([[1, 1],[1, 1]])
-    p_2 = np.array([[1, 1],[1, 1]])
+    p_1 = np.array([[2, 2],[2, 2]])
+    p_2 = np.array([[2, 2],[2, 2]])
     result = find_pure_NE(p_1, p_2)
     for column in range(0, result.shape[1]):
         for row in range(0, result.shape[0]):
