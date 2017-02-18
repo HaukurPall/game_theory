@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{ amssymb }
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{xfrac}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{multirow,array}
+\title{Nash Equlibria solver - report}
+\author{Haukur, Grzegorz}
+\begin{document}
+\maketitle
+\section{Approach to the problem}
+The program computed the Nash equilibia of a given game with two players and two actions available to each player in two steps. Firstly, pure Nash equilibria were computed. Secondly, mixed equilibria were determined. It took as an input two matrices containing payoffs of particular players in given combinations of actions.
+
+In case of pure equilibria, for each of matrices it was checked whether a player could increase her payoff by changing action by switching rows in case of a first player or by switching rows in case of the second. If in a given combination of actions no player could increase her payoff, this combination was concluded to be a pure equilibrium. Further, in case of mixed equilibria, it was checked using a method introduced in the lecture under which conditions players are indifferent to their opponent's actions. This method provided a pair of a form $((p, 1-p),(q, 1-q))$ where $p,q$  are probabilities of an agent to play the first available action. If for both of the players it was the case while probability of each action was positive, computed probabilities where considered as mixed Nash equilibria. If it happened that for one of the players this was the case with a probability 1 for one of the actions, a class of mixed Nash equilibria was determined. It was checked whether the other player could improve her expected utility by changing the probability distribution in favor of one of the actions available to her. If it was not the case, it was concluded that  $((1,0),(q', 1-q'))$ is an eqilibrium for $q' \leq q$   or for $q' \geq q$.
+\section{Examples}
+\subsection{A game with two pure Nash equilibria and one mixed equilibrium}
+In case of a game:
+\begin{table}[H]
+    \setlength{\extrarowheight}{2pt}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Player $Y$}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{$L$}  & \multicolumn{1}{c}{$R$} \\\cline{3-4}
+      \multirow{2}*{Player $X$}  & $T$ & $(1,1)$ & $(0,0)$ \\\cline{3-4}
+      & $B$ & $(0,0)$ & $(1,1)$ \\\cline{3-4}
+    \end{tabular}
+  \end{table}
+   Following pure Nash equilibria were computed:
+  $$((1.0,0.0),(1.0,0.0))$$
+$$((0.0,1.0),(0.0,1.0))$$
+  Further, following mixed equilibria were computed:
+  $$((0.5,0.5),(0.5,0.5))$$
+
+\subsection{A game with multiple mixed equilibria}
+In case of a game:
+\begin{table}[H]
+    \setlength{\extrarowheight}{2pt}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Player $Y$}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{$L$}  & \multicolumn{1}{c}{$R$} \\\cline{3-4}
+      \multirow{2}*{Player $X$}  & $T$ & $(2,3)$ & $(5,3)$ \\\cline{3-4}
+      & $B$ & $(5,4)$ & $(3,3)$ \\\cline{3-4}
+    \end{tabular}
+  \end{table}
+  Following pure Nash equilibria were computed:
+    $$((0.0,1.0),(1.0,0.0))$$
+	$$((1.0,0.0),(0.0,1.0))$$
+  Further, following mixed equilibria were computed:
+  $$((1.0,0.0),(0.4,0.6))$$
+  $$((1.0,0.0),(0.4-\epsilon,0.6+\epsilon))$$
+
+
+\subsection{A game in which all strategy profiles are Nash equilibria}
+In case of a game:
+\begin{table}[H]
+    \setlength{\extrarowheight}{2pt}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Player $Y$}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{$L$}  & \multicolumn{1}{c}{$R$} \\\cline{3-4}
+      \multirow{2}*{Player $X$}  & $T$ & $(1,1)$ & $(1,1)$ \\\cline{3-4}
+      & $B$ & $(1,1)$ & $(1,1)$ \\\cline{3-4}
+    \end{tabular}
+  \end{table}
+  Following pure Nash equilibria were computed:
+  $$((1.0,0.0),(1.0,0.0))$$
+$$((0.0,1.0),(1.0,0.0))$$
+$$((1.0,0.0),(0.0,1.0))$$
+$$((0.0,1.0),(0.0,1.0))$$
+When attempting to compute mixed equilibria the library we used to solve linear equations gave an error since this is a singular matrix. Thus, we interpret all strategies to be Nash equilibria.
+
+
+\end{document}
