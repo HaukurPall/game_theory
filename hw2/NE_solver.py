@@ -83,7 +83,7 @@ def find_mixed_NE(p_1_utilities, p_2_utilities):
     p = (p[0], 1 - p[0])
     q = (q[0], 1 - q[0])
     # if these are not probabilities, we throw the solution away
-    if p[0] > 1.0001 or p[0] < 0.0001 or p[1] > 1.0001 or p[1] < 0.0001 or q[0] > 1.0001 or q[0] < 0.0001 or q[1] > 1.0001 or q[1] < 0.0001:
+    if p[0] > 1.0001 or p[0] < -0.0001 or p[1] > 1.0001 or p[1] < -0.0001 or q[0] > 1.0001 or q[0] < -0.0001 or q[1] > 1.0001 or q[1] < -0.0001:
         return
     return p, q
 
