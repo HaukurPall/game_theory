@@ -1,0 +1,112 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+
+\title{Homework 2}
+\author{Haukur Páll Jónsson\\
+Game Theory}
+
+\maketitle
+
+\begin{question}{1}
+Social welfare, NE for congestion games and PoA
+\end{question}
+\begin{answer}{a)}
+We have a congestion game $G=(N,R,\boldsymbol{A},\boldsymbol{d})$.
+In a potential game, the \textit{pure Nash equilibria} is where the P function is maximal. A congestion game is a potential game with P: \\
+$$P(\boldsymbol{a})=-\sum{r\in R}{}{\sum{k=1}{n_r^{\boldsymbol{a}}}{d_r(\boldsymbol{a})}}$$
+
+Where $n_r^{\boldsymbol{a}}$ is the number of players using resource $r$ when playing action $a$. Thus the Nash equilibria is where this function is maximal for our game. In our game we have two resources with delay $10$ and $\sqrt{n_r^{\boldsymbol{a}}}$, which can not be used at the same time, and $n=200$ players. Thus our function is:
+
+$$P(\boldsymbol{a})=-(\sum{k=0}{n_{r_1}^{\boldsymbol{a}}}{10}+\sum{j=0}{n_{r_2}^{\boldsymbol{a}}}{\sqrt{j}})$$
+$$n_{r_1}^{\boldsymbol{a}}+n_{r_2}^{\boldsymbol{a}}=200$$
+
+or similary we can write:
+$$P(\boldsymbol{a})=-(\sum{k=0}{n_{r_1}^{\boldsymbol{a}}}{10}+\sum{j=0}{200-n_{r_1}^{\boldsymbol{a}}}{\sqrt{j}})$$
+
+This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=99$ and $n_{r_1}^{\boldsymbol{a}}=100$ with $P(\boldsymbol{a})=-1661.4629471031476$, only considering whole number solutions. Thus those are the Pure Nash equilibrium.
+
+Now we give a function for the \textit{utilitarian social welfare} of this game and find its maxima. We assume $n_{r_1}^{\boldsymbol{a}}$ players use the route with a constant cost and the rest use the other route:
+
+$$sw(n_{r_1}^{\boldsymbol{a}})=-(n_{r_1}^{\boldsymbol{a}}\cdot 10+(200 - n_{r_1}^{\boldsymbol{a}}) \cdot \sqrt{200 - n_{r_1}^{\boldsymbol{a}}})$$
+
+This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=155.5$, again, we only consider whole number solutions, $n_{r_1}^{\boldsymbol{a}}=156$ ($\href{https://www.wolframalpha.com/input/?i=f(n)%3D-(n*10%2B(200+-+n)*+sqrt(200+-+n)),+n+from+0+to+200}{The function}$). Thus the highest expected utilitarian social welfare is when $156$ take the route which costs $10$ and the rest, $44$, take the other route. Thus the best social welfare is then: $sw(156)=-1851.87$.
+
+If we now compute the expected utilitarian social welfare for the two pure Nash equilibria we get: \\
+$sw(100)=-2000$ and $sw(99)=-2005.03$. Thus, the expected utilitarian social welfare under the Nash equilibrium of $99$ is worse than $100$. Then we compute the \textit{price of anarchy}:
+
+$$PoA(G)=\frac{\min_{\boldsymbol{a}^* \in NE }sw(\boldsymbol{a}^*)}{\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})}=\frac{sw(99)}{sw(156)}=\frac{-2005.03}{-1851.87}=1.08$$
+
+Where $NE$ is the set of strategy profiles in Nash equilibrium.
+\end{answer}
+\begin{answer}{b)}
+We construct a game where the worst pure Nash equilibrium is equal to the highest expected utilitarian social welfare, then $PoA(G)=1$. Thus, we construct a game with one Nash equilibrium which also has the highest utility for all the players.
+
+\begin{table}[h]
+    \begin{tabular}{|l|l|l|}
+    \hline
+    R$\backslash$ C & L            & R              \\ \hline
+    U & $3\backslash 4$ & $5\backslash 6$   \\ \hline
+    D & $4\backslash 5$ & $10\backslash 10$ \\ \hline
+    \end{tabular}
+\end{table}
+
+Not all action profiles have the same \textit{social welfare}, since $(U,L)$ and $(D,R)$ differ, for an example.
+This game cleary has one pure Nash equilibrium, $\boldsymbol{a}=(D,R)$ thus the worst Nash equilibrium is $\boldsymbol{a}=(D,R)$ with $10$ utility for both players. The highest social welfare outcome is $\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})$ and in this game $sw(\boldsymbol{a})$ is simply the sum: $sw(\boldsymbol{a})=\sum{k=1}{n}{u_k(\boldsymbol{a})}$ so it is clearly $\boldsymbol{a}=(D,R)$ as well with $10$ utility for both players. Thus the social welfare is equal the worst pure Nash equilibrium, thus $PoA(G)=1$.
+
+\end{answer}
+\begin{answer}{c)}
+Now we show that for an arbitrary $k \in \N $ we can construct a normal-form game $G$ which has $PoA(G)>k$.
+
+We construct a game $G=(N,\boldsymbol{A},\boldsymbol{u})$ s.t. $N=\{1,2, ..., n\}$, $\boldsymbol{A}=\boldsymbol{A}_1x\boldsymbol{A}_2x...x\boldsymbol{A}_n$ and for all players i and j $\boldsymbol{A}_i=\boldsymbol{A}_j$ with $\boldsymbol{A}_i=\{a_1, a_2, ..., a_{k+1}\}$ and $\boldsymbol{u}=(u_1, ..., u_n)$ s.t. for all players i and j $u_i=u_j$ and furthermore, $u_i(a_1, ..., a_n)=k$ iff $a_1=a_k$, $a_2=a_k$, ..., $a_n=a_k$ and 0 otherwise, i.e. the "diagonal" has utility equal to the action number and $0$ otherwise.
+
+This game has clearly $k+1$ Nash equilibria, the worst one being under strategy profile $\boldsymbol{a}^1=(a_1, a_1, ..., a_1)$ with utility $1$. The best social welfare outcome is under strategy profile $\boldsymbol{a}^{k+1}=(a_{k+1}, a_{k+1}, ..., a_{k+1})$ with utility $k+1$. Since utilities as positive (we use the inverse) the $PoA$ is: \\
+
+$$PoA(G)=\frac{\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})}{\min_{\boldsymbol{a}^* \in \boldsymbol{NE} }sw(\boldsymbol{a}^*)}=\frac{k+1}{1}=k+1>k$$
+
+Thus, given any $k \in \N$ there exists a game $G$ s.t. $PoA(G)>k$.
+\end{answer}
+\begin{question}{2}
+Show that for weakly dominated strategies, the order of elimination can give different results
+\end{question}
+\begin{answer}{a)}
+Here I provide a counter-example where the order of strategy elimination of weakly dominated strategies matters. I.e. depending on what weakly dominated strategy is eliminated first, iterated elimination will give a different result.
+
+\begin{table}[h]
+    \begin{tabular}{|l|l|l|}
+    \hline
+    R $\backslash$ C & L            & R              \\ \hline
+    U & $3\backslash 2$ & $3\backslash 3$   \\ \hline
+    D & $2\backslash 3$ & $3\backslash 3$ \\ \hline
+    \end{tabular}
+\end{table}
+
+We can clearly see that there are no strictly dominated strategies but there are two weakly dominated strategies since $u_R(U) \geq u_R(D)$ and $u_R(U,L) > u_R(D,L)$ and $u_C(R) \geq u_C(L)$ and $u_C(U,R) > u_C(U,L)$. Thus we can eliminate the two strategies $D$ and $L$. If we first eliminate $D$ then we are left with $u_C(U,R) > u_C(U,L)$ thus we can eliminate $L$ and we are left with $(U,R)$. But if we start by eliminating $L$ we eliminated $(D,L)$ so that it is no longer the case that $u_R(U) \geq u_R(D)$ and $u_R(U,L) > u_R(D,L)$ so we cannot eliminate $D$. Thus we can see that the order of elimination of weakly dominated strategies does matter.
+
+\end{answer}
+
+\begin{question}{4}
+Programming. Finding pure Nash and mixed equilbrium.
+\end{question}
+\begin{answer}{a)}
+I did this programming assigment with Grzegorz.
+See attachment: $haukur\_grzegorz.tar.gz$
+\end{answer}
+
+\end{document}
