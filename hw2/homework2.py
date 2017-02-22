@@ -11,7 +11,7 @@ def a_1():
 def sw(n, max=200):
     return -(n*10+(200-n)*math.sqrt(200-n))
 
-print(2000.0/1851.87)
+#print(2000.0/1851.87)
 
 def a_1_iteratively_adding():
     sum = 0.0
@@ -34,3 +34,25 @@ def a_1_iteratively_adding():
     print("n_r_1={}, n_r_2={}: sum={}", n_r_1, n_r_2, sum)
 
 #a_1_iteratively_adding()
+
+
+def recursive_p_function(n_r_1, n_r_2, n, r_1, r_2, sum):
+    if n_r_1 + n_r_2 == n:
+        print("r1:{}, r2:{}, sum:{}".format(n_r_1, n_r_2, sum))
+        return
+    utility_r1 = r_1(n_r_1)
+    utility_r2 = r_2(n_r_2)
+    if utility_r1 < utility_r2:
+        recursive_p_function(n_r_1, n_r_2+1, n, r_1, r_2, sum+utility_r2)
+    elif utility_r1 > utility_r2:
+        recursive_p_function(n_r_1+1, n_r_2, n, r_1, r_2, sum+utility_r1)
+    else:
+        print("Diverging")
+        recursive_p_function(n_r_1, n_r_2+1, n, r_1, r_2, sum+utility_r2)
+        recursive_p_function(n_r_1+1, n_r_2, n, r_1, r_2, sum+utility_r1)
+
+
+r_1 = lambda x: -10
+r_2 = lambda x: -math.sqrt(x+1)
+
+recursive_p_function(0, 0, 200, r_1, r_2, 0.0)
