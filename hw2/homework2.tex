@@ -40,18 +40,18 @@ $$n_{r_1}^{\boldsymbol{a}}+n_{r_2}^{\boldsymbol{a}}=200$$
 or similary we can write:
 $$P(\boldsymbol{a})=-(\sum{k=0}{n_{r_1}^{\boldsymbol{a}}}{10}+\sum{j=0}{200-n_{r_1}^{\boldsymbol{a}}}{\sqrt{j}})$$
 
-This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=99$ and $n_{r_1}^{\boldsymbol{a}}=100$ with $P(\boldsymbol{a})=-1661.4629471031476$, only considering whole number solutions. Thus those are the Pure Nash equilibrium.
+This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=100$ and $n_{r_1}^{\boldsymbol{a}}=101$ with $P(\boldsymbol{a})\approx-1671$, only considering whole number solutions. Thus those are the Pure Nash equilibrium.
 
 Now we give a function for the \textit{utilitarian social welfare} of this game and find its maxima. We assume $n_{r_1}^{\boldsymbol{a}}$ players use the route with a constant cost and the rest use the other route:
 
 $$sw(n_{r_1}^{\boldsymbol{a}})=-(n_{r_1}^{\boldsymbol{a}}\cdot 10+(200 - n_{r_1}^{\boldsymbol{a}}) \cdot \sqrt{200 - n_{r_1}^{\boldsymbol{a}}})$$
 
-This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=155.5$, again, we only consider whole number solutions, $n_{r_1}^{\boldsymbol{a}}=156$ ($\href{https://www.wolframalpha.com/input/?i=f(n)%3D-(n*10%2B(200+-+n)*+sqrt(200+-+n)),+n+from+0+to+200}{The function}$). Thus the highest expected utilitarian social welfare is when $156$ take the route which costs $10$ and the rest, $44$, take the other route. Thus the best social welfare is then: $sw(156)=-1851.87$.
+This function has a maximal when $n_{r_1}^{\boldsymbol{a}}\approx155.5$, again, we only consider whole number solutions, $n_{r_1}^{\boldsymbol{a}}=156$ ($\href{https://www.wolframalpha.com/input/?i=f(n)%3D-(n*10%2B(200+-+n)*+sqrt(200+-+n)),+n+from+0+to+200}{The function}$). Thus the highest expected utilitarian social welfare is when $156$ take the route which costs $10$ and the rest, $44$, take the other route. Thus the best social welfare is then: $sw(156)=-1851.87$.
 
 If we now compute the expected utilitarian social welfare for the two pure Nash equilibria we get: \\
-$sw(100)=-2000$ and $sw(99)=-2005.03$. Thus, the expected utilitarian social welfare under the Nash equilibrium of $99$ is worse than $100$. Then we compute the \textit{price of anarchy}:
+$sw(100)=-2000$ and $sw(101)\approx-1995.03$. Thus, the expected utilitarian social welfare under the Nash equilibrium of $100$ is worse than $101$. Then we compute the \textit{price of anarchy}:
 
-$$PoA(G)=\frac{\min_{\boldsymbol{a}^* \in NE }sw(\boldsymbol{a}^*)}{\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})}=\frac{sw(99)}{sw(156)}=\frac{-2005.03}{-1851.87}=1.08$$
+$$PoA(G)=\frac{\min_{\boldsymbol{a}^* \in NE }sw(\boldsymbol{a}^*)}{\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})}=\frac{sw(100)}{sw(156)}=\frac{-2000}{-1851.87}\approx1.08$$
 
 Where $NE$ is the set of strategy profiles in Nash equilibrium.
 \end{answer}
