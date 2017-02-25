@@ -1,30 +1,11 @@
-# game => 2x2
-# generate game?
-#
-# def converge(game, equilebrium_profile, history, epsilon):
-#     while equilebrium_profile - actual_result (how do we get this?) > epislon:
-#     most_likely_action = we read counter for history["p1"]["a1"] and a2
-#     thus p1 is likely to do "most_likely_action"
-#     print out
-#     what is our best response to that?
-#     -do it
-#     same for other player
-#     actual_result = those results
-#     save what we did in history by updating counter
-#
 import collections, math
 import numpy as np
-import hw2.NE_solver as hw1
-from matplotlib import pyplot as plt
+import hw2.NE_solver as hw2
+import matplotlib.pyplot as plt
+
 
 def best_response(our_utility, opponent_mixed_strategy):
-    '''
-
-    :param our_utility: Utility matrix
-    :param opponent_mixed_strategy:
-    :return:
-    '''
-    if hw1.utility_increases(our_utility, (1.0, 0), opponent_mixed_strategy, (0.0, 1.0), opponent_mixed_strategy):
+    if hw2.utility_increases(our_utility, (1.0, 0), opponent_mixed_strategy, (0.0, 1.0), opponent_mixed_strategy):
         # tie breaker is implied in "utility_increases" to be (1,0)
         return (0, 1)
     else:
@@ -137,47 +118,56 @@ def print_game(game):
     print(game["p2"])
 
 
-def plot_graph(x, y, name):
+def plot_line_graph(x, y, y_name, x_name):
+    plt.plot(x, y)
+    plt.ylabel(y_name)
+    plt.xlabel(x_name)
+    plt.xscale('log')
+    plt.savefig(x_name+y_name+'.png')
+    plt.clf()
 
-    # plotting
-    graph = plt.subplot(111)
-    label = "steps".format()
-    graph.plot(x, y, label=label)
-    graph.plot(kind='bar')
-    #graph.legend(loc='center left', bbox_to_anchor=(1, 0.5), fancybox=True, shadow=True)
 
+def plot_bar_graph(x, y, name):
+    width = 1/2.0
+    plt.bar(x, y, width, color="blue")
     plt.ylabel(name)
     plt.xlabel('#game')
-    #box = graph.get_position()
-    #graph.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    #plt.axis([0, int(arguments[2]), -1.00, 1.00])
-    plt.grid(True)
     plt.savefig(name+'.png')
+    plt.clf()
 
+
+def run_all_games(games, epsilon):
+    steps = []
+    for game in games:
+        game_steps = fictious_game_play(game, epsilon)
+        steps.append(game_steps)
+    return steps
+
+
+def find_pure_nash(games):
+    missing_ne = []
+    for game in games:
+        strategies = hw2.find_pure_NE(game["p1"], game["p2"])
+        if strategies:
+            missing_ne.append(False)
+        else:
+            missing_ne.append(True)
+    return missing_ne
 
 def main():
-    steps = []
     games = generate_all_zero_sum_games(3)
-    pure_nash = []
-    for game in games:
-        game_steps = fictious_game_play(game, 0.0001)
-        print_game(game)
-        steps.append(game_steps)
-        p_1 = game["p1"]
-        p_2 = game["p2"]
-        strategies = hw1.find_pure_NE(p_1, p_2)
-        if strategies:
-            pure_nash.append(True)
-        else:
-            pure_nash.append(False)
-        mixed_strategy = hw1.find_mixed_NE(p_1, p_2)
-        if mixed_strategy is not None:
-            print(hw1.format_strategy(mixed_strategy[0][0], mixed_strategy[0][1], mixed_strategy[1][0], mixed_strategy[1][1]))
-        print("steps: {}".format(game_steps))
-    print(steps)
     x = [y+1 for y, item in enumerate(games)]
-    plot_graph(x, steps, 'steps')
-    plot_graph(x, pure_nash, 'pure nash')
+    pure_nash_markers = find_pure_nash(games)
+    plot_bar_graph(x, pure_nash_markers, 'pure nash')
+
+    worst_runs = []
+    epsilons = [math.pow(10, -x) for x in range(1, 6)]
+    for epsilon in epsilons:
+        steps = run_all_games(games, epsilon)
+        plot_bar_graph(x, steps, 'steps-'+str(epsilon))
+        worst_runs.append(max(steps))
+    print(worst_runs)
+    plot_line_graph(epsilons, worst_runs, "steps", "epsilon")
 
 
 if __name__ == "__main__":
