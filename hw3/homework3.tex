@@ -18,95 +18,44 @@
 \let\oldsum\sum
 \renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
 
-\title{Homework 2}
+\title{Homework 3}
 \author{Haukur Páll Jónsson\\
 Game Theory}
 
 \maketitle
 
 \begin{question}{1}
-Social welfare, NE for congestion games and PoA
+Constant sum game
 \end{question}
 \begin{answer}{a)}
-We have a congestion game $G=(N,R,\boldsymbol{A},\boldsymbol{d})$.
-In a potential game, the \textit{pure Nash equilibria} is where the P function is maximal. A congestion game is a potential game with P: \\
-$$P(\boldsymbol{a})=-\sum{r\in R}{}{\sum{k=1}{n_r^{\boldsymbol{a}}}{d_r(\boldsymbol{a})}}$$
+Here we need to show that the set of strategy profiles which are in Nash equilibrium of a zero-sum game, call it $NE^z$, is the same as the set of strategy profiles which are in Nash equilibrium of a constant sum game, call it $NE^c$. So we need to show that:
+$$NE^z=NE^c$$
+So that for any strategy profile in $NE^z$ it is also in $NE^c$ as well as for any strategy profile in $NE^c$ it is also in $NE^z$.
 
-Where $n_r^{\boldsymbol{a}}$ is the number of players using resource $r$ when playing action $a$. Thus the Nash equilibria is where this function is maximal for our game. In our game we have two resources with delay $10$ and $\sqrt{n_r^{\boldsymbol{a}}}$, which can not be used at the same time, and $n=200$ players. Thus our function is:
+Let us now assume a strategy profile $\boldsymbol{s^z} \in NE^z$. This implies that $\boldsymbol{s^z}$ is a Nash equilibrium, so in this strategy profile all players are playing their best response to the other players: for all players $i$ and all strategy profiles $\boldsymbol{s_i} \in \boldsymbol{S_i}$: $u^z_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) \geq u^z_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}})$. It is now clear that if we add $\frac{c}{2}$ on both sides of the inequality the inequality still holds, i.e. for all players $i$ and all strategy profiles $\boldsymbol{s_i} \in \boldsymbol{S_i}$: $u^z_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) + \frac{c}{2} \geq u^z_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}}) + \frac{c}{2}$ but this is clearly for all players $i$ and all strategy profiles $\boldsymbol{s_i} \in \boldsymbol{S_i}$: $u^c_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) \geq u^c_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}})$ since for all players $i$ $u^c_i(\boldsymbol{s})=u^z_i(\boldsymbol{s}) - \frac{c}{2}$. Since this is the definition of a Nash equilibrium of the constant sum game we can say that indeed $s^z \in NE^c$. The argument is exactly the same in the other direction, except that we subtract $\frac{c}{2}$ from $u^c_i$ instead.
 
-$$P(\boldsymbol{a})=-(\sum{k=0}{n_{r_1}^{\boldsymbol{a}}}{10}+\sum{j=0}{n_{r_2}^{\boldsymbol{a}}}{\sqrt{j}})$$
-$$n_{r_1}^{\boldsymbol{a}}+n_{r_2}^{\boldsymbol{a}}=200$$
-
-or similary we can write:
-$$P(\boldsymbol{a})=-(\sum{k=0}{n_{r_1}^{\boldsymbol{a}}}{10}+\sum{j=0}{200-n_{r_1}^{\boldsymbol{a}}}{\sqrt{j}})$$
-
-This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=99$ and $n_{r_1}^{\boldsymbol{a}}=100$ with $P(\boldsymbol{a})=-1661.4629471031476$, only considering whole number solutions. Thus those are the Pure Nash equilibrium.
-
-Now we give a function for the \textit{utilitarian social welfare} of this game and find its maxima. We assume $n_{r_1}^{\boldsymbol{a}}$ players use the route with a constant cost and the rest use the other route:
-
-$$sw(n_{r_1}^{\boldsymbol{a}})=-(n_{r_1}^{\boldsymbol{a}}\cdot 10+(200 - n_{r_1}^{\boldsymbol{a}}) \cdot \sqrt{200 - n_{r_1}^{\boldsymbol{a}}})$$
-
-This function has a maximal when $n_{r_1}^{\boldsymbol{a}}=155.5$, again, we only consider whole number solutions, $n_{r_1}^{\boldsymbol{a}}=156$ ($\href{https://www.wolframalpha.com/input/?i=f(n)%3D-(n*10%2B(200+-+n)*+sqrt(200+-+n)),+n+from+0+to+200}{The function}$). Thus the highest expected utilitarian social welfare is when $156$ take the route which costs $10$ and the rest, $44$, take the other route. Thus the best social welfare is then: $sw(156)=-1851.87$.
-
-If we now compute the expected utilitarian social welfare for the two pure Nash equilibria we get: \\
-$sw(100)=-2000$ and $sw(99)=-2005.03$. Thus, the expected utilitarian social welfare under the Nash equilibrium of $99$ is worse than $100$. Then we compute the \textit{price of anarchy}:
-
-$$PoA(G)=\frac{\min_{\boldsymbol{a}^* \in NE }sw(\boldsymbol{a}^*)}{\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})}=\frac{sw(99)}{sw(156)}=\frac{-2005.03}{-1851.87}=1.08$$
-
-Where $NE$ is the set of strategy profiles in Nash equilibrium.
+Thus we have show that the set of strategy profiles in Nash equilibrium for a constant sum game is the same set as the set of strategy profiles in Nash equilibrium for a zero-sum game.
 \end{answer}
 \begin{answer}{b)}
-We construct a game where the worst pure Nash equilibrium is equal to the highest expected utilitarian social welfare, then $PoA(G)=1$. Thus, we construct a game with one Nash equilibrium which also has the highest utility for all the players.
+We can create a strategy which will give different results in a constant game vs a zero-sum game. Take for an example the strategy in which a player only chooses actions which give more payoff than $x$, and chooses uniformly from that set of actions. If this set is empty let us say that the player chooses uniformly from all actions. Given a constant sum game in which the set of actions which have a higher payoff than $x$ is not empty and there are some actions in which are not in this set. If this game is then adjusted to a zero-sum game this player will not play the same actions.
 
-\begin{table}[h]
-    \begin{tabular}{|l|l|l|}
-    \hline
-    R$\backslash$ C & L            & R              \\ \hline
-    U & $3\backslash 4$ & $5\backslash 6$   \\ \hline
-    D & $4\backslash 5$ & $10\backslash 10$ \\ \hline
-    \end{tabular}
-\end{table}
-
-Not all action profiles have the same \textit{social welfare}, since $(U,L)$ and $(D,R)$ differ, for an example.
-This game cleary has one pure Nash equilibrium, $\boldsymbol{a}=(D,R)$ thus the worst Nash equilibrium is $\boldsymbol{a}=(D,R)$ with $10$ utility for both players. The highest social welfare outcome is $\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})$ and in this game $sw(\boldsymbol{a})$ is simply the sum: $sw(\boldsymbol{a})=\sum{k=1}{n}{u_k(\boldsymbol{a})}$ so it is clearly $\boldsymbol{a}=(D,R)$ as well with $10$ utility for both players. Thus the social welfare is equal the worst pure Nash equilibrium, thus $PoA(G)=1$.
-
-\end{answer}
-\begin{answer}{c)}
-Now we show that for an arbitrary $k \in \N $ we can construct a normal-form game $G$ which has $PoA(G)>k$.
-
-We construct a game $G=(N,\boldsymbol{A},\boldsymbol{u})$ s.t. $N=\{1,2, ..., n\}$, $\boldsymbol{A}=\boldsymbol{A}_1x\boldsymbol{A}_2x...x\boldsymbol{A}_n$ and for all players i and j $\boldsymbol{A}_i=\boldsymbol{A}_j$ with $\boldsymbol{A}_i=\{a_1, a_2, ..., a_{k+1}\}$ and $\boldsymbol{u}=(u_1, ..., u_n)$ s.t. for all players i and j $u_i=u_j$ and furthermore, $u_i(a_1, ..., a_n)=k$ iff $a_1=a_k$, $a_2=a_k$, ..., $a_n=a_k$ and 0 otherwise, i.e. the "diagonal" has utility equal to the action number and $0$ otherwise.
-
-This game has clearly $k+1$ Nash equilibria, the worst one being under strategy profile $\boldsymbol{a}^1=(a_1, a_1, ..., a_1)$ with utility $1$. The best social welfare outcome is under strategy profile $\boldsymbol{a}^{k+1}=(a_{k+1}, a_{k+1}, ..., a_{k+1})$ with utility $k+1$. Since utilities as positive (we use the inverse) the $PoA$ is: \\
-
-$$PoA(G)=\frac{\max_{\boldsymbol{a} \in \boldsymbol{A}}sw(\boldsymbol{a})}{\min_{\boldsymbol{a}^* \in \boldsymbol{NE} }sw(\boldsymbol{a}^*)}=\frac{k+1}{1}=k+1>k$$
-
-Thus, given any $k \in \N$ there exists a game $G$ s.t. $PoA(G)>k$.
+This is a very trivial example but it seems to be sufficient.
 \end{answer}
 \begin{question}{2}
-Show that for weakly dominated strategies, the order of elimination can give different results
-\end{question}
-\begin{answer}{a)}
-Here I provide a counter-example where the order of strategy elimination of weakly dominated strategies matters. I.e. depending on what weakly dominated strategy is eliminated first, iterated elimination will give a different result.
-
-\begin{table}[h]
-    \begin{tabular}{|l|l|l|}
-    \hline
-    R $\backslash$ C & L            & R              \\ \hline
-    U & $3\backslash 2$ & $3\backslash 3$   \\ \hline
-    D & $2\backslash 3$ & $3\backslash 3$ \\ \hline
-    \end{tabular}
-\end{table}
-
-We can clearly see that there are no strictly dominated strategies but there are two weakly dominated strategies since $u_R(U) \geq u_R(D)$ and $u_R(U,L) > u_R(D,L)$ and $u_C(R) \geq u_C(L)$ and $u_C(U,R) > u_C(U,L)$. Thus we can eliminate the two strategies $D$ and $L$. If we first eliminate $D$ then we are left with $u_C(U,R) > u_C(U,L)$ thus we can eliminate $L$ and we are left with $(U,R)$. But if we start by eliminating $L$ we eliminated $(D,L)$ so that it is no longer the case that $u_R(U) \geq u_R(D)$ and $u_R(U,L) > u_R(D,L)$ so we cannot eliminate $D$. Thus we can see that the order of elimination of weakly dominated strategies does matter.
-
-\end{answer}
-
-\begin{question}{4}
-Programming. Finding pure Nash and mixed equilbrium.
+Programming. Simulating fictious game play
 \end{question}
 \begin{answer}{a)}
 I did this programming assigment with Grzegorz.
-See attachment: $haukur\_grzegorz.tar.gz$
+See submission $jonsson\_liswiski.tar.gz$
+\end{answer}
+
+\begin{question}{3}
+Bayesian game to normal form game
+\end{question}
+\begin{answer}{a)}
+Let us define the types $knows-\alpha$ the player type which knows $\alpha$, $\alpha_0$ the player type which believes $\alpha$ to be $0$ and $\alpha_2$ similary to be $2$. Player $1$ is of type $knows-\alpha$ and player $2$ is with probability $0.5$ type $\alpha_0$ and with probability $0.5$ type $\alpha_2$. $\alpha$ is either $0$ or $2$. Let us say that with probability $p$ $\alpha$ is $0$ and $1-p$ $\alpha$ is $2$.
+
+We now define the Bayesian game (N,)
 \end{answer}
 
 \end{document}
