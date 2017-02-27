@@ -108,7 +108,7 @@ def is_interval_contained(p_utility, p, q, epsilon=0.00001):
 def utility_increases(p_utility, p, q, p_new, q_new):
     start_utility = expected_utility(p_utility, p, q)
     new_utility = expected_utility(p_utility, p_new, q_new)
-    return new_utility > start_utility
+    return new_utility >= start_utility
 
 
 def expected_utility(player_utilities, p_1_prob, p_2_prob):

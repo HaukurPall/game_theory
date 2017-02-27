@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{ amssymb, graphicx, float }
+\usepackage[utf8]{inputenc}
+\title{Homework 3 - report}
+\author{Haukur, Grzegorz}
+\begin{document}
+\maketitle
+\section{Simulation of a fictitious play}
+The program simulates fictitious play of $81$ zero-sum games with two players. The core simulations takes in a input a game defined in terms of two payoff matrices and a number $\epsilon$. In each iteration a strategy profile is produced which is then compared to the previous produced strategy profile and if the difference between them is less than $\epsilon$ we say that the game converged to a strategy profile. To establish the full game a payoff matrix for the player 2 was constructed so that $u_2(a) = - u_1(a)$ for all action profiles $a$.
+
+The two payoff matrices were generated s.t. a payoff matrix for player $1$ was generated and then a payoff matrix for the player $2$ was constructed so that $u_2(a) = - u_1(a)$ for all action profiles $a$. Player's $1$ matrix was created according to a binary representation s.t. each action profile was given a number $0$, $1$ or $2$ If that number was $0$ the utilities of the players were equal, if the number was $1$ then $u_2(a) < u_1(a)$ and if that number was $2$ then $u_2(a) > u_1(a)$. Thus a game might be represented as "2012".
+
+In the first round both players choose the first action. Further, accordingly to the fictitious play algorithm, each player chooses the best response to her opponents empirical strategy. The best response was performed by calculating expected utilities of playing a pure strategy $p$ against the opponents empirical strategy for all pure strategies $p$. In case of ties between actions possible as responses to an opponents empirical mixed strategy, the first action was pure strategy was chosen.   In order to compute it the history of game was stored s.t. the occurrences of each action done by either player was stored.  A rate of convergence was defined as a number of rounds after which a difference between probabilities of playing the first action in a final round and in the round before was smaller than $\epsilon$ for both players.
+\section{Comparison of the rates of convergence}
+The fictitious game play was simulated for $81$ combinations of payoffs in a zero sum $2 \times 2$ games. It was observed that games in which both players have a dominant strategy (strict, weak or very weak) converged quickly. Below graphs presenting the rate of convergence of particular games. Also, the relation between the rate of convergence and a given $\epsilon$ is depicted.
+The first picture shows what games are missing a dominant strategy, 1.0 means that there is no dominant strategy.
+The Next 5 pictures show the number of steps required before reaching convergence, given different $\epsilon$.
+The last picture shows how the number of steps grew for different $\epsilon$.
+\begin{figure}[H]
+  \includegraphics[scale=0.4]{missing_dominant_strategy.png}
+  \includegraphics[scale=0.4]{steps-0_1.png}
+  \includegraphics[scale=0.4]{steps-0_01.png}
+  \includegraphics[scale=0.4]{steps-0_001.png}
+  \includegraphics[scale=0.4]{steps-0_0001.png}
+  \includegraphics[scale=0.4]{steps-1e-05.png}
+\end{figure}
+\begin{figure}[H]
+  \includegraphics[scale=0.4]{epsilonsteps.png}
+\end{figure}
+\end{document}
