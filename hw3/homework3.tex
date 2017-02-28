@@ -2,21 +2,64 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
 
+% Colors for players
+\definecolor{darkred}{rgb}{0.64,0,0}
+\definecolor{darkcyan}{rgb}{0,0.55,0.55}
+\newcommand{\rowcolor}[1]{\textcolor{darkred}{#1}}
+\newcommand{\columncolor}[1]{\textcolor{darkcyan}{#1}}
+% Normal-form game
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgame}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-2,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-2,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,2) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,2) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-1.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-0.6,1.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-1.4,-1.4) {\rowcolor{\argvii}};
+\node (CBL) at (-0.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (0.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (1.4,1.4) {\columncolor{\argx}};
+\node (RBR) at (0.6,-1.4) {\rowcolor{\argxi}};
+\node (CBR) at (1.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-2,-2) to (2,-2);
+\draw[-,very thick] (-2,0) to (2,0);
+\draw[-,very thick] (-2,2) to (2,2);
+\draw[-,very thick] (-2,-2) to (-2,2);
+\draw[-,very thick] (0,-2) to (0,2);
+\draw[-,very thick] (2,-2) to (2,2);
+\draw[-,very thin] (-2,2) to (0,0);
+\draw[-,very thin] (0,0) to (2,-2);
+\draw[-,very thin] (-2,0) to (0,-2);
+\draw[-,very thin] (0,2) to (2,0);
+\end{tikzpicture}}
+
+% Math sets
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
 
+% Setup of project
 \newenvironment{question}[2][Question]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
 \newenvironment{answer}[2][Answer]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
 \begin{document}
 
+% Short hands
 \let\oldsum\sum
 \renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
 
 \title{Homework 3}
 \author{Haukur Páll Jónsson\\
@@ -28,11 +71,21 @@ Game Theory}
 Constant sum game
 \end{question}
 \begin{answer}{a)}
-Here we need to show that the set of strategy profiles which are in Nash equilibrium of a zero-sum game, call it $NE^z$, is the same as the set of strategy profiles which are in Nash equilibrium of a constant sum game, call it $NE^c$. So we need to show that:
-$$NE^z=NE^c$$
-So that for any strategy profile in $NE^z$ it is also in $NE^c$ as well as for any strategy profile in $NE^c$ it is also in $NE^z$.
+We have two games: $G^c=(N,\boldsymbol{A}, \boldsymbol{u^c})$, a constant sum game with for all action profiles $u_i^c(\boldsymbol{a}) + u_{-i}^c(\boldsymbol{a})=c$, $c\in \R$ and $G^z=(N,\boldsymbol{A}, \boldsymbol{u^z})$, a zero-sum game with for all action profiles $u_i^c(\boldsymbol{a}) -u_{-i}^c(\boldsymbol{a})=0$. We can transform $G^z$ to $G^c$ by $u_i^z(\boldsymbol{a})=u_i^c(\boldsymbol{a}) - \frac{c}{2}$.
 
-Let us now assume a strategy profile $\boldsymbol{s^z} \in NE^z$. This implies that $\boldsymbol{s^z}$ is a Nash equilibrium, so in this strategy profile all players are playing their best response to the other players: for all players $i$ and all strategy profiles $\boldsymbol{s_i} \in \boldsymbol{S_i}$: $u^z_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) \geq u^z_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}})$. It is now clear that if we add $\frac{c}{2}$ on both sides of the inequality the inequality still holds, i.e. for all players $i$ and all strategy profiles $\boldsymbol{s_i} \in \boldsymbol{S_i}$: $u^z_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) + \frac{c}{2} \geq u^z_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}}) + \frac{c}{2}$ but this is clearly for all players $i$ and all strategy profiles $\boldsymbol{s_i} \in \boldsymbol{S_i}$: $u^c_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) \geq u^c_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}})$ since for all players $i$ $u^c_i(\boldsymbol{s})=u^z_i(\boldsymbol{s}) - \frac{c}{2}$. Since this is the definition of a Nash equilibrium of the constant sum game we can say that indeed $s^z \in NE^c$. The argument is exactly the same in the other direction, except that we subtract $\frac{c}{2}$ from $u^c_i$ instead.
+We need to show that the set of strategy profiles (possibly mixed) which are in Nash equilibrium of a zero-sum game, call it $NE^z$, is the same as the set of strategy profiles which are in Nash equilibrium of a constant sum game, call it $NE^c$. So we need to show that:
+$$NE^z=NE^c$$
+So that for any strategy profile if $\boldsymbol{s^z} \in NE^z$ then $\boldsymbol{s^z} \in NE^c$. Similarly, for any strategy profile if $\boldsymbol{s^c} \in NE^c$ then $\boldsymbol{s^c} \in NE^z$
+
+If $\boldsymbol{s^z} \in NE^z$ then:
+\begin{align*}
+\forall i \in N, \forall \boldsymbol{s_i} \in \boldsymbol{S_i}: u^z_i(\boldsymbol{s^z_i}, \boldsymbol{s_{-i}}) &\geq u^z_i(\boldsymbol{s_i}, \boldsymbol{s_{-i}}) \\
+\sum{\boldsymbol{a} \in \boldsymbol{A}}{}{u^z_i(\boldsymbol{a^z_i}, \boldsymbol{a_{-i}}) \cdot \prod{j \in N}{}{s_j(a_j)}} &\geq \sum{\boldsymbol{a} \in \boldsymbol{A}}{}{u^z_i(\boldsymbol{a_i}, \boldsymbol{a_{-i}}) \cdot \prod{j \in N}{}{s_j(a_j)}}\\
+\sum{\boldsymbol{a} \in \boldsymbol{A}}{}{(u_i^c((\boldsymbol{a^z_i}, \boldsymbol{a_{-i}}) - \frac{c}{2} ) \cdot \prod{j \in N}{}{s_j(a_j)}} &\geq \sum{\boldsymbol{a} \in \boldsymbol{A}}{}{(u^c_i(\boldsymbol{a_i}, \boldsymbol{a_{-i}}) - \frac{c}{2}) \cdot \prod{j \in N}{}{s_j(a_j)}}\\
+\sum{\boldsymbol{a} \in \boldsymbol{A}}{}{u_i^c(\boldsymbol{a^z_i}, \boldsymbol{a_{-i}}) \cdot \prod{j \in N}{}{s_j(a_j)}} - |A|\frac{c}{2}\cdot \prod{j \in N}{}{s_j(a_j)} &\geq \sum{\boldsymbol{a} \in \boldsymbol{A}}{}{u^c_i(\boldsymbol{a_i}, \boldsymbol{a_{-i}}) \cdot \prod{j \in N}{}{s_j(a_j)}} - |A|\frac{c}{2}\cdot \prod{j \in N}{}{s_j(a_j)} \\
+\sum{\boldsymbol{a} \in \boldsymbol{A}}{}{u_i^c(\boldsymbol{a^z_i}, \boldsymbol{a_{-i}}) \cdot \prod{j \in N}{}{s_j(a_j)}} &\geq \sum{\boldsymbol{a} \in \boldsymbol{A}}{}{u^c_i(\boldsymbol{a_i}, \boldsymbol{a_{-i}}) \cdot \prod{j \in N}{}{s_j(a_j)}}\\
+\end{align*}
+This implies that $\boldsymbol{s^z} \in NE^c$ as well so we have shown that if $\boldsymbol{s^z} \in NE^z$ then $\boldsymbol{s^z} \in NE^c$. The argument is exactly the same in the other direction, except that we substitute $u_i^c(\boldsymbol{a})=u_i^z(\boldsymbol{a}) + \frac{c}{2}$ instead.
 
 Thus we have show that the set of strategy profiles in Nash equilibrium for a constant sum game is the same set as the set of strategy profiles in Nash equilibrium for a zero-sum game.
 \end{answer}
@@ -42,10 +95,10 @@ We can create a strategy which will give different results in a constant game vs
 This is a very trivial example but it seems to be sufficient.
 \end{answer}
 \begin{question}{2}
-Programming. Simulating fictious game play
+Programming. Simulating fictitious game play
 \end{question}
 \begin{answer}{a)}
-I did this programming assigment with Grzegorz.
+I did this programming assignment with Grzegorz.
 See submission $jonsson\_liswiski.tar.gz$
 \end{answer}
 
@@ -53,6 +106,14 @@ See submission $jonsson\_liswiski.tar.gz$
 Bayesian game to normal form game
 \end{question}
 \begin{answer}{a)}
+We have a Bayesian game $G=(N, \boldsymbol{A}, \boldsymbol{\Theta}, p, \boldsymbol{u})$ where $N=\{1,2\}$, $\boldsymbol{A}=A_1\times A_2$ where $A_1=\{T,B\}, A_2=\{L,R\}$, $\boldsymbol{\Theta}=\Theta_1\times\Theta_2$ where $\Theta_1=\{knows\}, \Theta_2=\{belives_{\alpha=0},belives_{\alpha=2}\}$. $p(knows, belives_{\alpha=0})=1/2$ and $p(knows, belives_{\alpha=2})=1/2$ and $u_1((T,L),(knows, belives_{\alpha=0}))=5$ etc., as described in the question. We need to add that if player 2 is of type $belives_{\alpha=0}$ then $u_2((T,R),(knows, belives_{\alpha=0}))=0$ and similarly if player 2 is of type $belives_{\alpha=2}$ then $u_2((T,R),(knows, belives_{\alpha=2}))=2$. That is, she will act as if those were her utilities. And $u_1((B,L),(knows, belives_{\alpha=0}))=\alpha=u_1((B,L),(knows, belives_{\alpha=2}))$
+
+Thus we can translate G to a normal form game $G'=(N, \boldsymbol{A'}, \boldsymbol{u'})$ with $A_1=A_1'$ and $A_2=\{LL,LR,RL,RR\}$ and \textit{ex ante expected utility} s.t. $u_i'(\boldsymbol{s})=\sum{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{}{u_i(\boldsymbol{s}, \boldsymbol{\theta}) \cdot p(\boldsymbol{\theta})}$. Thus we get this game:
+
+\nfgame{T B LL LR RL RR $5$ $5$ $10$ $0$ $\alpha$ $10$ $1$ $1$ $5$ $5$ $10$ $2$ $\alpha$ $10$ $1$ $1$} \\[5pt]
+
+
+
 Let us define the types $knows-\alpha$ the player type which knows $\alpha$, $\alpha_0$ the player type which believes $\alpha$ to be $0$ and $\alpha_2$ similary to be $2$. Player $1$ is of type $knows-\alpha$ and player $2$ is with probability $0.5$ type $\alpha_0$ and with probability $0.5$ type $\alpha_2$. $\alpha$ is either $0$ or $2$. Let us say that with probability $p$ $\alpha$ is $0$ and $1-p$ $\alpha$ is $2$.
 
 We now define the Bayesian game (N,)
