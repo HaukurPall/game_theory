@@ -1,3 +1,5 @@
+# Authors: Greg and Haukur
+# Date: 25th of February
 import collections, math
 import numpy as np
 import hw2.NE_solver as hw2
@@ -166,16 +168,25 @@ def generate_zero_sum_games(multiplier):
 
 
 def print_strategy(emperical_mixed_strategies):
+    """
+    Helper function
+    """
     print("emp_str: (({},{}),({},{}))".format(emperical_mixed_strategies[0][0], emperical_mixed_strategies[0][1],
                                               emperical_mixed_strategies[1][0], emperical_mixed_strategies[1][1]))
 
 
 def print_game(game):
+    """
+    Helper function
+    """
     print(game["p1"])
     print(game["p2"])
 
 
 def plot_line_graph(x, y, y_name, x_name):
+    """
+    Helper function
+    """
     plt.plot(x, y)
     plt.ylabel(y_name)
     plt.xlabel(x_name)
@@ -185,6 +196,9 @@ def plot_line_graph(x, y, y_name, x_name):
 
 
 def plot_bar_graph(x, y, name):
+    """
+    Helper function
+    """
     width = 1 / 2.0
     plt.bar(x, y, width, color="blue")
     plt.ylabel(name)
@@ -194,6 +208,12 @@ def plot_bar_graph(x, y, name):
 
 
 def run_all_games(games, epsilon):
+    """
+    Run all games with a given epsilon and return the steps
+    :param games: The fictious games to be played
+    :param epsilon: The epsilon to be used
+    :return: The steps it took to run each game
+    """
     steps = []
     for game in games:
         game_steps = fictitious_game_play(game, epsilon)
