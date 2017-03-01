@@ -42,6 +42,33 @@
 \draw[-,very thin] (-2,0) to (0,-2);
 \draw[-,very thin] (0,2) to (2,0);
 \end{tikzpicture}}
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgamebig}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-4,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-4,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,4) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,4) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-2.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-1.6,3.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-2.4,-3.4) {\rowcolor{\argvii}};
+\node (CBL) at (-1.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (1.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (2.3,3.4) {\columncolor{\argx}};
+\node (RBR) at (1.6,-3.4) {\rowcolor{\argxi}};
+\node (CBR) at (2.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-4,-4) to (4,-4);
+\draw[-,very thick] (-4,0) to (4,0);
+\draw[-,very thick] (-4,4) to (4,4);
+\draw[-,very thick] (-4,-4) to (-4,4);
+\draw[-,very thick] (0,-4) to (0,4);
+\draw[-,very thick] (4,-4) to (4,4);
+\draw[-,very thin] (-4,4) to (0,0);
+\draw[-,very thin] (0,0) to (4,-4);
+\draw[-,very thin] (-4,0) to (0,-4);
+\draw[-,very thin] (0,4) to (4,0);
+\end{tikzpicture}}
 
 % Math sets
 \newcommand{\N}{\mathbb{N}}
@@ -106,17 +133,28 @@ See submission $jonsson\_liswiski.tar.gz$
 Bayesian game to normal form game
 \end{question}
 \begin{answer}{a)}
-We have a Bayesian game $G=(N, \boldsymbol{A}, \boldsymbol{\Theta}, p, \boldsymbol{u})$ where $N=\{1,2\}$, $\boldsymbol{A}=A_1\times A_2$ where $A_1=\{T,B\}, A_2=\{L,R\}$, $\boldsymbol{\Theta}=\Theta_1\times\Theta_2$ where $\Theta_1=\{knows\}, \Theta_2=\{belives_{\alpha=0},belives_{\alpha=2}\}$. $p(knows, belives_{\alpha=0})=1/2$ and $p(knows, belives_{\alpha=2})=1/2$ and $u_1((T,L),(knows, belives_{\alpha=0}))=5$ etc., as described in the question. We need to add that if player 2 is of type $belives_{\alpha=0}$ then $u_2((T,R),(knows, belives_{\alpha=0}))=0$ and similarly if player 2 is of type $belives_{\alpha=2}$ then $u_2((T,R),(knows, belives_{\alpha=2}))=2$. That is, she will act as if those were her utilities. And $u_1((B,L),(knows, belives_{\alpha=0}))=\alpha=u_1((B,L),(knows, belives_{\alpha=2}))$
+We have a Bayesian game $G=(N, \boldsymbol{A}, \boldsymbol{\Theta}, p, \boldsymbol{u})$ where $N=\{1,2\}$, $\boldsymbol{A}=A_1\times A_2$ where $A_1=\{T,B\}, A_2=\{L,R\}$, $\boldsymbol{\Theta}=\Theta_1\times\Theta_2$ where $\Theta_1=\{knows_{\alpha=0},knows_{\alpha=2}\}, \Theta_2=\{belives_{\alpha=0},belives_{\alpha=2}\}$. We are given that $p(belives_{\alpha=0})=1/2$ and $p(belives_{\alpha=2})=1/2$, we assume $p(knows_{\alpha=0})=p$ and $p(knows_{\alpha=2})=p-1$ thus: \\
+$$p(knows_{\alpha=0}, belives_{\alpha=0})=1/2 \cdot p$$
+$$p(knows_{\alpha=2}, belives_{\alpha=0})=1/2 \cdot (1-p)$$
+$$p(knows_{\alpha=0}, belives_{\alpha=2})=1/2 \cdot p$$
+$$p(knows_{\alpha=2}, belives_{\alpha=2})=1/2 \cdot (1-p)$$
 
-Thus we can translate G to a normal form game $G'=(N, \boldsymbol{A'}, \boldsymbol{u'})$ with $A_1=A_1'$ and $A_2=\{LL,LR,RL,RR\}$ and \textit{ex ante expected utility} s.t. $u_i'(\boldsymbol{s})=\sum{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{}{u_i(\boldsymbol{s}, \boldsymbol{\theta}) \cdot p(\boldsymbol{\theta})}$. Thus we get this game:
+We assume that utilities where $\alpha$ is not present are as defined as in the question: \\
+\nfgame{T B L R $5$ $5$ $10$ $\alpha$ $\alpha$ $10$ $1$ $1$} \\[5pt]
+but: \\
 
-\nfgame{T B LL LR RL RR $5$ $5$ $10$ $0$ $\alpha$ $10$ $1$ $1$ $5$ $5$ $10$ $2$ $\alpha$ $10$ $1$ $1$} \\[5pt]
+$$u_1((B,L),(knows_{\alpha=0}, belives_{\alpha=0}))=0, u_2((T,R),(knows_{\alpha=0}, belives_{\alpha=0}))=0$$
+$$u_1((B,L),(knows_{\alpha=2}, belives_{\alpha=0}))=2, u_2((T,R),(knows_{\alpha=2}, belives_{\alpha=0}))=0$$
+$$u_1((B,L),(knows_{\alpha=0}, belives_{\alpha=2}))=0, u_2((T,R),(knows_{\alpha=0}, belives_{\alpha=2}))=2$$
+$$u_1((B,L),(knows_{\alpha=2}, belives_{\alpha=2}))=2, u_2((T,R),(knows_{\alpha=2}, belives_{\alpha=2}))=2$$
+Since player $2$ will make decisions based on her beliefs what $\alpha$ is and there for act on these utilities.
+
+Thus we can translate G to a normal form game $G'=(N, \boldsymbol{A'}, \boldsymbol{u'})$ with $A_1=\{TT,TB,BT,BB\}$ and $A_2=\{LL,LR,RL,RR\}$ and \textit{ex ante expected utility} s.t. $u_i'(\boldsymbol{s})=\sum{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{}{u_i(\boldsymbol{s}, \boldsymbol{\theta}) \cdot p(\boldsymbol{\theta})}$. Thus we get this normal form game (sorry about the latex but creating a 4x4 seemed like a lot of work - to): \\
+\nfgamebig{TT TB LL LR $5p/2$ $5p/2$ $10p/2$ $0p/2$ $0p/2$ $10p/2$ $1p/2$ $1p/2$} \nfgamebig{TT TB RL RR $5p/2$ $5p/2$ $10p/2$ $2p/2$ $0p/2$ $10p/2$ $1p/2$ $1p/2$} \\[5pt]
+\nfgamebig{BT BB LL LR $5(1-p)/2$ $5(1-p)/2$ $10(1-p)/2$ $0(1-p)/2$ $2(1-p)/2$ $10(1-p)/2$ $1(1-p)/2$ $1(1-p)/2$} \nfgamebig{BT BB RL RR $5(1-p)/2$ $5(1-p)/2$ $10(1-p)/2$ $2(1-p)/2$ $2(1-p)/2$ $10(1-p)/2$ $1(1-p)/2$ $1(1-p)/2$} \\[5pt]
 
 
-
-Let us define the types $knows-\alpha$ the player type which knows $\alpha$, $\alpha_0$ the player type which believes $\alpha$ to be $0$ and $\alpha_2$ similary to be $2$. Player $1$ is of type $knows-\alpha$ and player $2$ is with probability $0.5$ type $\alpha_0$ and with probability $0.5$ type $\alpha_2$. $\alpha$ is either $0$ or $2$. Let us say that with probability $p$ $\alpha$ is $0$ and $1-p$ $\alpha$ is $2$.
-
-We now define the Bayesian game (N,)
+Thus we compute the pure Nash equilibria of $G'$ which is the pure Bayes-Nash equilibria $G$. By iterated elimination of dominated strategies, Rowena will never play $TT$, thus we eliminate $TT$. $LL$ is dominated by $LR$, only in the cases when $p=0$ or $p=1$ the domination is weak, strong otherwise. If we assume $p=1$ then Rowena will never play $BB$ or $BT$ thus in that case we end with $(TB,RL)$ as a pure Nash equilibrium. If $p=0$ then Rowena will never play $TB$ and we end with a few pure Nash equilibrium $(BT,LR)$, $(BB,RL)$ and $(BT,RR)$. If we assume $p=1/2$ then we have 4 Nash equilibria $(BT,LR)$, $(BB,RL)$, $(BT,RR)$ and $(TB,RL)$, if $p>1/2$ then $(BB,RL)$ is no longer a Nash equilibrium, similarly if $p<1/2$ then $(TB,RL)$ is no longer a Nash equilibrium.
 \end{answer}
 
 \end{document}
