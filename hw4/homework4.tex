@@ -1,0 +1,165 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Colors for players
+\definecolor{darkred}{rgb}{0.64,0,0}
+\definecolor{darkcyan}{rgb}{0,0.55,0.55}
+\newcommand{\rowcolor}[1]{\textcolor{darkred}{#1}}
+\newcommand{\columncolor}[1]{\textcolor{darkcyan}{#1}}
+% Normal-form game
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgame}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-2,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-2,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,2) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,2) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-1.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-0.6,1.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-1.4,-1.4) {\rowcolor{\argvii}};
+\node (CBL) at (-0.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (0.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (1.4,1.4) {\columncolor{\argx}};
+\node (RBR) at (0.6,-1.4) {\rowcolor{\argxi}};
+\node (CBR) at (1.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-2,-2) to (2,-2);
+\draw[-,very thick] (-2,0) to (2,0);
+\draw[-,very thick] (-2,2) to (2,2);
+\draw[-,very thick] (-2,-2) to (-2,2);
+\draw[-,very thick] (0,-2) to (0,2);
+\draw[-,very thick] (2,-2) to (2,2);
+\draw[-,very thin] (-2,2) to (0,0);
+\draw[-,very thin] (0,0) to (2,-2);
+\draw[-,very thin] (-2,0) to (0,-2);
+\draw[-,very thin] (0,2) to (2,0);
+\end{tikzpicture}}
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgamebig}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-4,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-4,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,4) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,4) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-2.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-1.6,3.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-2.4,-3.4) {\rowcolor{\argvii}};
+\node (CBL) at (-1.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (1.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (2.3,3.4) {\columncolor{\argx}};
+\node (RBR) at (1.6,-3.4) {\rowcolor{\argxi}};
+\node (CBR) at (2.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-4,-4) to (4,-4);
+\draw[-,very thick] (-4,0) to (4,0);
+\draw[-,very thick] (-4,4) to (4,4);
+\draw[-,very thick] (-4,-4) to (-4,4);
+\draw[-,very thick] (0,-4) to (0,4);
+\draw[-,very thick] (4,-4) to (4,4);
+\draw[-,very thin] (-4,4) to (0,0);
+\draw[-,very thin] (0,0) to (4,-4);
+\draw[-,very thin] (-4,0) to (0,-4);
+\draw[-,very thin] (0,4) to (4,0);
+\end{tikzpicture}}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+\title{Homework 4}
+\author{Haukur Páll Jónsson\\
+Game Theory}
+
+\maketitle
+
+\begin{question}{1}
+Extensive form game
+\end{question}
+\begin{answer}{a)}{Extensive form formalization}
+
+We define this game, $G$, using extensive form s.t. $G=(N, A, H, Z, \underline{i}, \underline{A}, \sigma, \boldsymbol{u})$
+\begin{align*}
+N&=\{1,2\} \\
+A&=\{small,pass,medium, big\} \\
+H&=\{h_1,h_2\} \\
+Z&=\{S,M,B\}  \\
+\underline{i}& \text{ s.t. } \underline{i}(h_1)=1, \underline{i}(h_2)=2  \\
+\underline{A}& \text{ s.t. } \underline{A}(h_1)=\{small,pass\}, \underline{A}(h_2)=\{medium,big\} \\
+\sigma& \text{ s.t. } \sigma(h_1,small)=S, \sigma(h_1,pass)=h_2, \sigma(h_2,medium)=M, \sigma(h_2,big)=B \\
+\boldsymbol{u}&=(u_1,u_2) \text{ and } u_1(S)=10, u_2(S)=0, u_1(M)=20, u_2(M)=20, u_1(B)=0, u_2(B)=30
+\end{align*}
+\end{answer}
+\begin{answer}{b)}{Subgame perfect equilibria (pure)}
+
+We use backward induction and start at $h_2$, the deepest choice node in the tree. Since $\underline{i}(h_2)=2$, $\underline{A}(h_2)=\{medium,big\}$, $\sigma(h_2,medium)=M$, $\sigma(h_2,big)=B$ and $u_2(M)=20 < u_2(B)=30$ thus player 2 will take action $big$ in $h_2$, i.e. $\alpha_2(h_2)=big$. Then we move up the tree to $h_1$. $\underline{i}(h_1)=1$, $\underline{A}(h_1)=\{small,pass\}$, $\sigma(h_1,small)=S$, $\sigma(h_1,pass)=h_2$ but we assume that player 1 knows that player two has decided that in $h_2$ to take action $big$ leading to $B$ so when considering $\sigma(h_1,pass)=h_2$ we can simply consider $\sigma'(h_1,pass)=B$ instead (I'm not sure how to do this reduction formally) and since $u_1(S)=10 > u_1(B)=0$ then $\alpha_1(h_1)=small$. Thus we have a pure subgame perfect equilibria: $(small,big)$
+\end{answer}
+\begin{answer}{c)}{Extensive form to normal form}
+Now we define $G*=(N*,\boldsymbol{A*}, \boldsymbol{u*})$ the normal form game from $G$.
+\begin{align*}
+N*&=N
+\boldsymbol{A*}&=
+\boldsymbol{u*}&=(u_1*,u_2*)
+\end{align*}
+\end{answer}
+\begin{answer}{d)}
+Pure and mixed equilibria
+\end{answer}
+\begin{question}{2}
+Programming. Simulating fictitious game play
+\end{question}
+\begin{answer}{a)}
+I did this programming assignment with Grzegorz.
+See submission $jonsson\_liswiski.tar.gz$
+\end{answer}
+
+\begin{question}{3}
+Bayesian game to normal form game
+\end{question}
+\begin{answer}{a)}
+We have a Bayesian game $G=(N, \boldsymbol{A}, \boldsymbol{\Theta}, p, \boldsymbol{u})$ where $N=\{1,2\}$, $\boldsymbol{A}=A_1\times A_2$ where $A_1=\{T,B\}, A_2=\{L,R\}$, $\boldsymbol{\Theta}=\Theta_1\times\Theta_2$ where $\Theta_1=\{knows_{\alpha=0},knows_{\alpha=2}\}, \Theta_2=\{belives_{\alpha=0},belives_{\alpha=2}\}$. We are given that $p(belives_{\alpha=0})=1/2$ and $p(belives_{\alpha=2})=1/2$, we assume $p(knows_{\alpha=0})=p$ and $p(knows_{\alpha=2})=p-1$ thus: \\
+$$p(knows_{\alpha=0}, belives_{\alpha=0})=1/2 \cdot p$$
+$$p(knows_{\alpha=2}, belives_{\alpha=0})=1/2 \cdot (1-p)$$
+$$p(knows_{\alpha=0}, belives_{\alpha=2})=1/2 \cdot p$$
+$$p(knows_{\alpha=2}, belives_{\alpha=2})=1/2 \cdot (1-p)$$
+
+We assume that utilities where $\alpha$ is not present are as defined as in the question: \\
+\nfgame{T B L R $5$ $5$ $10$ $\alpha$ $\alpha$ $10$ $1$ $1$} \\[5pt]
+but: \\
+
+$$u_1((B,L),(knows_{\alpha=0}, belives_{\alpha=0}))=0, u_2((T,R),(knows_{\alpha=0}, belives_{\alpha=0}))=0$$
+$$u_1((B,L),(knows_{\alpha=2}, belives_{\alpha=0}))=2, u_2((T,R),(knows_{\alpha=2}, belives_{\alpha=0}))=0$$
+$$u_1((B,L),(knows_{\alpha=0}, belives_{\alpha=2}))=0, u_2((T,R),(knows_{\alpha=0}, belives_{\alpha=2}))=2$$
+$$u_1((B,L),(knows_{\alpha=2}, belives_{\alpha=2}))=2, u_2((T,R),(knows_{\alpha=2}, belives_{\alpha=2}))=2$$
+Since player $2$ will make decisions based on her beliefs what $\alpha$ is and there for act on these utilities.
+
+Thus we can translate G to a normal form game $G'=(N, \boldsymbol{A'}, \boldsymbol{u'})$ with $A_1=\{TT,TB,BT,BB\}$ and $A_2=\{LL,LR,RL,RR\}$ and \textit{ex ante expected utility} s.t. $u_i'(\boldsymbol{s})=\sum{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{}{u_i(\boldsymbol{s}, \boldsymbol{\theta}) \cdot p(\boldsymbol{\theta})}$. Thus we get this normal form game (sorry about the latex but creating a 4x4 seemed like a lot of work - to): \\
+\nfgamebig{TT TB LL LR $5p/2$ $5p/2$ $10p/2$ $0p/2$ $0p/2$ $10p/2$ $1p/2$ $1p/2$} \nfgamebig{TT TB RL RR $5p/2$ $5p/2$ $10p/2$ $2p/2$ $0p/2$ $10p/2$ $1p/2$ $1p/2$} \\[5pt]
+\nfgamebig{BT BB LL LR $5(1-p)/2$ $5(1-p)/2$ $10(1-p)/2$ $0(1-p)/2$ $2(1-p)/2$ $10(1-p)/2$ $1(1-p)/2$ $1(1-p)/2$} \nfgamebig{BT BB RL RR $5(1-p)/2$ $5(1-p)/2$ $10(1-p)/2$ $2(1-p)/2$ $2(1-p)/2$ $10(1-p)/2$ $1(1-p)/2$ $1(1-p)/2$} \\[5pt]
+
+
+Thus we compute the pure Nash equilibria of $G'$ which is the pure Bayes-Nash equilibria $G$. By iterated elimination of dominated strategies, Rowena will never play $TT$, thus we eliminate $TT$. $LL$ is dominated by $LR$, only in the cases when $p=0$ or $p=1$ the domination is weak, strong otherwise. If we assume $p=1$ then Rowena will never play $BB$ or $BT$ thus in that case we end with $(TB,RL)$ as a pure Nash equilibrium. If $p=0$ then Rowena will never play $TB$ and we end with a few pure Nash equilibrium $(BT,LR)$, $(BB,RL)$ and $(BT,RR)$. If we assume $p=1/2$ then we have 4 Nash equilibria $(BT,LR)$, $(BB,RL)$, $(BT,RR)$ and $(TB,RL)$, if $p>1/2$ then $(BB,RL)$ is no longer a Nash equilibrium, similarly if $p<1/2$ then $(TB,RL)$ is no longer a Nash equilibrium.
+\end{answer}
+
+\end{document}
