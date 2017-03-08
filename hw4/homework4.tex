@@ -110,56 +110,91 @@ Z&=\{S,M,B\}  \\
 \sigma& \text{ s.t. } \sigma(h_1,small)=S, \sigma(h_1,pass)=h_2, \sigma(h_2,medium)=M, \sigma(h_2,big)=B \\
 \boldsymbol{u}&=(u_1,u_2) \text{ and } u_1(S)=10, u_2(S)=0, u_1(M)=20, u_2(M)=20, u_1(B)=0, u_2(B)=30
 \end{align*}
+We might also add that the pure strategies for the players: $\alpha_1(h_1)=\{small, pass\}$, $\alpha_2(h_2)=\{medium, big\}$.
 \end{answer}
 \begin{answer}{b)}{Subgame perfect equilibria (pure)}
 
 We use backward induction and start at $h_2$, the deepest choice node in the tree. Since $\underline{i}(h_2)=2$, $\underline{A}(h_2)=\{medium,big\}$, $\sigma(h_2,medium)=M$, $\sigma(h_2,big)=B$ and $u_2(M)=20 < u_2(B)=30$ thus player 2 will take action $big$ in $h_2$, i.e. $\alpha_2(h_2)=big$. Then we move up the tree to $h_1$. $\underline{i}(h_1)=1$, $\underline{A}(h_1)=\{small,pass\}$, $\sigma(h_1,small)=S$, $\sigma(h_1,pass)=h_2$ but we assume that player 1 knows that player two has decided that in $h_2$ to take action $big$ leading to $B$ so when considering $\sigma(h_1,pass)=h_2$ we can simply consider $\sigma'(h_1,pass)=B$ instead (I'm not sure how to do this reduction formally) and since $u_1(S)=10 > u_1(B)=0$ then $\alpha_1(h_1)=small$. Thus we have a pure subgame perfect equilibria: $(small,big)$
 \end{answer}
 \begin{answer}{c)}{Extensive form to normal form}
-Now we define $G*=(N*,\boldsymbol{A*}, \boldsymbol{u*})$ the normal form game from $G$.
-\begin{align*}
-N*&=N
-\boldsymbol{A*}&=
-\boldsymbol{u*}&=(u_1*,u_2*)
-\end{align*}
+Now we define $G'=(N',\boldsymbol{A'}, \boldsymbol{u'})$ the normal form game from $G$.
+$$N'=N$$
+$$\boldsymbol{A'} =A_1 \times A_2= \{small, pass\} \times \{medium, big\}$$
+And $\boldsymbol{u'}$ is given by this matrix:\\
+\nfgame{small pass medium big $10$ $0$ $10$ $0$ $20$ $20$ $0$ $30$} \\[5pt]
 \end{answer}
-\begin{answer}{d)}
-Pure and mixed equilibria
+\begin{answer}{d)}{Pure and mixed equilibria}
+
+We can easily see that there is only one pure equilibria, $(small,big)$, since for all other pure strategy profiles, given $(a_i,a_{-i})$ then player $i$ will change her strategy to another. \\
+Computing the mixed equilibria we assume that player 1 is playing $small$ with probability $p$ and player 2 $medium$ with $q$. Further more we assume that they are indifferent to what strategies they play. Thus we solve: \\
+$$p \cdot 0 + (1-p)\cdot 20 = p \cdot 0 + (1-p)\cdot 30$$
+$$q \cdot 10 + (1-q)\cdot 10 = q \cdot 20 + (1-q)\cdot 0$$
+Thus $p=1$ and $q = \frac{1}{2}$. Thus player 1 never plays $pass$ and we see that if player 2 deviates from $(q,1-q)$ to $(q-\epsilon,1-q+\epsilon)$ with $\epsilon>0$ then it is still no incentive for player 1 to deviate from $p=1$. Thus $p=1$ and $q \leq \frac{1}{2}$ are the solutions and the corresponding mixed strategies $((p,1-p),(q,1-q))$ are in Nash equilibrium.
 \end{answer}
-\begin{question}{2}
-Programming. Simulating fictitious game play
+\begin{question}{2}{Noise in back and forth translation}
+
+We need to give a clear description of how to translate a normal form game to a game of imperfect information and then give an example of how a game $G$ can be translated from extensive form to normal form game $G'$ and back to extensive form $G''$ and $G$ and $G''$ are equivalent but not the same.
 \end{question}
 \begin{answer}{a)}
-I did this programming assignment with Grzegorz.
-See submission $jonsson\_liswiski.tar.gz$
+
+Going from normal form game $G=(N,\boldsymbol{A}, \boldsymbol{u})$ to $G'=(N', A', H, Z, \underline{i}, \underline{A}, \sigma, \boldsymbol{u'}, \sim)$. We assume w.l.o.g. that the row player, player 1, goes first.
+
+\item It is obvious that $N'=N$
+\item We define $A'=A_1 \cup A_2$
+\item $H=\{root, h_1, ..., h_{|A_1|}\}$
+\item $Z=\{z_{11}, z_{12}, ... , z_{1|A_2|}, ..., z_{|A_1||A_2|}\}$
+\item $\underline{i}$ s.t. $\underline{i}(root)=1$ and $\underline{i}(H \setminus root)=2$
+\item $\underline{A}$ s.t. $\underline{A}(root)=A_1$ and $\underline{A}(H \setminus root)=A_2$
+\item $\sigma$ s.t. $\sigma(root, A_1)=H \setminus root$ s.t. $A_1$ and $\sigma(H \setminus root, A_2)=Z$. These mapping should be ordered. Here I use a bit imprecise short hand but the idea should be clear.
+\item $\sim=\sim_2=H \setminus root$
+\item The utility function is then s.t. $u_1'(z_{11})=u_1(a_1^1,a_2^1)$ and $u_2'(z_{11})=u_2(a_1^1,a_2^1)$ where $a_1^1$ is the first action in $A_1$ and $a_2^1$ is the first action in $A_2$. Then $u_1'(z_{12})=u_1(a_1^1,a_2^2)$ and $u_2'(z_{12})=u_2(a_1^1,a_2^2)$ and so on for both players until $u_1'(z_{|A_1||A_2|})=u_1(a_1^{|A_1|},a_2^{|A_2|})$ and $u_2'(z_{|A_1||A_2|})=u_2(a_1^{|A_1|},a_2^{|A_2|})$
+
+We can use the game from question 1 as an example. We have already translated it from a perfect information game $G$ to a normal form game $G'$. Using the method described above we get this game $G''$: \\
+\begin{center}
+    \small
+    \begin{tikzpicture}[thin,
+      level 1/.style={sibling distance=40mm},
+      level 2/.style={sibling distance=25mm},
+      level 3/.style={sibling distance=15mm},
+      every circle node/.style={minimum size=1.5mm,inner sep=0mm}]
+
+      \node[circle,draw,label=above:$1$] (root) {}
+        child { node [circle,fill,label=above:$2$] (node-Z) {}
+          child {
+            node {$0,10$}
+            edge from parent
+              node[left] {$medium$}}
+          child {
+            node {$0,10$}
+            edge from parent
+              node[right] {$big$}}
+          edge from parent
+            node[left] {$small$}}
+        child { node [circle,fill,label=above:$2$] (node-W)  {}
+                   child {
+            node {$20,20$}
+            edge from parent
+              node[left] {$medium$}}
+          child {
+            node {$0,30$}
+            edge from parent
+              node[right] {$big$}}
+          edge from parent
+            node[right] {$pass$}};
+            \draw [dashed] (node-Z) -- (node-W)
+         node[midway,above] {$2$};
+    \end{tikzpicture}
+    \end{center}
+
+We can see that $G$ and $G''$ are equivalent games but not the same game.
 \end{answer}
 
 \begin{question}{3}
-Bayesian game to normal form game
+Given a imperfect information game  $G=(N, A, H, Z, \underline{i}, \underline{A}, \sigma, \boldsymbol{u}, \sim)$ with perfect recall we need to show that given a behavioural strategy of player i, $s_i^* \in \prod{}{}{\underline{A}(h_i^1)}\times ... \times \prod{}{}{\underline{A}(h_i^m)}$, there exists a mixed strategy, $s_i \in \prod{}{}{\underline{A}(h_i^1)\times ... \times \underline{A}(h_i^m)}$ for $i$ which is outcome-equivalent.
 \end{question}
 \begin{answer}{a)}
-We have a Bayesian game $G=(N, \boldsymbol{A}, \boldsymbol{\Theta}, p, \boldsymbol{u})$ where $N=\{1,2\}$, $\boldsymbol{A}=A_1\times A_2$ where $A_1=\{T,B\}, A_2=\{L,R\}$, $\boldsymbol{\Theta}=\Theta_1\times\Theta_2$ where $\Theta_1=\{knows_{\alpha=0},knows_{\alpha=2}\}, \Theta_2=\{belives_{\alpha=0},belives_{\alpha=2}\}$. We are given that $p(belives_{\alpha=0})=1/2$ and $p(belives_{\alpha=2})=1/2$, we assume $p(knows_{\alpha=0})=p$ and $p(knows_{\alpha=2})=p-1$ thus: \\
-$$p(knows_{\alpha=0}, belives_{\alpha=0})=1/2 \cdot p$$
-$$p(knows_{\alpha=2}, belives_{\alpha=0})=1/2 \cdot (1-p)$$
-$$p(knows_{\alpha=0}, belives_{\alpha=2})=1/2 \cdot p$$
-$$p(knows_{\alpha=2}, belives_{\alpha=2})=1/2 \cdot (1-p)$$
 
-We assume that utilities where $\alpha$ is not present are as defined as in the question: \\
-\nfgame{T B L R $5$ $5$ $10$ $\alpha$ $\alpha$ $10$ $1$ $1$} \\[5pt]
-but: \\
-
-$$u_1((B,L),(knows_{\alpha=0}, belives_{\alpha=0}))=0, u_2((T,R),(knows_{\alpha=0}, belives_{\alpha=0}))=0$$
-$$u_1((B,L),(knows_{\alpha=2}, belives_{\alpha=0}))=2, u_2((T,R),(knows_{\alpha=2}, belives_{\alpha=0}))=0$$
-$$u_1((B,L),(knows_{\alpha=0}, belives_{\alpha=2}))=0, u_2((T,R),(knows_{\alpha=0}, belives_{\alpha=2}))=2$$
-$$u_1((B,L),(knows_{\alpha=2}, belives_{\alpha=2}))=2, u_2((T,R),(knows_{\alpha=2}, belives_{\alpha=2}))=2$$
-Since player $2$ will make decisions based on her beliefs what $\alpha$ is and there for act on these utilities.
-
-Thus we can translate G to a normal form game $G'=(N, \boldsymbol{A'}, \boldsymbol{u'})$ with $A_1=\{TT,TB,BT,BB\}$ and $A_2=\{LL,LR,RL,RR\}$ and \textit{ex ante expected utility} s.t. $u_i'(\boldsymbol{s})=\sum{\boldsymbol{\theta} \in \boldsymbol{\Theta}}{}{u_i(\boldsymbol{s}, \boldsymbol{\theta}) \cdot p(\boldsymbol{\theta})}$. Thus we get this normal form game (sorry about the latex but creating a 4x4 seemed like a lot of work - to): \\
-\nfgamebig{TT TB LL LR $5p/2$ $5p/2$ $10p/2$ $0p/2$ $0p/2$ $10p/2$ $1p/2$ $1p/2$} \nfgamebig{TT TB RL RR $5p/2$ $5p/2$ $10p/2$ $2p/2$ $0p/2$ $10p/2$ $1p/2$ $1p/2$} \\[5pt]
-\nfgamebig{BT BB LL LR $5(1-p)/2$ $5(1-p)/2$ $10(1-p)/2$ $0(1-p)/2$ $2(1-p)/2$ $10(1-p)/2$ $1(1-p)/2$ $1(1-p)/2$} \nfgamebig{BT BB RL RR $5(1-p)/2$ $5(1-p)/2$ $10(1-p)/2$ $2(1-p)/2$ $2(1-p)/2$ $10(1-p)/2$ $1(1-p)/2$ $1(1-p)/2$} \\[5pt]
-
-
-Thus we compute the pure Nash equilibria of $G'$ which is the pure Bayes-Nash equilibria $G$. By iterated elimination of dominated strategies, Rowena will never play $TT$, thus we eliminate $TT$. $LL$ is dominated by $LR$, only in the cases when $p=0$ or $p=1$ the domination is weak, strong otherwise. If we assume $p=1$ then Rowena will never play $BB$ or $BT$ thus in that case we end with $(TB,RL)$ as a pure Nash equilibrium. If $p=0$ then Rowena will never play $TB$ and we end with a few pure Nash equilibrium $(BT,LR)$, $(BB,RL)$ and $(BT,RR)$. If we assume $p=1/2$ then we have 4 Nash equilibria $(BT,LR)$, $(BB,RL)$, $(BT,RR)$ and $(TB,RL)$, if $p>1/2$ then $(BB,RL)$ is no longer a Nash equilibrium, similarly if $p<1/2$ then $(TB,RL)$ is no longer a Nash equilibrium.
+Given $G$ and $s_i^*$ we observe that we can construct $s_i$ s.t. it is outcome-equivalent to $s_i^*$. We consider the game as a tree. Since we have perfect recall then we can look up the tree (viewing the tree with the leafs on the bottom) and see what we have done previously, then for any pure strategy we can compute the probability, as percieved by $i$ (with only knowledge of her distribution), of using that pure strategy using the behavioural strategy. To compute the probability we simply multiply the probabilities of the behavioural strategy of $i$ along the path, i.e. from top to bottom. Then we use this distribution for the mixed strategy, $s_i$. These strategies are outcome-equivalent since from $i$'s perspective each $z \in Z$ is equally likely using both strategies.
 \end{answer}
 
 \end{document}
