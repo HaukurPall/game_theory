@@ -127,6 +127,19 @@ Auction as a Bayesian game
 
 asdf
 \end{answer}
+\begin{question}{3}
+A counter example to incentive-compatible claim
+\end{question}
+\begin{answer}{a)}
+
+A mechanism is \textit{incentive-compatible} if truth telling is a dominant strategy. That is for all agents $i$, for all $v_i, \hat{v}_i \in V_i$ and $\bolsymbol{\hat{v}}_{-i} \in \bolsymbol{\hat{V}}_{-i}$:
+$$v_i(f(v_i,\bolsymbol{\hat{v}}_{-i})) - p_i(v_i,\bolsymbol{\hat{v}}_{-i}) \geq v_i(f(\hat{v}_i,\bolsymbol{\hat{v}}_{-i})) - p_i(\hat{v}_i,\bolsymbol{\hat{v}}_{-i})$$
+
+To prove that this mechanism is not incentive-compatible we need to provide an instance of this game in which it is better for some player to deviate from her true valuation, $v_i$.
+
+Take a game with $n=3$ and $k=2$ and valuations $v_1=8$, $v_2=6$ and $v_3=4$ as a counter-example. Thus player $1$ will win and pay $6$ thus having utility of $8-6=2$. Player two will be second, paying $4/2=2$ thus having utility $6-2=4$ and player $3$ will get nothing, utility $0$. But if player $1$ would deviate s.t. she plays $7$ instead, she would increase her utility because she would pay $6/2=3$ thus, having utility of $4-3=1$. Thus, there is a player which is better off by not playing her true valuation. Thus, this mechanism is not \textit{incentive-compatible}.
+\end{answer}
+
 
 \begin{question}{4}
 Programming
