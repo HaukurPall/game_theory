@@ -1,0 +1,138 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Colors for players
+\definecolor{darkred}{rgb}{0.64,0,0}
+\definecolor{darkcyan}{rgb}{0,0.55,0.55}
+\newcommand{\rowcolor}[1]{\textcolor{darkred}{#1}}
+\newcommand{\columncolor}[1]{\textcolor{darkcyan}{#1}}
+% Normal-form game
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgame}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-2,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-2,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,2) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,2) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-1.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-0.6,1.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-1.4,-1.4) {\rowcolor{\argvii}};
+\node (CBL) at (-0.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (0.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (1.4,1.4) {\columncolor{\argx}};
+\node (RBR) at (0.6,-1.4) {\rowcolor{\argxi}};
+\node (CBR) at (1.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-2,-2) to (2,-2);
+\draw[-,very thick] (-2,0) to (2,0);
+\draw[-,very thick] (-2,2) to (2,2);
+\draw[-,very thick] (-2,-2) to (-2,2);
+\draw[-,very thick] (0,-2) to (0,2);
+\draw[-,very thick] (2,-2) to (2,2);
+\draw[-,very thin] (-2,2) to (0,0);
+\draw[-,very thin] (0,0) to (2,-2);
+\draw[-,very thin] (-2,0) to (0,-2);
+\draw[-,very thin] (0,2) to (2,0);
+\end{tikzpicture}}
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgamebig}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-4,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-4,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,4) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,4) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-2.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-1.6,3.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-2.4,-3.4) {\rowcolor{\argvii}};
+\node (CBL) at (-1.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (1.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (2.3,3.4) {\columncolor{\argx}};
+\node (RBR) at (1.6,-3.4) {\rowcolor{\argxi}};
+\node (CBR) at (2.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-4,-4) to (4,-4);
+\draw[-,very thick] (-4,0) to (4,0);
+\draw[-,very thick] (-4,4) to (4,4);
+\draw[-,very thick] (-4,-4) to (-4,4);
+\draw[-,very thick] (0,-4) to (0,4);
+\draw[-,very thick] (4,-4) to (4,4);
+\draw[-,very thin] (-4,4) to (0,0);
+\draw[-,very thin] (0,0) to (4,-4);
+\draw[-,very thin] (-4,0) to (0,-4);
+\draw[-,very thin] (0,4) to (4,0);
+\end{tikzpicture}}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+\title{Homework 5}
+\author{Haukur Páll Jónsson\\
+Game Theory}
+
+\maketitle
+
+\begin{question}{1}
+Third price sealed-bid auctions
+\end{question}
+\begin{answer}{a)}{Workings}
+
+This auction is also sealed-bid auction, i.e. a direct-revelation auction in which bidders either report a fake or true valuation via their bid. We assume that the auctioneer has a reservation price under which she won't sell, thus we need at least three bidders at or above the reservation price so that the auctioneer will sell. Each bidder $i$ has a private valuation $v_i$ of the item and places a bid of $\hat{v_i}$ for that item. The winner of the auction is the bidder with the highest bid, let us call that $\hat{v}^1$. She gets the item for the price of the 3rd highest bid, let us call that $\hat{v}^3$, thus her utility is as defined as: $v_i-\hat{v}^3$ if she wins, $0$ otherwise.
+\end{answer}
+\begin{answer}{b)}{Strategy}
+
+A good strategy would be to bid $v_i$ since we cannot get a higher utility by bidding lower, since the utility does not depend on our bid. Bidding higher might seem like a good idea to increase our chances of winning but at the same time it increases the chances of getting a negative utility. Thus we should simply just stick to $v_i$.
+\end{answer}
+\begin{answer}{c)}{Dominant strategies}
+
+There is no dominant strategy for a third-price sealed-bid auctions. Consider this argument.
+
+Assume $v_i$ is a winning bid. This would be profitable for $i$. Bidding $v_i^*$ would provide no more utility for her and only increase her chances of losing the bid.
+
+Assume $v_i$ is not a winning bid but rather some $\hat{v}^1$. If $\hat{v}^1+\epsilon < v_i$ then we should change our bid to $\hat{v}^1+\epsilon$ but this is only the case when $\hat{v}^1 > v_i \geq \hat{v}^2$. If $v_i < \hat{v}^2$ then by changing our strategy the price of the item will increase and it will no longer be profitable to win the auction. Thus we never want to change our strategy when $v_i < \hat{v}^2$.
+
+Thus there is no dominant strategy since learning what the other bidders might do (we would have the 2nd highest bid), we might change our strategy.
+\end{answer}
+\begin{answer}{d)}{Pareto efficient}
+
+It is not the case that the winner will always enjoy a non-negative utility. Consider the argument put forward in $c)$. If the probability $p(v_i\geq\hat{v}^2)$, i.e. the probability that $\hat{v}^1 > v_i \geq \hat{v}^2$, times the utility of winning plus $1-p(v_i\geq\hat{v}^2)$ times the utility of losing is greater than sticking to bidding $v_i$ then it would be rational for $i$ to bid greater than $v_i$. Thus in some cases $i$ might experience a negative utility.
+\end{answer}
+
+\begin{question}{2}
+Auction as a Bayesian game
+\end{question}
+\begin{answer}{a)}
+
+asdf
+\end{answer}
+
+\begin{question}{4}
+Programming
+\end{question}
+\begin{answer}{a)}
+
+\end{answer}
+
+\end{document}
