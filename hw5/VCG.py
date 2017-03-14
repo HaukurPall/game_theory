@@ -1,4 +1,4 @@
-import random, math
+import random, math, sys
 
 #random.seed(673563)  # we set the seed for debugging
 
@@ -15,16 +15,22 @@ class VCG:
         self.generate_random_valuations(max_value=len(self.G))
 
     def generate_random_valuations(self, max_value):
+        """
+        Generate random valuations from 1 to max for all players
+        :param max_value: The maximum value to be assigned (included)
+        """
         self.valuations = [random.randint(1, max_value) for x in range(0, self.N)]
 
     def generate_random_bundles(self):
         """
         Generate random, disjoint bundles out of G for all N players
         """
-        # we add one dummy player as "resource not with any player", he is player 0
+        # 2^|G| resource allocation possible per player
         goods_allocation_permutations_per_player = int(math.pow(2, len(self.G)))
-        good_allocation_permutations = goods_allocation_permutations_per_player * self.N
+        # and we have N players
+        good_allocation_permutations = int(math.pow(goods_allocation_permutations_per_player, self.N))
         number_of_set_to_use = random.randint(0, good_allocation_permutations - 1)
+        # we turn the number to a representation
         set_representation = k_nary(n=number_of_set_to_use, k=goods_allocation_permutations_per_player, length=self.N)
         for player_index, number in enumerate(set_representation):
             goods_representation = k_nary(n=number, k=2, length=len(self.G))
@@ -49,6 +55,7 @@ class VCG:
         permutations = int(math.pow(2, self.N))
         best_allocation = -1.0
         best_allocation_representation = None
+        # and we find the maximal sw allocation
         for x in range(0, permutations):
             allocation_representation = k_nary(n=x, k=2, length=self.N)
             # we check if allocation is legal
@@ -61,6 +68,11 @@ class VCG:
         return best_allocation_representation
 
     def is_legal_allocation(self, binary_representation):
+        """
+        Check if allocation is legal, i.e. bundles under this allocation do not contain the same elements.
+        :param binary_representation: The allocation
+        :return: True if allocation does not use the same good twice
+        """
         bundle_unions = set()
         for index, bundle_included in enumerate(binary_representation):
             if bundle_included == 1:
@@ -87,6 +99,11 @@ class VCG:
         return sum
 
     def compute_price(self, binary_representation):
+        """
+        Compute list of prices paied by players under allocation
+        :param binary_representation: The allocation
+        :return: A list of prices the player needs to pay
+        """
         prices = []
         for index, bundle_included in enumerate(binary_representation):
             # first we compute the SW of all players but player_i under this allocation
@@ -128,7 +145,9 @@ def k_nary(n, k, length, numbers=None):
 
 
 def main():
-    auction = VCG(3, 4)
+    N = int(sys.argv[1])
+    G = int(sys.argv[2])
+    auction = VCG(N=N, G=G)
     auction.reset()
     alloc_rep = auction.naive_allocation()
     value = auction.compute_outcome(alloc_rep)

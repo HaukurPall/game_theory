@@ -1,30 +1,117 @@
-\documentclass{article}
-\usepackage{ amssymb, graphicx, float }
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
 \usepackage[utf8]{inputenc}
-\title{Homework 3 - report}
-\author{Haukur, Grzegorz}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Colors for players
+\definecolor{darkred}{rgb}{0.64,0,0}
+\definecolor{darkcyan}{rgb}{0,0.55,0.55}
+\newcommand{\rowcolor}[1]{\textcolor{darkred}{#1}}
+\newcommand{\columncolor}[1]{\textcolor{darkcyan}{#1}}
+% Normal-form game
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgame}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-2,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-2,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,2) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,2) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-1.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-0.6,1.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-1.4,-1.4) {\rowcolor{\argvii}};
+\node (CBL) at (-0.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (0.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (1.4,1.4) {\columncolor{\argx}};
+\node (RBR) at (0.6,-1.4) {\rowcolor{\argxi}};
+\node (CBR) at (1.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-2,-2) to (2,-2);
+\draw[-,very thick] (-2,0) to (2,0);
+\draw[-,very thick] (-2,2) to (2,2);
+\draw[-,very thick] (-2,-2) to (-2,2);
+\draw[-,very thick] (0,-2) to (0,2);
+\draw[-,very thick] (2,-2) to (2,2);
+\draw[-,very thin] (-2,2) to (0,0);
+\draw[-,very thin] (0,0) to (2,-2);
+\draw[-,very thin] (-2,0) to (0,-2);
+\draw[-,very thin] (0,2) to (2,0);
+\end{tikzpicture}}
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgamebig}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-4,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-4,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,4) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,4) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-2.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-1.6,3.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-2.4,-3.4) {\rowcolor{\argvii}};
+\node (CBL) at (-1.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (1.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (2.3,3.4) {\columncolor{\argx}};
+\node (RBR) at (1.6,-3.4) {\rowcolor{\argxi}};
+\node (CBR) at (2.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-4,-4) to (4,-4);
+\draw[-,very thick] (-4,0) to (4,0);
+\draw[-,very thick] (-4,4) to (4,4);
+\draw[-,very thick] (-4,-4) to (-4,4);
+\draw[-,very thick] (0,-4) to (0,4);
+\draw[-,very thick] (4,-4) to (4,4);
+\draw[-,very thin] (-4,4) to (0,0);
+\draw[-,very thin] (0,0) to (4,-4);
+\draw[-,very thin] (-4,0) to (0,-4);
+\draw[-,very thin] (0,4) to (4,0);
+\end{tikzpicture}}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
 \begin{document}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+\title{Homework 5 - Programming report}
+\author{Haukur Páll Jónsson\\
+Game Theory}
+
 \maketitle
-\section{Simulation of a fictitious play}
-The program simulates fictitious play of $81$ zero-sum games with two players. The core simulations takes in a input a game defined in terms of two payoff matrices and a number $\epsilon$. In each iteration a strategy profile is produced which is then compared to the previous produced strategy profile and if the difference between them is less than $\epsilon$ we say that the game converged to a strategy profile. To establish the full game a payoff matrix for the player 2 was constructed so that $u_2(a) = - u_1(a)$ for all action profiles $a$.
 
-The two payoff matrices were generated s.t. a payoff matrix for player $1$ was generated and then a payoff matrix for the player $2$ was constructed so that $u_2(a) = - u_1(a)$ for all action profiles $a$. Player's $1$ matrix was created according to a binary representation s.t. each action profile was given a number $0$, $1$ or $2$ If that number was $0$ the utilities of the players were equal, if the number was $1$ then $u_2(a) < u_1(a)$ and if that number was $2$ then $u_2(a) > u_1(a)$. Thus a game might be represented as "2012".
+\section{Problem setup}
+I wrote a program which computes the outcome for a combinatorial auction with single-minded bidders under the VCG mechanism. The most computationally hard part of the compuation is finding the goods allocation which gives the maximum social welfare. Finding this allocation is a NP-hard problem, in particular it is a permutation of the set packing problem. Since there is no known efficient algorithm solving this problem my plan was to get an working naive implementation to see how the problem can be defined. This was successful.
 
-In the first round both players choose the first action. Further, accordingly to the fictitious play algorithm, each player chooses the best response to her opponents empirical strategy. The best response was performed by calculating expected utilities of playing a pure strategy $p$ against the opponents empirical strategy for all pure strategies $p$. In case of ties between actions possible as responses to an opponents empirical mixed strategy, the first action was pure strategy was chosen.   In order to compute it the history of game was stored s.t. the occurrences of each action done by either player was stored.  A rate of convergence was defined as a number of rounds after which a difference between probabilities of playing the first action in a final round and in the round before was smaller than $\epsilon$ for both players.
-\section{Comparison of the rates of convergence}
-The fictitious game play was simulated for $81$ combinations of payoffs in a zero sum $2 \times 2$ games. It was observed that games in which both players have a dominant strategy (strict, weak or very weak) converged quickly. Below graphs presenting the rate of convergence of particular games. Also, the relation between the rate of convergence and a given $\epsilon$ is depicted.
-The first picture shows what games are missing a dominant strategy, 1.0 means that there is no dominant strategy.
-The Next 5 pictures show the number of steps required before reaching convergence, given different $\epsilon$.
-The last picture shows how the number of steps grew for different $\epsilon$.
-\begin{figure}[H]
-  \includegraphics[scale=0.4]{missing_dominant_strategy.png}
-  \includegraphics[scale=0.4]{steps-0_1.png}
-  \includegraphics[scale=0.4]{steps-0_01.png}
-  \includegraphics[scale=0.4]{steps-0_001.png}
-  \includegraphics[scale=0.4]{steps-0_0001.png}
-  \includegraphics[scale=0.4]{steps-1e-05.png}
-\end{figure}
-\begin{figure}[H]
-  \includegraphics[scale=0.4]{epsilonsteps.png}
-\end{figure}
+For simpliticy sake I assumed that \textit{free disposal} would be acceptable, since the randomness of the bundles (see later) would otherwise often lead to no solutions. Furthermore, I assumed that \texit{single minded bidders} would only give a valuation to exactly the bundle they wish for, i.e. the supersets of the bundles receive valuation of $0$. This allows the solution to be represented as a binary string s.t. if index $i$ of the string is $1$ then player's $i$ bundle is in the allocation, otherwise it is not included. Thus the idea was to simply start from the binary representation of $0$ (with padded $0$'s to the left) up to $2^|N|$ and find the maximum social welfare of any given allocation.
+
+The price in a VCG mechanism is defined as the price player $i$ offers minus the marginal contribution made by $i$. For player $i$ compute compute $\sum{j \neq i}\hat{v}(f(\boldsymbol{\hat{v}}_{-i})) - \sum{j \neq i}\hat{v}(f(\boldsymbol{\hat{v}}_{i})). Thus, a new allocation, $f(\boldsymbol{\hat{v}}_{-i})$, needs to be computed per player.
+
+\section{Implementation}
+A combinatorial auction is a tuple $G=(N,G,\boldsymbol{v})$, as defined in lectures. In this program a random game is generated given $|N|$ and $|G|$ and then $\boldsymbol{v}$ is created by assigning random integers from $1$ to $|G|$ to each player. Using this randomization empty bundles are also given a valution. I did not see this as a problem since it does not affect the solution but it clearly makes little sense in an auction setting.
+
+In order to implement the VCG mechanism, bundles need to be defined for each player. This was done by drawing a random integer from $0$ to ${2^{|G|}}^{|N|}$. If $0$ would be drawn, all players will have empty bundles, if $1$ is drawn, the last player gets good number $1$, if the highest number is drawn, all players will have have all goods in their bundle. In this case the player with the highest valuation will win the auction and get all the goods.
+
+To find the best social welfare allocation the program iterates from $0$ to $2^|N|$ as mentioned previously. In each loop it first checks if this allocation is legal, by checking if the disjunction of the bundles in this allocation is empty. Next it computes the outcome of this allocation and compare it to the previous best allocation and keep the better one.
+
+After the best allocation has been found it computes the price for each player as described above. Here I implemented $\boldsymbol{\hat{v}}_{-i}$ by setting the valuation of player $i$ to 0. Thus, making player's $i$ participation in the auction irrelevant. After this, a new allocation was calculated and the price was computed as described above.
+
+\section{Results}
+20x20 took about 4 mins to compute.
+
+
 \end{document}
