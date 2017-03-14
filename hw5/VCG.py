@@ -1,6 +1,6 @@
 import random, math
 
-#random.seed(673569)  # we set the seed for debugging
+#random.seed(673563)  # we set the seed for debugging
 
 
 class VCG:
@@ -11,26 +11,26 @@ class VCG:
         self.bundles = [set() for x in range(0, N)]
 
     def reset(self):
-        self.generate_bundles()
-        self.generate_random_valuations()
+        self.generate_random_bundles()
+        self.generate_random_valuations(max_value=len(self.G))
 
-    def generate_random_valuations(self):
-        self.valuations = [random.randint(1, len(self.G)) for x in range(0, self.N)]
+    def generate_random_valuations(self, max_value):
+        self.valuations = [random.randint(1, max_value) for x in range(0, self.N)]
 
-    def generate_bundles(self):
+    def generate_random_bundles(self):
         """
         Generate random, disjoint bundles out of G for all N players
         """
         # we add one dummy player as "resource not with any player", he is player 0
-        permutations = int(math.pow(self.N + 1, len(self.G)))
-        number_of_set_to_use = random.randint(0, permutations - 1)
-        set_representation = k_nary(n=number_of_set_to_use, k=self.N + 1, length=len(self.G))
-        for index, number in enumerate(set_representation):
-            # since now the indices are from 0 to N, we want 0 to N-1
-            number -= 1
-            if number == -1:
-                continue
-            self.bundles[number].add(self.G[index])
+        goods_allocation_permutations_per_player = int(math.pow(2, len(self.G)))
+        good_allocation_permutations = goods_allocation_permutations_per_player * self.N
+        number_of_set_to_use = random.randint(0, good_allocation_permutations - 1)
+        set_representation = k_nary(n=number_of_set_to_use, k=goods_allocation_permutations_per_player, length=self.N)
+        for player_index, number in enumerate(set_representation):
+            goods_representation = k_nary(n=number, k=2, length=len(self.G))
+            for good_index, good_included in enumerate(goods_representation):
+                if good_included == 1:
+                    self.bundles[player_index].add(self.G[good_index])
 
     def __str__(self):
         return "N: {}\n" \
