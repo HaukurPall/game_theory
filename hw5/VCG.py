@@ -1,3 +1,5 @@
+# Author: Haukur Páll Jónsson
+# Date: 15. March 2017
 import random, math, sys
 
 #random.seed(673563)  # we set the seed for debugging
