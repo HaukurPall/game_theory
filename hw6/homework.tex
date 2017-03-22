@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Colors for players
+\definecolor{darkred}{rgb}{0.64,0,0}
+\definecolor{darkcyan}{rgb}{0,0.55,0.55}
+\newcommand{\rowcolor}[1]{\textcolor{darkred}{#1}}
+\newcommand{\columncolor}[1]{\textcolor{darkcyan}{#1}}
+% Normal-form game
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgame}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-2,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-2,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,2) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,2) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-1.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-0.6,1.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-1.4,-1.4) {\rowcolor{\argvii}};
+\node (CBL) at (-0.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (0.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (1.4,1.4) {\columncolor{\argx}};
+\node (RBR) at (0.6,-1.4) {\rowcolor{\argxi}};
+\node (CBR) at (1.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-2,-2) to (2,-2);
+\draw[-,very thick] (-2,0) to (2,0);
+\draw[-,very thick] (-2,2) to (2,2);
+\draw[-,very thick] (-2,-2) to (-2,2);
+\draw[-,very thick] (0,-2) to (0,2);
+\draw[-,very thick] (2,-2) to (2,2);
+\draw[-,very thin] (-2,2) to (0,0);
+\draw[-,very thin] (0,0) to (2,-2);
+\draw[-,very thin] (-2,0) to (0,-2);
+\draw[-,very thin] (0,2) to (2,0);
+\end{tikzpicture}}
+% \nfgame{T B L R TLR TLC BLR BLR TRR TRC BRR BRC}
+\newcommand{\nfgamebig}[1]{%
+\getargsC{#1}
+\begin{tikzpicture}[scale=0.65]
+\node (RT) at (-4,1) [label=left:\rowcolor{\argi}] {};
+\node (RB) at (-4,-1) [label=left:\rowcolor{\argii}] {};
+\node (CL) at (-1,4) [label=above:\columncolor{\argiii}] {};
+\node (CR) at (1,4) [label=above:\columncolor{\argiv}] {};
+\node (RTL) at (-2.4,0.6) {\rowcolor{\argv}}; % top/left row player payoff
+\node (CTL) at (-1.6,3.4) {\columncolor{\argvi}}; % top/left column player payoff
+\node (RBL) at (-2.4,-3.4) {\rowcolor{\argvii}};
+\node (CBL) at (-1.6,-0.6) {\columncolor{\argviii}};
+\node (RTR) at (1.6,0.6) {\rowcolor{\argix}};
+\node (CTR) at (2.3,3.4) {\columncolor{\argx}};
+\node (RBR) at (1.6,-3.4) {\rowcolor{\argxi}};
+\node (CBR) at (2.4,-0.6) {\columncolor{\argxii}};
+\draw[-,very thick] (-4,-4) to (4,-4);
+\draw[-,very thick] (-4,0) to (4,0);
+\draw[-,very thick] (-4,4) to (4,4);
+\draw[-,very thick] (-4,-4) to (-4,4);
+\draw[-,very thick] (0,-4) to (0,4);
+\draw[-,very thick] (4,-4) to (4,4);
+\draw[-,very thin] (-4,4) to (0,0);
+\draw[-,very thin] (0,0) to (4,-4);
+\draw[-,very thin] (-4,0) to (0,-4);
+\draw[-,very thin] (0,4) to (4,0);
+\end{tikzpicture}}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+\title{Homework 6}
+\author{Haukur Páll Jónsson\\
+Game Theory}
+
+\maketitle
+
+\begin{question}{1}
+TU game which is balanced must be cohesive.
+\end{question}
+\begin{answer}{a)}{Proof}
+
+Plan: Find definitions.
+Look at previous results
+Consider transformations/rewrites
+Write down the conclusion of the proof to begin with
+\end{answer}
+
+\begin{question}{2}
+Compare Shapley axioms to Banzhaf axioms
+\end{question}
+\begin{answer}{a)}{Proof}
+
+Plan: Find definitions.
+Consider how we look at them in class. There is a proof sketch on slides for one direction
+\end{answer}
+
+\begin{question}{3}
+Prgramming - bankruptcy game
+\end{question}
+\begin{answer}{a)}{Proof}
+
+This should include the example for bankruptcy games shown in class.
+\end{answer}
+
+\begin{question}{5}
+Improved Gale-Shapley algorithm
+\end{question}
+\begin{answer}{a)}{Proof}
+
+The question talks about fairness but the actual question is about whether this algorithm is stable, but does not ask us if it is "more fair" than the other one (according to what defintion).
+The algorithm is probably not stable or does not end.
+Need to pin point where in the algorithm it does not end.
+For the algorithm to end:
+1. You cannot propose/try (look at the definitions in the question) twice to the same person so the person can only reject each bidder once.
+2. In each round a proposal is made.
+
+\end{answer}
+
+\end{document}
