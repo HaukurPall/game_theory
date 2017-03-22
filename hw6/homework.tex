@@ -95,11 +95,17 @@ Game Theory}
 \maketitle
 
 \begin{question}{1}
-TU game which is balanced must be cohesive.
+TU game with which is balanced must be cohesive.
 \end{question}
 \begin{answer}{a)}{Proof}
 
+Balanced -> non-empty -> cohesive
+
+Given that core is non-empty => two results
+These results imply that every game that is balanced must be cohesive
 Plan: Find definitions.
+
+Cohesive: $N = C_1 \dotcup ... \dotcup C_k$ implies $v(N) \geq v(C_1) + ... + v(C_k)$
 Look at previous results
 Consider transformations/rewrites
 Write down the conclusion of the proof to begin with
@@ -108,12 +114,32 @@ Write down the conclusion of the proof to begin with
 \begin{question}{2}
 Compare Shapley axioms to Banzhaf axioms
 \end{question}
-\begin{answer}{a)}{Proof}
+\begin{answer}{a-d)}{Claim}
 
-Plan: Find definitions.
-Consider how we look at them in class. There is a proof sketch on slides for one direction
+I claim that the \textit{Banzhaf value} does not satisfy the axiom of \textit{efficiency} but the axioms of \textit{symmetry}, \textit{dummy player} and \textit{additivity} are satisfied. The \textit{Banzhaf value}:
+$$\beta_i(N,v)=\frac{1}{2^{n-1}}\cdot \sum{C \subset N \setminus \{i\}}{}{v(C \cup \{i\}) - v(\{i\})}$$
 \end{answer}
 
+\begin{answer}{a)}{Efficiency}
+Counter-example to \textit{efficiency}. \textit{Efficiency} is defined as: \\
+$$\sum{i \in N}{}{x_i(N,v)=v(N)}$$
+But consider the game presented on the slides: $N=\{1,2,3\}$ with $v(\{1\})=0$, $v(\{2\})=0$, $v(\{3\})=0$, $v(\{1,2\})=7$, $v(\{1,3\})=6$, $v(\{2,3\})=5$ and $v(N)=10$. Computing the \textit{Banzhaf value}: $\beta_1(N,v)=\frac{18}{4}$, $\beta_2(N,v)=\frac{16}{4}$ and $\beta_3(N,v)=\frac{14}{4}$. The sum is $\frac{48}{4}=12$ which is not equal to $v(N)=10$. Thus the \textit{Banzhaf value} is not \textit{efficient}.
+
+\end{answer}
+\begin{answer}{b)}{Symmetry}
+
+Now we show that the \textit{Banzhaf value} satisfies the axiom of \textit{symmetry}:
+$$\text{if }v(C \cup \{i\}) = v(C \cup \{j\}) \text{ for all } C \subset N \setminus \{i,j\} \text{, then } x_i(N,v)=x_j(N,v)$$
+Let us assume that $v(C \cup \{i\}) = v(C \cup \{j\})$ for all $C \subset N \setminus \{i,j\}$. Clearly $\sum{C \subset N \setminus \{i,j\}}{}{v(C)}=\sum{C \subset N \setminus \{i,j\}}{}{v(C)}$
+\end{answer}
+\begin{answer}{c)}{Dummy player}
+
+
+\end{answer}
+\begin{answer}{d)}{Additivity}
+
+
+\end{answer}
 \begin{question}{3}
 Prgramming - bankruptcy game
 \end{question}
