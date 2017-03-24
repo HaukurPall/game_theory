@@ -5,6 +5,7 @@
 \usepackage{tikz} % for drawing stuff
 \usepackage{xcolor} % for \textcolor{}
 \usepackage{readarray} % for \getargsC{}
+\usepackage{graphicx} % disjoint union
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
@@ -88,6 +89,16 @@
 \let\oldprod\prod
 \renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
 
+% Disjoint union
+\newcommand\Dunion{
+  \mathop{\mathchoice
+    {\ooalign{$\displaystyle\bigcup$\cr\hss\scalebox{.65}{\raisebox{0.45ex}{\sffamily +}}\hss}}
+    {\ooalign{$\textstyle\bigcup$\cr\hss\scalebox{.9}{\raisebox{0.5ex}{\tiny\sffamily +}}\hss}}
+    {\ooalign{$\scriptstyle\bigcup$\cr\hss\scalebox{.45}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    {\ooalign{$\scriptscriptstyle\bigcup$\cr\hss\scalebox{.38}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    }
+}
+
 \title{Homework 6}
 \author{Haukur Páll Jónsson\\
 Game Theory}
@@ -105,7 +116,7 @@ Given that core is non-empty => two results
 These results imply that every game that is balanced must be cohesive
 Plan: Find definitions.
 
-Cohesive: $N = C_1 \dotcup ... \dotcup C_k$ implies $v(N) \geq v(C_1) + ... + v(C_k)$
+Cohesive: $N = C_1 \Dunion ... \Dunion C_k$ implies $v(N) \geq v(C_1) + ... + v(C_k)$
 Look at previous results
 Consider transformations/rewrites
 Write down the conclusion of the proof to begin with
@@ -117,7 +128,7 @@ Compare Shapley axioms to Banzhaf axioms
 \begin{answer}{a-d)}{Claim}
 
 I claim that the \textit{Banzhaf value} does not satisfy the axiom of \textit{efficiency} but the axioms of \textit{symmetry}, \textit{dummy player} and \textit{additivity} are satisfied. The \textit{Banzhaf value}:
-$$\beta_i(N,v)=\frac{1}{2^{n-1}}\cdot \sum{C \subset N \setminus \{i\}}{}{v(C \cup \{i\}) - v(\{i\})}$$
+$$\beta_i(N,v)=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{v(C \cup \{i\}) - v(C)}$$
 \end{answer}
 
 \begin{answer}{a)}{Efficiency}
@@ -129,15 +140,37 @@ But consider the game presented on the slides: $N=\{1,2,3\}$ with $v(\{1\})=0$, 
 \begin{answer}{b)}{Symmetry}
 
 Now we show that the \textit{Banzhaf value} satisfies the axiom of \textit{symmetry}:
-$$\text{if }v(C \cup \{i\}) = v(C \cup \{j\}) \text{ for all } C \subset N \setminus \{i,j\} \text{, then } x_i(N,v)=x_j(N,v)$$
-Let us assume that $v(C \cup \{i\}) = v(C \cup \{j\})$ for all $C \subset N \setminus \{i,j\}$. Clearly $\sum{C \subset N \setminus \{i,j\}}{}{v(C)}=\sum{C \subset N \setminus \{i,j\}}{}{v(C)}$
+$$\text{if }v(C \cup \{i\}) = v(C \cup \{j\}) \text{ for all } C \subseteq N \setminus \{i,j\} \text{, then } x_i(N,v)=x_j(N,v)$$
+Let us assume that $v(C \cup \{i\}) = v(C \cup \{j\})$ for all $C \subseteq N \setminus \{i,j\}$.
+Also note that |$C'$|=|$C''$| where $C' \subseteq N \setminus \{j\}$ and $C'' \subseteq N \setminus \{i\}$. Thus we get:
+$$\sum{C \subseteq N \setminus \{i\}}{}{v(C \cup \{i\})}=\sum{C \subseteq N \setminus \{j\}}{}{v(C \cup \{j\})} \Leftrightarrow$$
+$$\sum{C \subseteq N \setminus \{i\}}{}{v(C \cup \{i\})-v(C)}=\sum{C \subseteq N \setminus \{j\}}{}{v(C \cup \{j\})-v(C)} \Leftrightarrow$$
+$$\frac{1}{2^{n-1}}\cdot\sum{C \subseteq N \setminus \{i\}}{}{v(C \cup \{i\})-v(C)}=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{j\}}{}{v(C \cup \{j\})-v(C)} \Leftrightarrow$$
+$$\beta_i(N,v)=\beta_j(N,v)$$
+
 \end{answer}
 \begin{answer}{c)}{Dummy player}
 
+Now we show that the \textit{Banzhaf value} satisfies the axiom of \textit{Dummy player}:
+$$\text{if } v(C \cup \{i\})-v(C)=v(\{i\}) \text{, }C \subseteq N \setminus \{i\}\text{,}$$
+$$\text{then } i \text{ is a dummy player s.t. } x_i(N,v)=v(\{i\})$$
+We assume $v(C \cup \{i\})-v(C)=v(\{i\})$
+$$\beta_i(N,v)=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{v(C \cup \{i\}) - v(C)}=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{v(\{i\})}$$
+Since $v(\{i\})$ is a constant and |$C$|$=2^{n-1}$ where $C \subseteq N \setminus \{i\}$ thus
+$$\beta_i(N,v)=\frac{2^{n-1}}{2^{n-1}}\cdot v(\{i\})=v(\{i\})$$
 
 \end{answer}
 \begin{answer}{d)}{Additivity}
 
+Now we show that the \textit{Banzhaf value} satisfies the axiom of \textit{Additivity}:
+$$x_i(N,v_1 + v_2)=x_i(N,v_1)+x_i(N,v_2)$$
+$$\text{for } [v_1 + v_2]:C \mapsto v_1(C) + v_2(C)$$
+\begin{align*}
+\beta_i(N,v_1+v_2)&=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{[v_1+v_2](C \cup \{i\}) - [v_1+v_2](C)} \\
+&=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{v_1(C \cup \{i\})+v_2(C \cup \{i\}) - v_1(C) -v_2(C)} \\
+&=\frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{v_1(C \cup \{i\}) - v_1(C)} + \frac{1}{2^{n-1}}\cdot \sum{C \subseteq N \setminus \{i\}}{}{v_2(C \cup \{i\}) - v_2(C)} \\
+&=\beta_i(N,v_1)+\beta_i(N,v_2)
+\end{align*}
 
 \end{answer}
 \begin{question}{3}
