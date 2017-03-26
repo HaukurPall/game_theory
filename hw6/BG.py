@@ -61,61 +61,6 @@ class BG:
         new_imputations[player_to_give_to] += adjustment_value
         return new_imputations
 
-    def adjust_imputation(self, imputations, complaints, adjustment_value):
-        # get all highest values
-        highest_complaint = complaints.index(max(complaints))
-        lowest_complaints = [i for i, x in enumerate(complaints) if x == min(complaints)]
-        highest_coalition = self.representations[highest_complaint]
-        lowest_coalitions = [self.representations[i] for i in lowest_complaints]
-
-        # we only consider coalitions in which actually lower the highest complaint
-        valid_lowest_coalitions = []
-        for coalition in lowest_coalitions:
-            for index, player in enumerate(coalition):
-                if highest_coalition[index] == 0 and player == 1:
-                    lowest_coalition = coalition
-                    break
-
-        average_highest_complaint = []
-        for index_of_highest_coalition_player, player in enumerate(highest_coalition):
-            sum_complaints = 0.0
-            if player == 1:
-                for coalition_index, coalition in enumerate(self.representations):
-                    if coalition[index_of_highest_coalition_player] == 1:
-                        sum_complaints += complaints[coalition_index]
-                average_highest_complaint.append(
-                    (index_of_highest_coalition_player, sum_complaints / int(math.pow(2, self.N - 1))))
-
-        average_lowest_complaint = []
-        for index_of_lowest_coalition_player, player in enumerate(lowest_coalition):
-            sum_complaints = 0.0
-            if player == 1:
-                for coalition_index, coalition in enumerate(self.representations):
-                    if coalition[index_of_lowest_coalition_player] == 1:
-                        sum_complaints += complaints[coalition_index]
-                average_lowest_complaint.append(
-                    (index_of_lowest_coalition_player, sum_complaints / int(math.pow(2, self.N - 1))))
-
-        give_to_player_index, give_value = min(average_highest_complaint, key=lambda t: t[1])
-        steal_from_player_index, steal_value = min(average_lowest_complaint, key=lambda t: t[1])
-
-        while highest_coalition[steal_from_player_index] == 1:
-            average_lowest_complaint.pop(average_lowest_complaint.index((steal_from_player_index, steal_value)))
-            steal_from_player_index, value = min(average_lowest_complaint, key=lambda t: t[1])
-
-        # if give_to_player_index == steal_from_player_index:
-        #    if len(average_lowest_complaint) != 1:
-        #        average_lowest_complaint.pop(average_lowest_complaint.index((steal_from_player_index, steal_value)))
-        #        steal_from_player_index, value = min(average_lowest_complaint, key = lambda t: t[1])
-        #    else:
-        #        average_highest_complaint.pop(average_highest_complaint.index((give_to_player_index, give_value)))
-        #        give_to_player_index, value = min(average_highest_complaint, key = lambda t: t[1])
-        #        adjustment_value /= 2.0
-
-        imputations[steal_from_player_index] -= adjustment_value
-        imputations[give_to_player_index] += adjustment_value
-        return imputations
-
 
 def k_nary(n, k, length, numbers=None):
     """
@@ -156,19 +101,6 @@ def use_look_ahead(bg, imputation, adjustment_value):
         complaints = bg.compute_complaints(imputation)
         new_imputation = bg.look_ahead(imputation, complaints, adjustment_value)
     return imputation
-
-
-def find_imputation(bg, end_imputation):
-    imputation = end_imputation.copy()
-    old_complaints = bg.compute_complaints(imputation)
-    new_complaints = old_complaints.copy()
-    while max(new_complaints) <= max(old_complaints):
-        end_imputation = imputation.copy()
-        old_complaints = new_complaints.copy()
-        new_imputation = bg.adjust_imputation(imputation, old_complaints, adjustment_value=1)
-        new_complaints = bg.compute_complaints(new_imputation)
-        imputation = new_imputation.copy()
-    return end_imputation
 
 
 if __name__ == "__main__":
