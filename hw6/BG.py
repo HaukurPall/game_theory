@@ -1,10 +1,10 @@
 import random, math, sys
 
-class BG:
 
+class BG:
     def __init__(self, debt, estate):
         self.debt = debt
-        self.estate= estate
+        self.estate = estate
         self.N = len(debt)
         self.valuations = []
         self.representations = []
@@ -33,6 +33,34 @@ class BG:
         print(complaints)
         return complaints
 
+    def look_ahead(self, imputations, complaints, adjustment_value):
+        high_complaints = [i for i, x in enumerate(complaints) if x >= max(complaints) - adjustment_value]
+        high_coalitions = [self.representations[i] for i in high_complaints]
+        high_players = []
+        for coalition in high_coalitions:
+            for player_index, player_included in enumerate(coalition):
+                if player_included == 1:
+                    high_players.append(player_index)
+        player_to_steal_from = -1
+        for x in range(0, self.N):
+            if x not in high_players:
+                player_to_steal_from = x
+                break
+        if player_to_steal_from == -1:
+            return imputations
+
+        # now we are only interested in a single high coalition
+        highest_coaltion = self.representations[complaints.index(max(complaints))]
+        player_to_give_to = -1
+        # we just grab a player from there
+        for player_index, player_included in enumerate(highest_coaltion):
+            if player_included == 1:
+                player_to_give_to = player_index
+        new_imputations = imputations.copy()
+        new_imputations[player_to_steal_from] -= adjustment_value
+        new_imputations[player_to_give_to] += adjustment_value
+        return new_imputations
+
     def adjust_imputation(self, imputations, complaints, adjustment_value):
         # get all highest values
         highest_complaint = complaints.index(max(complaints))
@@ -55,7 +83,8 @@ class BG:
                 for coalition_index, coalition in enumerate(self.representations):
                     if coalition[index_of_highest_coalition_player] == 1:
                         sum_complaints += complaints[coalition_index]
-                average_highest_complaint.append((index_of_highest_coalition_player, sum_complaints/ int(math.pow(2, self.N - 1))))
+                average_highest_complaint.append(
+                    (index_of_highest_coalition_player, sum_complaints / int(math.pow(2, self.N - 1))))
 
         average_lowest_complaint = []
         for index_of_lowest_coalition_player, player in enumerate(lowest_coalition):
@@ -64,17 +93,17 @@ class BG:
                 for coalition_index, coalition in enumerate(self.representations):
                     if coalition[index_of_lowest_coalition_player] == 1:
                         sum_complaints += complaints[coalition_index]
-                average_lowest_complaint.append((index_of_lowest_coalition_player, sum_complaints/ int(math.pow(2, self.N - 1))))
+                average_lowest_complaint.append(
+                    (index_of_lowest_coalition_player, sum_complaints / int(math.pow(2, self.N - 1))))
 
-
-        give_to_player_index, give_value = min(average_highest_complaint, key = lambda t: t[1])
-        steal_from_player_index, steal_value = min(average_lowest_complaint, key = lambda t: t[1])
+        give_to_player_index, give_value = min(average_highest_complaint, key=lambda t: t[1])
+        steal_from_player_index, steal_value = min(average_lowest_complaint, key=lambda t: t[1])
 
         while highest_coalition[steal_from_player_index] == 1:
             average_lowest_complaint.pop(average_lowest_complaint.index((steal_from_player_index, steal_value)))
-            steal_from_player_index, value = min(average_lowest_complaint, key = lambda t: t[1])
+            steal_from_player_index, value = min(average_lowest_complaint, key=lambda t: t[1])
 
-        #if give_to_player_index == steal_from_player_index:
+        # if give_to_player_index == steal_from_player_index:
         #    if len(average_lowest_complaint) != 1:
         #        average_lowest_complaint.pop(average_lowest_complaint.index((steal_from_player_index, steal_value)))
         #        steal_from_player_index, value = min(average_lowest_complaint, key = lambda t: t[1])
@@ -113,10 +142,20 @@ def k_nary(n, k, length, numbers=None):
 
 
 def main():
-    bg = BG([10, 20, 30], 36)
-    end_imputation = [10, 10, 16]
-    end_imputation = find_imputation(bg, end_imputation)
+    bg = BG([30, 30, 30], 89)
+    end_imputation = [89, 0, 0]
+    end_imputation = use_look_ahead(bg, end_imputation, 0.5)
     print(end_imputation)
+
+
+def use_look_ahead(bg, imputation, adjustment_value):
+    complaints = bg.compute_complaints(imputation)
+    new_imputation = bg.look_ahead(imputation, complaints, adjustment_value)
+    while new_imputation != imputation:
+        imputation = new_imputation
+        complaints = bg.compute_complaints(imputation)
+        new_imputation = bg.look_ahead(imputation, complaints, adjustment_value)
+    return imputation
 
 
 def find_imputation(bg, end_imputation):
