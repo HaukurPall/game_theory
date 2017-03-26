@@ -82,6 +82,8 @@
 \newenvironment{answer}[2][Answer]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
 \begin{document}
+% math enumerate
+\renewcommand{\theenumi}{\roman{enumi}}
 
 % Short hands
 \let\oldsum\sum
@@ -110,16 +112,15 @@ TU game with which is balanced must be cohesive.
 \end{question}
 \begin{answer}{a)}{Proof}
 
-Balanced -> non-empty -> cohesive
+Now we show that given a \textit{balanced} TU game we have a \textit{cohesive} TU game.
 
-Given that core is non-empty => two results
-These results imply that every game that is balanced must be cohesive
-Plan: Find definitions.
+Balanced: $\sum{C \subseteq N}{}{\lambda_C \cdot v(C)} \leq v(N)$ with $\lambda_C \in [0,1]$ and $\sum{C \subseteq N}{}{\lambda_C}=1$
 
 Cohesive: $N = C_1 \Dunion ... \Dunion C_k$ implies $v(N) \geq v(C_1) + ... + v(C_k)$
-Look at previous results
-Consider transformations/rewrites
-Write down the conclusion of the proof to begin with
+
+Assume $N' = C_1 \Dunion ... \Dunion C_k$ and $\sum{C \subseteq N'}{}{\lambda_C \cdot v(C)} \leq v(N')$
+
+Thus given $N = C_1 \Dunion ... \Dunion C_k$ and $\sum{C \subseteq N}{}{\lambda_C \cdot v(C)} \leq v(N)$ we have $v(N) \geq v(C_1) + ... + v(C_k)$
 \end{answer}
 
 \begin{question}{2}
@@ -179,6 +180,10 @@ Prgramming - bankruptcy game
 \begin{answer}{a)}{Proof}
 
 This should include the example for bankruptcy games shown in class.
+
+Imputation: Efficient (should equal total amount) + indv. rational (you should not be better off alone)
+The core: No coalition should want to break from the grand coalition. Find an imputation where this is true: sum x_i geq v(c) for all c
+Nucleius:
 \end{answer}
 
 \begin{question}{5}
@@ -186,7 +191,16 @@ Improved Gale-Shapley algorithm
 \end{question}
 \begin{answer}{a)}{Proof}
 
-The question talks about fairness but the actual question is about whether this algorithm is stable, but does not ask us if it is "more fair" than the other one (according to what defintion).
+The algorithm terminates in a finite number of times.
+-Needs argument. Finite combinations of proposals and each combination can only be tried once, by either agent.
+
+The algorithm does not always end in matchings for all agents. Counter-example.
+$$w_1:m_1 > m_2$$
+$$w_2:m_1 > m_2$$
+$$m_1:w_2 > w_1$$
+$$m_2:w_1 > w_2$$
+$w_1$ starts, proposes to $m_1$, is accepted. $m_2$ next, proposes to $w_1$, gets rejected. $w_2$ proposes to $m_1$, is accepted.
+
 The algorithm is probably not stable or does not end.
 Need to pin point where in the algorithm it does not end.
 For the algorithm to end:
