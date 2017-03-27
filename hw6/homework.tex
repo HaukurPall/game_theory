@@ -175,15 +175,11 @@ $$\text{for } [v_1 + v_2]:C \mapsto v_1(C) + v_2(C)$$
 
 \end{answer}
 \begin{question}{3}
-Prgramming - bankruptcy game
+Programming - bankruptcy game
 \end{question}
 \begin{answer}{a)}{Proof}
 
-This should include the example for bankruptcy games shown in class.
-
-Imputation: Efficient (should equal total amount) + indv. rational (you should not be better off alone)
-The core: No coalition should want to break from the grand coalition. Find an imputation where this is true: sum x_i geq v(c) for all c
-Nucleius:
+I did this question with Greg. See report.
 \end{answer}
 
 \begin{question}{5}
@@ -191,21 +187,29 @@ Improved Gale-Shapley algorithm
 \end{question}
 \begin{answer}{a)}{Proof}
 
-The algorithm terminates in a finite number of times.
--Needs argument. Finite combinations of proposals and each combination can only be tried once, by either agent.
+The algorithm terminates in a finite number of rounds. Consider the argument: There are finite many players. In each round a proposal is made. Each proposal can only be attempted once. For each player there are finitly many proposals available since there are finitly many players of the opposite sex, thus each player can only attempt finitly many times. Thus there are finite number of rounds.
 
-The algorithm does not always end in matchings for all agents. Counter-example.
+The algorithm does not always end in matchings for all agents. Counter-example:
 $$w_1:m_1 > m_2$$
 $$w_2:m_1 > m_2$$
 $$m_1:w_2 > w_1$$
 $$m_2:w_1 > w_2$$
-$w_1$ starts, proposes to $m_1$, is accepted. $m_2$ next, proposes to $w_1$, gets rejected. $w_2$ proposes to $m_1$, is accepted.
+With sequence $(w_1,m_2,w_2,m_2)$
 
-The algorithm is probably not stable or does not end.
-Need to pin point where in the algorithm it does not end.
-For the algorithm to end:
-1. You cannot propose/try (look at the definitions in the question) twice to the same person so the person can only reject each bidder once.
-2. In each round a proposal is made.
+$w_1$ starts, proposes to $m_1$, is accepted. $m_2$ next, proposes to $w_1$, gets rejected. $w_2$ proposes to $m_1$, is accepted. Thus $w_1$ cannot propose to $m_2$ since she already rejected him and $m_2$ will propose to $w_2$ but she will reject him. Thus $m_2$ and $w_1$ are not eligible to propose anymore and are not engaged.
+
+Now consider this counter-example to stability:
+$$w_1:m_1 > m_3 > m_2$$
+$$w_2:m_2 > m_1 > m_3$$
+$$w_3:m_1 > m_3 > m_2$$
+$$m_1:w_1 > w_2 > w_3$$
+$$m_2:w_1 > w_2 > w_3$$
+$$m_3:w_3 > w_1 > w_2$$
+With sequence $(m_2,w_2,w_3,m_3,m_3,w_2,m_1,m_2,w_2)$
+
+$m_2$ starts and proposes to $w_1$, is accepted. $w_2$ proposes to $m_2$, gets rejected. $w_3$ proposes to $m_1$, is accepted. $m_3$ proposes to $w_3$ and gets rejected. $m_3$ proposes to $w_1$, is accepted, $m_2$ and $w_1$ are now broken up. $w_2$ proposes to $m_1$, is accepted, $m_1$ and w_3$ are now broken up. $m_1$ propses to $w_1$, is accepted, $m_3$ and $w_1$ are now broken up. $m_2$ proposes to his only option, $w_3$ and is accepted. $w_2$ proposes to $m_3$, is accepted.
+
+Thus we are left with $\{(m_1, w_1), (m_2, w_3), (m_3, w_2)\}$ but in fact $\{(m_1, w_1), (m_2, w_2), (m_3, w_3)\}$ would be more stable.
 
 \end{answer}
 
