@@ -1,4 +1,6 @@
-import random, math, sys
+# Authors: Greg, Haukur and Silvan
+# Date: 28th March, 2017
+import math
 
 
 class BG:
