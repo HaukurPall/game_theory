@@ -114,13 +114,19 @@ TU game with which is balanced must be cohesive.
 
 Now we show that given a \textit{balanced} TU game we have a \textit{cohesive} TU game.
 
-Balanced: $\sum{C \subseteq N}{}{\lambda_C \cdot v(C)} \leq v(N)$ with $\lambda_C \in [0,1]$ and $\sum{C \subseteq N}{}{\lambda_C}=1$
+A \textit{balanced} TU game is a game which satisfies: $\sum{C \subseteq N}{}{\lambda_C \cdot v(C)} \leq v(N)$ with $\lambda_C \in [0,1]$ and $\sum{i \in C}{}{\lambda_C}=1$ for all players $i \in N$.
 
-Cohesive: $N = C_1 \Dunion ... \Dunion C_k$ implies $v(N) \geq v(C_1) + ... + v(C_k)$
+A \textit{cohesive} TU game is a game which satisfies: $N = C_1 \Dunion ... \Dunion C_k$ implies $v(N) \geq v(C_1) + ... + v(C_k)$
 
-Assume $N' = C_1 \Dunion ... \Dunion C_k$ and $\sum{C \subseteq N'}{}{\lambda_C \cdot v(C)} \leq v(N')$
-
-Thus given $N = C_1 \Dunion ... \Dunion C_k$ and $\sum{C \subseteq N}{}{\lambda_C \cdot v(C)} \leq v(N)$ we have $v(N) \geq v(C_1) + ... + v(C_k)$
+Assume we have a \textit{balanced} TU game, $(N,v)$. Further assume that $N = C_1 \Dunion ... \Dunion C_k$. Then we have
+$$v(N) \geq \sum{C_i =C_1}{C_k}{\lambda_{C_i} \cdot v(C_i)}$$
+We observe that, since there is no player in two coalitions then it is only possible that $\lambda_{C_i}=1$ in order to satisfy conditions for a balanced game. Thus we get:
+\begin{align*}
+v(N) &\geq \sum{C_i =C_1}{C_k}{\lambda_{C_i} \cdot v(C_i)} \\
+&= \sum{C_i =C_1}{C_k}{1 \cdot v(C_i)} \\
+&= v(C_1) + ... + v(C_k) \\
+\end{align*}
+Thus, $v(N) \geq v(C_1) + ... + v(C_k)$ given a \textit{balanced} TU game and $N = C_1 \Dunion ... \Dunion C_k$
 \end{answer}
 
 \begin{question}{2}
@@ -187,7 +193,7 @@ Improved Gale-Shapley algorithm
 \end{question}
 \begin{answer}{a)}{Proof}
 
-The algorithm terminates in a finite number of rounds. Consider the argument: There are finite many players. In each round a proposal is made. Each proposal can only be attempted once. For each player there are finitly many proposals available since there are finitly many players of the opposite sex, thus each player can only attempt finitly many times. Thus there are finite number of rounds.
+The algorithm terminates in a finite number of rounds. Consider the argument: There are finite many players. In each round a proposal is made. Each proposal can only be attempted once by either player. For each player there are finitly many proposals available since there are finitly many players of the opposite sex, thus each player can only attempt finitly many times. Thus there are finite number of rounds.
 
 The algorithm does not always end in matchings for all agents. Counter-example:
 $$w_1:m_1 > m_2$$
@@ -207,7 +213,7 @@ $$m_2:w_1 > w_2 > w_3$$
 $$m_3:w_3 > w_1 > w_2$$
 With sequence $(m_2,w_2,w_3,m_3,m_3,w_2,m_1,m_2,w_2)$
 
-$m_2$ starts and proposes to $w_1$, is accepted. $w_2$ proposes to $m_2$, gets rejected. $w_3$ proposes to $m_1$, is accepted. $m_3$ proposes to $w_3$ and gets rejected. $m_3$ proposes to $w_1$, is accepted, $m_2$ and $w_1$ are now broken up. $w_2$ proposes to $m_1$, is accepted, $m_1$ and w_3$ are now broken up. $m_1$ propses to $w_1$, is accepted, $m_3$ and $w_1$ are now broken up. $m_2$ proposes to his only option, $w_3$ and is accepted. $w_2$ proposes to $m_3$, is accepted.
+$m_2$ starts and proposes to $w_1$, is accepted. $w_2$ proposes to $m_2$, gets rejected. $w_3$ proposes to $m_1$, is accepted. $m_3$ proposes to $w_3$ and gets rejected. $m_3$ proposes to $w_1$, is accepted, $m_2$ and $w_1$ are now broken up. $w_2$ proposes to $m_1$, is accepted, $m_1$ and $w_3$ are now broken up. $m_1$ propses to $w_1$, is accepted, $m_3$ and $w_1$ are now broken up. $m_2$ proposes to his only option, $w_3$ and is accepted. $w_2$ proposes to $m_3$, is accepted.
 
 Thus we are left with $\{(m_1, w_1), (m_2, w_3), (m_3, w_2)\}$ but in fact $\{(m_1, w_1), (m_2, w_2), (m_3, w_3)\}$ would be more stable.
 
