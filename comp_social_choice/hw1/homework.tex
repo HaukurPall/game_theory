@@ -64,14 +64,14 @@ X=\{x_1,x_2,x_3,x_4\} \\
 \succ_4=(x_3,x_2,x_4,x_1)\\
 \succ_5=(x_4,x_3,x_2,x_1)\\
 \end{align*}
-We can see that $x_1$ will by the plurality rule and furthermore that $x_1$ also loses to all other candidates in pairwise majority contest.
+We can see that $x_1$ will win by the plurality rule and furthermore that $x_1$ also loses to all other candidates in pairwise majority contest, making her the condorcet loser.
 \end{answer}
 
 \begin{answer}{b)}{Proof}
 
-The \textit{Borda rule} never elects the \textit{Condorcet loser}. We show this by showing that in the scenario in which the condorcet loser gets most points, those points will never exceed the average number of points each candidate has. Since the condorcet loser has points less than the average then we can conclude that there is at least another candidate which has more points than the condorcet loser.
+The \textit{Borda rule} never elects the \textit{Condorcet loser}, $\ell$. We show this by showing that in the scenario in which the condorcet loser gets most points, those points will never exceed the average number of points each candidate has. Since the condorcet loser has less points than the average then we can conclude that there is at least another candidate which has more points than the condorcet loser and will thus always be voted before the condorcet loser.
 
-The total amount of points per voter is $\frac{(m-1)\cdot m}{2}$ thus the total is $\frac{(m-1)\cdot m\cdot n}{2}$. Then the average number of points per candidate is $\frac{(m-1)\cdot m\cdot n}{m\cdot 2}=\frac{(m-1)\cdot n}{2}$. Now we consider the scenario where a candidate, \mathcal{l}, gets maximal points, $(m-1) \cdot n$, this is not the condorcet loser, in fact it is the condorcet winner. Then we transform $\mathcal{l}$ to the condorcet loser by making \mathcal{l} lose in a pairwise majority contest for each other of the $m-1$ candidates. We do this by subtracting $ceil(n/2)$ points from \mathcal{l} for each candidate. We would need to subtract $n/2+1$ points in case $n$ is even thus we only consider n/2+1. Thus \mathcal{l} will have $(m-1) \cdot n - (n/2+1)\cdot (m-1)=(m-1)\cdot (n-n/2-1)=(m-1)\cdot (n/2-1)<\frac{(m-1)\cdot n}{2}$, that is, the condorcet loser will always have less than the average score. Thus we conclude that there must be another candidate that has more which will then always win by the borda rule before the condorcet loser.
+The total amount of points per voter is $\frac{(m-1)\cdot m}{2}$ thus the total is $\frac{(m-1)\cdot m\cdot n}{2}$. Then the average number of points per candidate is $\frac{(m-1)\cdot m\cdot n}{m\cdot 2}=\frac{(m-1)\cdot n}{2}$. Now we consider the scenario where a candidate, $\ell$, gets maximal points, $(m-1) \cdot n$, this is not the condorcet loser, in fact it is the condorcet winner. Then we transform $\ell$ to the condorcet loser by making $\ell$ lose in a pairwise majority contest for each other of the $m-1$ candidates. We do this by subtracting $ceil(n/2)$ points from $\ell$ for each candidate. We would need to subtract $n/2+1$ points in case $n$ is even thus we only consider n/2+1. Thus $\ell$ will have $(m-1) \cdot n - (n/2+1)\cdot (m-1)=(m-1)\cdot (n-n/2-1)=(m-1)\cdot (n/2-1)<\frac{(m-1)\cdot n}{2}$, that is, the condorcet loser will always have less than the average score. Thus we conclude that there must be another candidate that has more which will then always win by the borda rule before the condorcet loser.
 \end{answer}
 
 \begin{question}{2}
@@ -80,31 +80,31 @@ Explore a paper by Hervé Moulin
 \end{question}
 \begin{answer}{a)}{Bibliography}
 
-Moulin, H. (1988) Condorcet's principle implies the no show paradox. Journal of Economic Theory, 45(1), pp. 53-64. (doi:10.1016/0022-0531(88)90253-0)
+Moulin, H. (1988) Condorcet's principle implies the no show paradox. Journal of Economic Theory, 45(1), pp. 53-64.
 \end{answer}
 
 \begin{answer}{b)}{Search approach}
 
-I went to scholar.google.com and searched for "Hervé Moulin condorcet". This gave the paper immidietly.
+I went to scholar.google.com and searched for "Hervé Moulin condorcet". This gave the paper immidietly. After finding the paper, I tried different databases but they all provided to be more difficult to navigate than google scholar.
 \end{answer}
 
 \begin{answer}{c)}{Problem statement}
 
 Let $X=\{1, ..., m \}$ be a set of alternatives, $N=\{1, ..., n \}$ a set of voters. Let $\mathcal{L}(X)^n$ be the set of all profiles of all strict orderings of $n$ voters on $X$.
 
-If $F$ is a social choice function which select the condorcet winner from domain $\mathcal{L}(X)^n$ then there exists $i \in n$ and $\boldsymbol{x} \in \mathcal{L}(X)^n$ s.t. $i$ prefers $F(\boldsymbol{x}_{-i})$ to $F(\boldsymbol{x})$.
+If $F$ is a social choice function which select the condorcet winner from domain $\mathcal{L}(X)^n$, $|X|>3$ and $|N| \geq 25$ then there exists $i \in n$ and $\boldsymbol{x} \in \mathcal{L}(X)^n$ s.t. $i$ prefers $F(\boldsymbol{x}_{-i})$ to $F(\boldsymbol{x})$.
 \end{answer}
 
 \begin{answer}{d)}{Citings}
 
 Emerson, Peter, ed. Designing an all-inclusive democracy: Consensual voting procedures for use in parliaments, councils and committees. Springer Science \& Business Media, 2007. \href{https://books.google.nl/books?hl=en&lr=&id=9mM67vrwz64C&oi=fnd&pg=PR7&ots=4racgvSsRl&sig=UY4F1d51wmhIVBF9R7YL6Upf3j8#v=onepage&q&f=false}{Link}.
-He is a \href{https://www.researchgate.net/profile/Peter_Emerson/info}{political scientits}.
-The citation is due to the author talking about incompatibility between the Condorcet winning criterion and invulnerability.
+He is a \href{https://www.researchgate.net/profile/Peter_Emerson/info}{political scientist}.
+In his paper he citest Moulin\'s paper because he talking about the incompatibility between the Condorcet winning criterion and invulnerability when it comes to voting rules.
 
 Brandl, Florian, Felix Brandt, and Johannes Hofbauer. "Welfare maximization entices participation." arXiv preprint arXiv:1508.03538 (2015).
 \href{https://arxiv.org/pdf/1508.03538.pdf}{Link}.
-All of the authors of the paper are working in group of \href{http://dss.in.tum.de/staff/brandt.html}{Felix Brandt} a computer scientist.
-A result in the paper contrasted (they are similar) with H. Moulin's result.
+All of the authors of the paper are working in group of \href{http://dss.in.tum.de/staff/brandt.html}{Felix Brandt} a computer scientist and work in the computer science deparment.
+In this paper they are exploring different ways of talking about consensus between agents. Their result is then contrasted with Moulin\'s result.
 
 William MacAskill. Normative Uncertainty as a Voting Problem. Mind 2016; 125 (500): 967-1004.
 \href{https://academic.oup.com/mind/article-lookup/doi/10.1093/mind/fzv169}{Link}.
@@ -114,11 +114,16 @@ Referencing main result that any ''Condorcet Extension will violate the equivale
 
 \begin{question}{3}
 
-Minimizing regret. Let $X=\{1, ..., m \}$ be a set of alternatives, $N=\{1, ..., n \}$ a set of voters. Let $rank_i(k)$ be the number of the position alternative $k$ is in for voter $i$. If $k$ is the most prefered option of $i$ then $rank_i(k)=m-1$. Assuming we have a \textit{resulute} winner $x$ based on some preference order $p$ then we define the regret of $i$ as: $regret(i,x)=m-1-rank_i(x)$. Since the winner is equally probable to be in any position then the probability of being in each position is \frac{1}{m}. Thus we talk about the expected regret of $i$ as: \frac{1}{m}\cdot \sum{i=0}{m-1}{i}=\frac{1}{m}\cdot \frac{m}{2}\cdot (m-1)=1/2\cdot (m-1)$. Thus the expected average regret is: $\frac{\sum{i=1}{n}{1/2\cdot (m-1)}}{n}$
+Minimizing regret. Let $X=\{1, ..., m \}$ be a set of alternatives, $N=\{1, ..., n \}$ a set of voters. Let $rank_i(k)$ be the number of the position alternative $k$ is in for voter $i$. If $k$ is the most prefered option of $i$ then $rank_i(k)=m-1$. Assuming we have a \textit{resulute} winner $x$ based on some preference order $p$ then we define the regret of $i$ as: $regret(i,x)=m-1-rank_i(x)$. Since the winner is equally probable to be in any position then the probability of being in each position is $\frac{1}{m}$. Thus we talk about the expected regret of $i$ as:
+$$\frac{1}{m}\cdot \sum{i=0}{m-1}{i}$$
+$$=\frac{1}{m}\cdot \frac{m}{2}\cdot (m-1)$$
+$$=1/2\cdot (m-1)$$.
+Thus the expected average regret is:
+$$\frac{\sum{i=1}{n}{1/2\cdot (m-1)}}{n}$$
 \end{question}
 \begin{answer}{a)}{Voting rule minimizing regret}
 
-The voting rule which minimizes regret is the Borda rule. We can easily see that if we linearly transform the regret function s.t. we subract $m-1$ and get rid of the minus sign. By changing the sign our rule would have to maximize instead of minimizing, thus we have the borda rule.
+The voting rule which minimizes regret is the Borda rule. We can easily see that if we linearly transform the regret function s.t. we subract $m-1$ and get rid of the minus sign. By changing the sign our rule would have to maximize instead of minimizing. By doing these transformations we get exactly the Borda rule.
 
 Lets assume there is another rule which minimizes regret better than the borda rule. This implies that there is a collection of voters which prefer another alternative more (by the minimizing regret) than the one given by the borda rule, i.e. their regret would be less with another alternative. But this further implies that the winner would not be the one with maximal points in the borda rule. But we have previously showed that borda rule is the rule which minimizes regret, thus we have reached a contradiction. Therefore there cannot be another rule which minimizes regret better than the borda rule.
 \end{answer}
