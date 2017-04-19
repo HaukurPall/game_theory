@@ -59,6 +59,7 @@ Claim: \textit{Unanimous ranking} consensus criterion and \textit{discrete dista
 \end{answer}
 
 \begin{answer}{b)}{Distance}
+
 Claim: \textit{Unanimous winner} consensus criterion and \textit{swap distance} characterize the anti-plurality rule.
 
 \end{answer}
@@ -73,9 +74,10 @@ Claim: \textit{Unanimous winner} consensus criterion and \textit{swap distance} 
 \end{question}
 
 \begin{answer}{a)}{Proof}
-Claim: For $|X| = 3$ and $n$ voters and a voting rule which is \textit{anonymous} and \textit{neutral} it is not possible to get a three-way tie if $n\pmod 3=1$ or $n\pmod 3=2$.
 
-Let us first show that it is impossible to have a voting rule which satisfies anonymity and neutrality with $|X|=3$. Consider the \textit{condorcet paradox}:
+Claim: There is not rule which satisfies anonymity and neutrality with $|X|=3$ adn $n\pmod 3=0$ for all profiles.
+
+Consider the \textit{condorcet paradox}:
 
 \begin{align*}
 a \succ b \succ c \\
@@ -119,7 +121,7 @@ We order the ballots to achieve complete profiles, thus $m!^n \cdot n!$ combinat
 
 Cardinality of the codomain $2^X$:
 
-We consider resolute and non-resolute social choice functions. Thus the possbile outcomes of a function are:
+We consider resolute and non-resolute social choice functions. Thus the possible outcomes of a function are:
 
 $$\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m}$$
 
@@ -128,21 +130,21 @@ We do not need to order outcomes.
 Then the number of functions, given the cardinality of the domain and range (in our case the codomain is also the range), is:
 \begin{align*}
 |(2^X)|^{|\mathcal{L}(X)^n|}& \\
-&=($$\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{m!^n \cdot n!} \\
-&=($$\binom{3}{1} + \binom{3}{2} + \binom{3}{3})^{3!^3 \cdot 3!} \\
-&=($$3 + 3 + 1)^{3!^4}= 7^{6^4}=7^1296
+&=(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{m!^n \cdot n!} \\
+&=(\binom{3}{1} + \binom{3}{2} + \binom{3}{3})^{3!^3 \cdot 3!} \\
+&=(3 + 3 + 1)^{3!^4}= 7^{6^4}=7^1296
 \end{align*}
 
 
 \end{answer}
 \begin{answer}{b)}{Anonymous}
 
-An anonymous S.C.F. gives the same result, even though we order the ballots differently. Thus we consider all ordering of ballots as the same profile. Thus we divide the original domain cardinality by all possible ordering of ballots, $n!$ (or equvalently omit counting the orderings). This gives the number of functions as:
+An anonymous S.C.F. gives the same result, even though we order the ballots differently. Thus we consider all ordering of ballots as the same profile. Thus we divide the original domain cardinality by all possible ordering of ballots, $n!$ (or equivalently omit counting the orderings). This gives the number of functions as:
 $$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{n!}}=7^{6^3}$$
 \end{answer}
 \begin{answer}{c)}{Neutral}
 
-A neutral S.C.F. gives the same result, even though we change the labels of the candidates, on each induvidual ballot and the result. Thus we consider all ballots which we can premute to another ballot, via neutrality, as the same ballot. There are $m!$ permutations of each ballot which we can do thus we have the number of functions as:
+A neutral S.C.F. gives the same result, even though we change the labels of the candidates, on each individual ballot and the result. Thus we consider all ballots which we can permute to another ballot, via neutrality, as the same ballot. There are $m!$ permutations of each ballot which we can do thus we have the number of functions as:
 
 $$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{m!}}=7^{6^3}$$
 \end{answer}
@@ -165,25 +167,25 @@ $$(\binom{m}{1})^{m!^n \cdot n!}=3^{6^4}$$
 \begin{answer}{f)}{Resolute and Anonymous}
 
 We simply consider both restrictions at the same time and get:
-$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n!}=3^{6^3}$$
+$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n!}}=3^{6^3}$$
 \end{answer}
 \begin{answer}{g)}{Resolute and Neutral}
 
 Same argument.
 
-$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{m!}=3^{6^3}$$
+$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{m!}}=3^{6^3}$$
 \end{answer}
 \begin{answer}{h)}{Resolute, Anonymous and Neutral}
 
 Same argument.
 
-$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n! \cdot m!}=3^{6^2}$$
+$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n! \cdot m!}}=3^{6^2}$$
 \end{answer}
 \begin{question}{4}{Arrow\'s theorem}
 
 We replace the strictly stronger Pareto principle condition with a weaker condition of surjectivity.
 
-Let $F$ be a paretian S.C.F., $X$ the set of alternatives, $N$ the set of voters and \boldsymbol{R} an arbitrarly profile of ballots.
+Let $F$ be a paretian S.C.F., $X$ the set of alternatives, $N$ the set of voters and $\boldsymbol{R}$ an arbitrarly profile of ballots.
 \end{question}
 \begin{answer}{a)}{Proof}
 
@@ -191,17 +193,17 @@ I follow proof plan suggested in homework.
 
 Claim: Every Pareto resolute S.C.F. is surjective.
 
-It is always possible to construct a profile \boldsymbol{R} which, when mapped by $F$ can return all possible candidates (induvidually).
-Simply consider the profile in which all voters prefer $x$ the most. Now clearly, $\mathbf{N}^{\mathbf{F}}_{x\succ y}=N$ since $F$ is paritian it implies that no other candidate, $y$, can win. Therefore no other candidate than $x$ can win. Since $x$ is arbitrary candidate we can apply the argument to all candidates. Thus we can construct a profile in which any $x$ can win. Thus, every Pareto resolute S.C.F. is surjective.
+It is always possible to construct a profile $\boldsymbol{R}$ which, when mapped by $F$ can return all possible candidates (individually).
+Simply consider the profile in which all voters prefer $x$ the most. Now clearly, $\mathbf{N}^{\mathbf{F}}_{x\succ y}=N$ since $F$ is paretian it implies that no other candidate, $y$, can win. Therefore no other candidate than $x$ can win. Since $x$ is arbitrary candidate we can apply the argument to all candidates. Thus we can construct a profile in which any $x$ can win. Thus, every Pareto resolute S.C.F. is surjective.
 
 Claim: There exists a resolute surjective S.C.F. which is not paretian.
 
-Consider the \textit{Anti-plurality}, rule. It is surjective since, using a similar argument as above, we can construct \boldsymbol{R} in which some $x$ is at the bottom and all other candidates have at least 1 vote (making it resulute), thus $x$ wins by the rule. Since $x$ is arbitrary, we can make any $x$ win. Also in this case $\mathbf{N}^{\mathbf{F}}_{y\succ x}=N$ for all other candidates $y$ but $x$ wins thus the antecedent of the paretian condition is true but consequent is false. Therefore it is not partian. We can make the rule resolute by adding tiebreaker, for example a lexicographic tiebreaker.
+Consider the \textit{Anti-plurality}, rule. It is surjective since, using a similar argument as above, we can construct $\boldsymbol{R}$ in which some $x$ is at the bottom and all other candidates have at least 1 vote (making it resolute), thus $x$ wins by the rule. Since $x$ is arbitrary, we can make any $x$ win. Also in this case $\mathbf{N}^{\mathbf{F}}_{y\succ x}=N$ for all other candidates $y$ but $x$ wins thus the antecedent of the paretian condition is true but consequent is false. Therefore it is not paretian. We can make the rule resolute by adding tiebreaker, for example a lexicographic tiebreaker.
 \end{answer}
 \begin{answer}{b)}{Counter example}
 
 We show that there exists a S.C.F. which is resolute, independent and nondictatorial.
 
-Simply consider the \textit{anti-dictatorship} rule. Similarly to the dictatorship, we choose some $i \in \N$ to be a dictator for all profiles and then we select $i$'\s least prefered option, $F(R)=bot(R_i). It is clearly resolute. It is nondictatorial since for every profile \boldsymbol{R}, $F(R) \neq top(R_i)$. It is also independent since for any change of ordering of the winner, $x$ and some other candidate, $y$, which does not change their relative positions, $y$ cannot win. This is because since $x$ won, that candidate was at the bottom and $y$ can only be above $x$, should $y$ win then $y$ needs to be at the bottom. Therefore their relative positions would have to have changed in order for $y$ to win. There fore the anti-dictatorship rule is resolute, independent and nondictatorial.
+Simply consider the \textit{anti-dictatorship} rule. Similarly to the dictatorship, we choose some $i \in \N$ to be a dictator for all profiles and then we select $i$\'s least preferred option, $F(R)=bot(R_i)$. It is clearly resolute. It is nondictatorial since for every profile $\boldsymbol{R}$, $F(R) \neq top(R_i)$. It is also independent since for any change of ordering of the winner, $x$ and some other candidate, $y$, which does not change their relative positions, $y$ cannot win. This is because since $x$ won, that candidate was at the bottom and $y$ can only be above $x$, should $y$ win then $y$ needs to be at the bottom. Therefore their relative positions would have to have changed in order for $y$ to win. There fore the anti-dictatorship rule is resolute, independent and nondictatorial.
 \end{answer}
 \end{document}
