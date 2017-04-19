@@ -88,7 +88,7 @@ c \succ a \succ b \\
 b \succ c \succ a \\
 a \succ b \succ c \\
 \end{align*}
-Then the winner should be $c$ but if we apply neutrality then we get:
+Then the winner should be $c$ but if we apply anonimity then we get:
 \begin{align*}
 a \succ b \succ c \\
 c \succ a \succ b \\
@@ -137,26 +137,46 @@ Then the number of functions, given the cardinality of the domain and range (in 
 \end{answer}
 \begin{answer}{b)}{Anonymous}
 
-Since
+An anonymous S.C.F. gives the same result, even though we order the ballots differently. Thus we consider all ordering of ballots as the same profile. Thus we divide the original domain cardinality by all possible ordering of ballots, $n!$ (or equvalently omit counting the orderings). This gives the number of functions as:
+$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{n!}}=7^{6^3}$$
 \end{answer}
 \begin{answer}{c)}{Neutral}
 
+A neutral S.C.F. gives the same result, even though we change the labels of the candidates, on each induvidual ballot and the result. Thus we consider all ballots which we can premute to another ballot, via neutrality, as the same ballot. There are $m!$ permutations of each ballot which we can do thus we have the number of functions as:
 
+$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{m!}}=7^{6^3}$$
 \end{answer}
 \begin{answer}{d)}{Anonymous and Neutral}
 
+We simply consider both restrictions at the same time and get:
 
+$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{n! \cdot m!}}=7^{6^2}$$
 \end{answer}
-\begin{answer}{e)}{Resolute and Anonymous}
+\begin{answer}{e)}{Resolute}
 
+A resolute S.C.F. only gives outcomes which are a single candidate. Thus, from the original codomain argument we eliminate the possibilities of multiple winners so that the cardinality of the codomain becomes:
 
+$$\binom{m}{1}$$
+
+So the total number of functions becomes:
+
+$$(\binom{m}{1})^{m!^n \cdot n!}=3^{6^4}$$
 \end{answer}
-\begin{answer}{f)}{Resolute and Neutral}
+\begin{answer}{f)}{Resolute and Anonymous}
 
-
+We simply consider both restrictions at the same time and get:
+$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n!}=3^{6^3}$$
 \end{answer}
-\begin{answer}{g)}{Resolute, Anonymous and Neutral}
+\begin{answer}{g)}{Resolute and Neutral}
 
+Same argument.
 
+$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{m!}=3^{6^3}$$
+\end{answer}
+\begin{answer}{h)}{Resolute, Anonymous and Neutral}
+
+Same argument.
+
+$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n! \cdot m!}=3^{6^2}$$
 \end{answer}
 \end{document}
