@@ -53,19 +53,29 @@ Computational Social Choice}
 
 \begin{answer}{a)}{Consensus}
 
-Claim: \textit{Unanimous ranking} consensus criterion and \textit{discrete distance} characterize the anti-plurality rule.
+Claim: \textit{Unanimous loser} consensus criterion and the \textit{discrete distance} characterize the anti-plurality rule.
 
-
+Consider a profile in which $x$ (or a collection) is elected a anti-plurality winner, i.e. it is ranked last least often. Thus for all other candidates, $y$, which do not get elected they are ranked last more often than $x$. Therefore we can consider a unanimous loser consensus profile in which $x$ is the loser. The discrete distance between the consensus profile and the profile in which $x$ was elected the anti-plurality winner will be maximal since we always need to place $x$ last more often than any other candidate. If there were multiple winners, they will have the same maximal discrete distance.
 \end{answer}
 
 \begin{answer}{b)}{Distance}
 
-Claim: \textit{Unanimous winner} consensus criterion and \textit{swap distance} characterize the anti-plurality rule.
+Claim: \textit{Unanimous winner} consensus criterion and \textit{end-to-end distance} characterize the anti-plurality rule.
+
+
+The end-to-end distance between two profiles $\boldsymbol{R}$ and $\boldsymbol{R'}$ is:
+
+$$\sum{i \in \N}{}{dist_e(\boldsymbol{R_i}, \boldsymbol{R_i'})}$$
+
+And $dist_e(\boldsymbol{R_i}, \boldsymbol{R_i'})$ is defined as 1 iff $first(\boldsymbol{R_i}) \neq last(\boldsymbol{R_i'})$. 0 otherwise.
+
+Using a similar argument as above, we consider a unanimous winner consensus profile, $\boldsymbol{R}$, and compare it to some other profile, $\boldsymbol{R'}$. $\boldsymbol{R}$ with the lowest end-to-end distance to $\boldsymbol{R'}$ will be our winner. To see this simply observe that if $x$ is the unanimous winner in $\boldsymbol{R}$ and the end-to-end distance between $\boldsymbol{R}$ and $\boldsymbol{R'}$ was the least implies that $x$ needed to be removed from the last place least often, i.e. $x$ was last least often.
 
 \end{answer}
 
 \begin{answer}{c)}{Noise model}
 
+Any noise model in which the probability of vetoing the correct alternative is less than the probability of vetoing any other alternative.
 
 \end{answer}
 
@@ -90,7 +100,7 @@ c \succ a \succ b \\
 b \succ c \succ a \\
 a \succ b \succ c \\
 \end{align*}
-Then the winner should be $c$ but if we apply anonimity then we get:
+Then the winner should be $c$ but if we apply anonymity then we get:
 \begin{align*}
 a \succ b \succ c \\
 c \succ a \succ b \\
@@ -104,7 +114,7 @@ Claim: The \textit{plurality rule} satisfies anonymity and neutrality never retu
 
 It is easy to see that the plurality rule satisfies anonymity and neutrality. Let us now show that it is impossible to have a three-way tie with the plurality rule with $n\pmod 3=1$ or $n\pmod 3=2$ voters.
 
-Consider the total number of points available for the plurality rule for $n$ voters. It is $n$. If there is a three-way tie for $|X|=3$ the plurality rule it implies that those points are divided equally between all alternatives. Since only whole numbers are considered this can only be the case if $n\pmod 3=0$. In all other cases a three-way tie is impossible.
+Consider the total number of points available when using the plurality rule with $n$ voters. It is $n$. If there is a three-way tie for $|X|=3$ the plurality rule it implies that those points are divided equally between all alternatives. Since only whole numbers are considered this can only be the case if $n\pmod 3=0$. In all other cases a three-way tie is impossible since we cannot divide the points equally between the alternatives.
 \end{answer}
 
 \begin{question}{3}{Combinatorics}
@@ -118,6 +128,7 @@ Cardinality of the domain $\mathcal{L}(X)^n$:
 For each ballot we can order the $m$ alternatives, thus there are $m!$ combinations for each ballot.
 We have $n$ independent ballots, thus we have $m!^n$ combinations of ballots.
 We order the ballots to achieve complete profiles, thus $m!^n \cdot n!$ combinations of profiles. In these combinations there are profiles which ''look the same,, (for example, they contain exactly the same preference orders in order) but since we consider each ballot as unique, we count each of them.
+Similiarly we can permute each profile in $m!$ different ways, thus we get our total amount of profiles $m!^n \cdot n! \cdot m!$ combinations of profiles. Similarly as above, we will have many duplicates but since we need to consider each permuted profile as unique we count all of them.
 
 Cardinality of the codomain $2^X$:
 
@@ -130,9 +141,9 @@ We do not need to order outcomes.
 Then the number of functions, given the cardinality of the domain and range (in our case the codomain is also the range), is:
 \begin{align*}
 |(2^X)|^{|\mathcal{L}(X)^n|}& \\
-&=(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{m!^n \cdot n!} \\
-&=(\binom{3}{1} + \binom{3}{2} + \binom{3}{3})^{3!^3 \cdot 3!} \\
-&=(3 + 3 + 1)^{3!^4}= 7^{6^4}=7^1296
+&=(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{m!^n \cdot n! \cdot m!} \\
+&=(\binom{3}{1} + \binom{3}{2} + \binom{3}{3})^{3!^3 \cdot 3! \cdot 3!} \\
+&=(3 + 3 + 1)^{3!^5}= 7^{6^5}
 \end{align*}
 
 
@@ -140,19 +151,19 @@ Then the number of functions, given the cardinality of the domain and range (in 
 \begin{answer}{b)}{Anonymous}
 
 An anonymous S.C.F. gives the same result, even though we order the ballots differently. Thus we consider all ordering of ballots as the same profile. Thus we divide the original domain cardinality by all possible ordering of ballots, $n!$ (or equivalently omit counting the orderings). This gives the number of functions as:
-$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{n!}}=7^{6^3}$$
+$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n! \cdot m!}{n!}}=7^{6^4}$$
 \end{answer}
 \begin{answer}{c)}{Neutral}
 
 A neutral S.C.F. gives the same result, even though we change the labels of the candidates, on each individual ballot and the result. Thus we consider all ballots which we can permute to another ballot, via neutrality, as the same ballot. There are $m!$ permutations of each ballot which we can do thus we have the number of functions as:
 
-$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{m!}}=7^{6^3}$$
+$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n! \cdot m!}{m!}}=7^{6^4}$$
 \end{answer}
 \begin{answer}{d)}{Anonymous and Neutral}
 
 We simply consider both restrictions at the same time and get:
 
-$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n!}{n! \cdot m!}}=7^{6^2}$$
+$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n! \cdot m!}{n! \cdot m!}}=7^{6^3}$$
 \end{answer}
 \begin{answer}{e)}{Resolute}
 
@@ -162,30 +173,30 @@ $$\binom{m}{1}$$
 
 So the total number of functions becomes:
 
-$$(\binom{m}{1})^{m!^n \cdot n!}=3^{6^4}$$
+$$(\binom{m}{1})^{m!^n \cdot n! \cdot m!}=3^{6^5}$$
 \end{answer}
 \begin{answer}{f)}{Resolute and Anonymous}
 
 We simply consider both restrictions at the same time and get:
-$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n!}}=3^{6^3}$$
+$$(\binom{m}{1})^{\frac{m!^n \cdot n! \cdot m!}{n!}}=3^{6^4}$$
 \end{answer}
 \begin{answer}{g)}{Resolute and Neutral}
 
 Same argument.
 
-$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{m!}}=3^{6^3}$$
+$$(\binom{m}{1})^{\frac{m!^n \cdot n! \cdot m!}{m!}}=3^{6^4}$$
 \end{answer}
 \begin{answer}{h)}{Resolute, Anonymous and Neutral}
 
 Same argument.
 
-$$(\binom{m}{1})^{\frac{m!^n \cdot n!}{n! \cdot m!}}=3^{6^2}$$
+$$(\binom{m}{1})^{\frac{m!^n \cdot n! \cdot m!}{n! \cdot m!}}=3^{6^3}$$
 \end{answer}
 \begin{question}{4}{Arrow\'s theorem}
 
 We replace the strictly stronger Pareto principle condition with a weaker condition of surjectivity.
 
-Let $F$ be a paretian S.C.F., $X$ the set of alternatives, $N$ the set of voters and $\boldsymbol{R}$ an arbitrarly profile of ballots.
+Let $F$ be a paretian S.C.F., $X$ the set of alternatives, $N$ the set of voters and $\boldsymbol{R}$ an arbitrarly profile.
 \end{question}
 \begin{answer}{a)}{Proof}
 
@@ -193,7 +204,7 @@ I follow proof plan suggested in homework.
 
 Claim: Every Pareto resolute S.C.F. is surjective.
 
-It is always possible to construct a profile $\boldsymbol{R}$ which, when mapped by $F$ can return all possible candidates (individually).
+It is always possible to construct a profile $\boldsymbol{R}$ which, when mapped by $F$ resolutetsly returns any candidate.
 Simply consider the profile in which all voters prefer $x$ the most. Now clearly, $\mathbf{N}^{\mathbf{F}}_{x\succ y}=N$ since $F$ is paretian it implies that no other candidate, $y$, can win. Therefore no other candidate than $x$ can win. Since $x$ is arbitrary candidate we can apply the argument to all candidates. Thus we can construct a profile in which any $x$ can win. Thus, every Pareto resolute S.C.F. is surjective.
 
 Claim: There exists a resolute surjective S.C.F. which is not paretian.
