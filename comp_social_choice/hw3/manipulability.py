@@ -98,6 +98,7 @@ class Profile:
             return False
         for preference_order_index, preference_order in enumerate(self.list_of_preferences):
             for should_be_winner in possible_winners:
+                # if this voter wants this candidate to win
                 if preference_order.is_x_more_preferred_than_y(should_be_winner, winner):
                     possible_winners_excluding_current_one = copy.deepcopy(possible_winners).remove(should_be_winner) or []
                     new_preference_order, success = voting_rule.manipulate_order(preference_order,
@@ -112,7 +113,7 @@ class Profile:
                     new_profile = self.manipulate_preference_order(preference_order_index, new_preference_order)
                     new_scores = voting_rule.calculate_scores(new_profile)
                     new_winners = voting_rule.get_winners(new_scores)
-                    if winner in new_winners:
+                    if should_be_winner not in new_winners:
                         print("Old profile:")
                         print(self)
                         print("Old scores:")
@@ -121,7 +122,7 @@ class Profile:
                         print(new_profile)
                         print("New scores:")
                         print(new_scores)
-                        raise Exception("Old winner which is also in new winners")
+                        raise Exception("Should be winner not in new winners!")
                     return True
 
     def manipulate_preference_order(self, i, new_preference_order):
@@ -233,7 +234,7 @@ class BordaRule(VotingRule):
             scores = self.calculate_scores(profile)
             winners = self.get_winners(scores)
             # if we have successfully made the winner lose and our candidate win
-            if winner not in winners and candidate_which_should_win in winners:
+            if candidate_which_should_win in winners:
                 break
         if new_preference == preference_order:
             return new_preference, False
