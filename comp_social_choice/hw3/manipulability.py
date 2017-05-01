@@ -100,8 +100,10 @@ class Profile:
             for should_be_winner in possible_winners:
                 # if this voter wants this candidate to win
                 if preference_order.is_x_more_preferred_than_y(should_be_winner, winner):
-                    possible_winners_excluding_current_one = copy.deepcopy(possible_winners).remove(should_be_winner) or []
+                    possible_winners_excluding_current_one = copy.deepcopy(possible_winners)
+                    possible_winners_excluding_current_one.remove(should_be_winner)
                     new_preference_order, success = voting_rule.manipulate_order(preference_order,
+                                                                                 preference_order_index,
                                                                                  winner,
                                                                                  should_be_winner,
                                                                                  possible_winners_excluding_current_one,
@@ -114,6 +116,7 @@ class Profile:
                     new_scores = voting_rule.calculate_scores(new_profile)
                     new_winners = voting_rule.get_winners(new_scores)
                     if should_be_winner not in new_winners:
+                        print(str(should_be_winner) + " should have won, but did not")
                         print("Old profile:")
                         print(self)
                         print("Old scores:")
@@ -135,13 +138,16 @@ class VotingRule:
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return self.name
+
     def calculate_scores(self, profile):
         pass
 
     def get_possible_winners(self, candidate_scores, m):
         pass
 
-    def manipulate_order(self, preference_order, winner, candidate_which_should_win, possible_winners, profile):
+    def manipulate_order(self, preference_order, order_index, winner, candidate_which_should_win, possible_winners, profile):
         pass
 
     @staticmethod
@@ -159,9 +165,6 @@ class VotingRule:
         tie_losers = copy.deepcopy(winners)
         tie_losers.remove(first_winner)
         return first_winner, tie_losers
-
-    def __str__(self):
-        return self.name
 
 
 class PluralityRule(VotingRule):
@@ -186,7 +189,7 @@ class PluralityRule(VotingRule):
                 possible_winners.append(index)
         return possible_winners
 
-    def manipulate_order(self, preference_order, winner, candidate_which_should_win, possible_winners, profile):
+    def manipulate_order(self, preference_order, order_index, winner, candidate_which_should_win, possible_winners, profile):
         # if the candidate which we like the best is already at the top there is nothing we can do
         if preference_order.get_first_candidate() == candidate_which_should_win:
             return preference_order, False
@@ -220,7 +223,49 @@ class BordaRule(VotingRule):
                 possible_winners.append(index)
         return possible_winners
 
-    def manipulate_order(self, preference_order, winner, candidate_which_should_win, possible_winners, profile):
+    def manipulate_order(self, preference_order, order_index, winner, candidate_which_should_win, possible_winners, profile):
+        # we put candidates which have no chance winning at the top to begin with
+        new_preference = preference_order.get_copy()
+        for candidate in new_preference:
+            if candidate not in possible_winners and candidate != winner:
+                new_preference = new_preference.place_x_first(candidate)
+
+        new_preference = new_preference.place_x_first(candidate_which_should_win)
+        # now we need to check if our possible winner wins. We go through each permutation of possible winners at the bottom
+        for permutation in list(itertools.permutations(possible_winners)):
+            new_preference = new_preference.place_preferences_last(list(permutation))
+            new_profile = profile.manipulate_preference_order(order_index, new_preference)
+            scores = self.calculate_scores(new_profile)
+            winners = self.get_winners(scores)
+            # if we have successfully made our candidate win
+            if candidate_which_should_win in winners:
+                return new_preference, True
+        return preference_order, False
+
+class CopelandRule(VotingRule):
+    def __init__(self):
+        super().__init__("Copeland Rule")
+
+    def calculate_scores(self, profile):
+        candidate_scores = [0 for x in range(0, profile.get_number_of_candidates())]
+        for preference_order in profile:
+            score = profile.get_number_of_candidates() - 1
+            for candidate in preference_order:
+                candidate_scores[candidate] += score
+                score -= 2
+
+        return candidate_scores
+
+    def get_possible_winners(self, candidate_scores, m):
+        possible_winners = []
+        max_score = max(candidate_scores)
+        possible_winner_score = max_score - (2*m - 2)
+        for index, score in enumerate(candidate_scores):
+            if score >= possible_winner_score and score != max_score:
+                possible_winners.append(index)
+        return possible_winners
+
+    def manipulate_order(self, preference_order, order_index, winner, candidate_which_should_win, possible_winners, profile):
         # we put candidates which have no chance winning at the top to begin with
         new_preference = preference_order.get_copy()
         for candidate in new_preference:
@@ -231,15 +276,13 @@ class BordaRule(VotingRule):
         # now we need to check if our possible winner wins for each permutation of possible winners at the bottom
         for permutation in list(itertools.permutations(possible_winners)):
             new_preference = new_preference.place_preferences_last(list(permutation))
-            scores = self.calculate_scores(profile)
+            new_profile = profile.manipulate_preference_order(order_index, new_preference)
+            scores = self.calculate_scores(new_profile)
             winners = self.get_winners(scores)
             # if we have successfully made the winner lose and our candidate win
             if candidate_which_should_win in winners:
-                break
-        if new_preference == preference_order:
-            return new_preference, False
-        else:
-            return new_preference, True
+                return new_preference, True
+        return preference_order, False
 
 
 class Tests(unittest.TestCase):
@@ -250,8 +293,10 @@ class Tests(unittest.TestCase):
             Preference([0, 1])])
         plurality_rule = PluralityRule()
         borda_rule = BordaRule()
+        copeland_rule = CopelandRule()
         self.assertFalse(profile.is_manipulable(plurality_rule))
         self.assertFalse(profile.is_manipulable(borda_rule))
+        self.assertFalse(profile.is_manipulable(copeland_rule))
 
     def test_3x3(self):
         profile = Profile([
@@ -260,8 +305,10 @@ class Tests(unittest.TestCase):
             Preference([1, 0, 2])])
         plurality_rule = PluralityRule()
         borda_rule = BordaRule()
+        copeland_rule = CopelandRule()
         self.assertTrue(profile.is_manipulable(plurality_rule))
         self.assertTrue(profile.is_manipulable(borda_rule))
+        self.assertTrue(profile.is_manipulable(copeland_rule))
 
 
 if __name__ == "__main__":
