@@ -53,16 +53,15 @@ If both conditions hold for some voter, then declare manipulability. Otherwise, 
 a) The \textit{potential winner} is strictly preferred to the \textit{actual winner} by the voter under consideration.\\
 b) The \textit{potential winner} was not already ranked in the first position by the voter.\\
 If some condition fails to hold, move to next candidate. Otherwise, proceed in the following way:\\
-Move the \textit{potential winner} all the way to the top of the ballot under consideration. Put all the hopeless candidates (those who neither win nor are part of the \textit{potential winners} right below the candidate we are currently trying to promote. At the bottom of the ranking, moving the \textit{actual winner} successively one spot further back in the ranking. . If for some constellation the \textit{potential winner} manages to win instead of the \textit{
-actual winner}, declare the profile manipulable. If for all candidates and all voters thus considered such a constellation cannot be found, declare non-manipulability.\\
-Perhaps by way of clarification, we cannot simply put the \textit{actual winner} all the way to the bottom when checking for manipulability but need to proceed step-by-step because of situations like the following:\\
-Assume there are many candidates. The 3 candidates at the top of the Borda-score ranking - $A,B,C$ - have this many points:\\
-$A$ - $\alpha$\\
-$B$ - $\alpha-2$\\
-$C$ - $\alpha-1$\\
+Move the \textit{potential winner} all the way to the top of the ballot under consideration. Put all the hopeless candidates (those who neither win nor are part of the \textit{potential winners} right below the candidate we are currently trying to promote. At the bottom of the ranking try all possible permutations of ranking the remaining candidates. For each possible permutation compute the winner. If the \textit{potential winner} manages to win instead of the \textit{actual winner}, declare the profile manipulable. If for all candidates and all voters thus considered such a permutation cannot be found, declare non-manipulability.\\
+Perhaps by way of clarification, we cannot simply put the \textit{actual winner} all the way to the bottom when checking for manipulability but need to proceed by considering the permutations one-by-one because of situations like the following:\\
+Assume there are five candidates. The three candidates at the top of the Borda-score ranking - $A,B,C$ - have this many points:\\
+$A$: $\alpha$\\
+$B$: $\alpha-2$\\
+$C$: $\alpha-1$\\
 Voter $i$ has the following ranking:\\
-$\text{some candidate}\succ B \succ A \succ \text{some candidate} \succ C \succ \text{some candidate} \succ ...$\\
-By moving $B$ to the top, $B$ now has $\alpha-1$ many points. If $i$ moves $A$ back one spot, then $A$ now has $\alpha-1$ points too (we could define this as having manipulated successfully, since the winner now depends on the tie breaking we perform). But if $i$ were to move $A$ further back still, then $C$ would have to move up, thus obtaining $\alpha$ many points and winning clearly. But $C$ is dispreferred by $i$, so this manipulation is not desirable for him.\\ In order to exclude cases like this one, we therefore need to move the \textit{actual winner} back cautiously and check at each step what with the other candidates happens that are in strikin distance of becoming the winners. On the other hand, we can move $B$ up with no further considerations, because this will at most hurt other candidates' Borda-score.
+$\text{some candidate}\succ B \succ A \succ \text{some candidate} \succ C $\\
+By moving $B$ to the top, $B$ now has $\alpha-1$ many points. If $i$ moves $A$ back one spot, then $A$ now has $\alpha-1$ points too. We define this as having manipulated successfully, since the winner now depends on the tie breaking we perform. But if $i$ were to move $A$ further back still, then $C$ would have to move up, thus obtaining $\alpha$ many points and winning clearly. But $C$ is dispreferred by $i$, so this manipulation is not desirable for her.\\ In order to exclude cases like this one, we therefore need to check at each step what happens with the other candidates that could also become winners. On the other hand, we can move $B$ up with no further considerations, because this will at most hurt other candidates' Borda-score.
 \item 3. If we find one candidate in the \textit{possible winners} that a) some voter prefers to actual winner b) will become the winner by moving him to the top and the \textit{actual winner} at some spot behind what he previously occupied, then declare the profile manipulable. Otherwise, declare it non-manipulable.
 \end{enumerate}
 \item \textit{Copeland}: This works essentially the same as what we use for Borda-manipulability. The only difference is that, instead of the Borda scoring vector, we use the one we induced to determine the winner for the specific profile under consideration.
