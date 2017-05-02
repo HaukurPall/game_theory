@@ -141,6 +141,9 @@ class VotingRule:
     def __str__(self):
         return self.name
 
+    def get_number(self):
+        pass
+
     def calculate_scores(self, profile):
         pass
 
@@ -170,6 +173,9 @@ class VotingRule:
 class PluralityRule(VotingRule):
     def __init__(self):
         super().__init__("Plurality rule")
+
+    def get_number(self):
+        return 0
 
     def calculate_scores(self, profile):
         candidate_scores = [0 for x in range(0, profile.get_number_of_candidates())]
@@ -203,6 +209,9 @@ class PluralityRule(VotingRule):
 class BordaRule(VotingRule):
     def __init__(self):
         super().__init__("Borda rule")
+
+    def get_number(self):
+        return 1
 
     def calculate_scores(self, profile):
         candidate_scores = [0 for x in range(0, profile.get_number_of_candidates())]
@@ -246,6 +255,9 @@ class CopelandRule(VotingRule):
     def __init__(self):
         super().__init__("Copeland Rule")
 
+    def get_number(self):
+        return 2
+
     def calculate_scores(self, profile):
         candidate_scores = [0 for x in range(0, profile.get_number_of_candidates())]
         for preference_order in profile:
@@ -259,7 +271,7 @@ class CopelandRule(VotingRule):
     def get_possible_winners(self, candidate_scores, m):
         possible_winners = []
         max_score = max(candidate_scores)
-        possible_winner_score = max_score - (2*m - 2)
+        possible_winner_score = max_score - 2*(m - 2)
         for index, score in enumerate(candidate_scores):
             if score >= possible_winner_score and score != max_score:
                 possible_winners.append(index)
@@ -311,8 +323,45 @@ class Tests(unittest.TestCase):
         self.assertTrue(profile.is_manipulable(copeland_rule))
 
 
+def generate_profiles(number_of_voters=10, number_of_candidates=3, number_of_profiles=10):
+    profiles = []
+    for profile in range(0, number_of_profiles):
+        profiles.append(Profile.generate_random_profile(number_of_voters, number_of_candidates))
+    return profiles
+
+
+def main():
+    number_of_candidates = 6
+    number_of_profiles = 100
+    number_of_voters = 10
+    plurality_rule = PluralityRule()
+    borda_rule = BordaRule()
+    copeland_rule = CopelandRule()
+    with open("data.txt", "a") as file:
+        file.write("rule, voters, candidates, manipulable\n")
+        while number_of_voters <= 1000:
+            profiles = generate_profiles(number_of_voters, number_of_candidates, number_of_profiles)
+            for profile in profiles:
+                if profile.is_manipulable(plurality_rule):
+                    file.write(str(plurality_rule) + " " + str(number_of_voters) + " " + str(number_of_candidates) + " " + "1")
+                else:
+                    file.write(str(plurality_rule) + " " + str(number_of_voters) + " " + str(number_of_candidates) + " " + "0")
+                file.write("\n")
+                if profile.is_manipulable(borda_rule):
+                    file.write(str(borda_rule) + " " + str(number_of_voters) + " " + str(number_of_candidates) + " " + "1")
+                else:
+                    file.write(str(borda_rule) + " " + str(number_of_voters) + " " + str(number_of_candidates) + " " + "0")
+                file.write("\n")
+                if profile.is_manipulable(copeland_rule):
+                    file.write(str(copeland_rule) + " " + str(number_of_voters) + " " + str(number_of_candidates) + " " + "1")
+                else:
+                    file.write(str(copeland_rule) + " " + str(number_of_voters) + " " + str(number_of_candidates) + " " + "0")
+                file.write("\n")
+            number_of_voters += 10
+
 if __name__ == "__main__":
     unittest.main()
+    main()
 # Steps:
 # 1. Generate the profiles for various n.
 # 2. Algorithm to determine winner under each rule
