@@ -86,20 +86,27 @@ Figures $1$ and $2$ show the frequencies of manipulable profiles for $100$ profi
 \includegraphics[scale=0.35]{6candidates}
 \end{SCfigure}
 
-As the plots already give away, there is no difference discernible between the Borda and the Copeland manipulability. We therefore present them together.
+As the plots already give away, there is no difference discernible between the Borda and the Copeland manipulability. We therefore present them together. 
 
-\begin{table}[]
+The following table summarizes the two plots by giving the average fraction of manipulable profiles across all number of voters for the voting rules.
+
+\begin{table}[h]
 \centering
-\caption{My caption}
+\caption{Average Manipulable Fraction of Profiles for $3$ and $6$ Candidates}
 \label{my-label}
 \begin{tabular}{|l|l|l|}
 \hline
                & Average Manipulable Fraction: 3 Candidates & Average Manipulable Fraction: 6 Candidate \\ \hline
 Plurality      & $0.1195$                                   & $0.2264$                                  \\ \hline
-Borda/Copeland & $0.75$                                     & $0.1634$                                  \\ \hline
+Borda/Copeland & $0.075$                                     & $0.1634$                                  \\ \hline
 \end{tabular}
 \end{table}
 
+The data suggests that the more voters a profile has, the less prone to manipulation it becomes. This is indicated by both Figure $1$ and $2$ where the fraction of manipulable profiles clearly decreases for all voting rules as we increase the number of voters. Intuitively this accords well our choice to focus on the scoring-aspect of voting rules in our construction of algorithms in Section 2. The more voters there are, the more points can be handed out. The more points distributed across the candidates, the bigger the variance between the candidates' final score is likely to be. But if these distances are great, it becomes harder for individual voters to manipulate the outcomes. Thus, we see a decrease in manipulability for higher number of voters; or so our attempt at explaining the data goes.
+
+A second observation concerns the effect the number of candidates has on manipulability. The Table $1$ provides some, albeit very limited, evidence that more candidates imply increased manipulability. Whereas for $3$ candidates the average fraction of manipulable profiles under the plurality rule is at roughly $0.12$, for $6$ candidates the number is almost around $10$ percentage points higher. For Borda and Copeland the difference is even more marked. For $6$ candidates the fraction is more than double as big.
+
+Lastly, our data gives good evidence that Copeland and Borda manipulability are highly correlated, if not completely equivalent. At least for the data generated and analyzed a profile was always manipulable under both Borda and Copeland or under none of the two. This either points to a fundamental similarity of the two or to a flaw in the construction of our algorithms.
 \subsection{Logistic Regression}
 We used the algorithms described earlier to generate a large amount of data on manipulability. Next, we would like to know how probable it is that a profile with a given number of candidates and voters is manipulable under our three voting rules. Furthermore, we would like to compare the impact the choice of voting rule has on manipulability and how high our confidence in this impact should be as compared to pure accident. Finally, we would like to compare the importance of voting rules with respect to man...(line truncated)...
 
