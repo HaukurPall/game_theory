@@ -23,25 +23,40 @@ class Preference:
     def __getitem__(self, index):
         return self.preference_order[index]
 
+    """
+    Generates a random preference order over a uniform distribution.
+    """
     @staticmethod
     def generate_random_preference_order(m):
         preference_set = set([x for x in range(0, m)])
         preference_list = random.sample(preference_set, m)
         return Preference(preference_list)
 
+    """
+    Returns True if x is more preferred than y
+    """
     def is_x_more_preferred_than_y(self, x, y):
         return self.preference_order.index(x) < self.preference_order.index(y)
 
+    """
+    Returns a new preference order in which x has been placed first
+    """
     def place_x_first(self, x):
         old_order = copy.deepcopy(self.preference_order)
         old_order.remove(x)
         return Preference([x] + old_order)
 
+    """
+    Returns a new preference order in which x has been placed last
+    """
     def place_x_last(self, x):
         old_order = copy.deepcopy(self.preference_order)
         old_order.remove(x)
         return Preference(old_order + [x])
 
+    """
+    Returns a new preference order in which the list of preference order has been placed last
+    """
     def place_preferences_last(self, list_of_preferences):
         old_order = copy.deepcopy(self.preference_order)
         for preference in list_of_preferences:
@@ -76,6 +91,9 @@ class Profile:
     def __getitem__(self, index):
         return self.list_of_preferences[index]
 
+    """
+    Generate a random profile with n voters and m alternatives
+    """
     @staticmethod
     def generate_random_profile(n, m):
         list_of_preferences = []
@@ -86,6 +104,9 @@ class Profile:
     def get_number_of_candidates(self):
         return self.list_of_preferences[0].get_number_of_candidates()
 
+    """
+    Returns True if profile is manipulable with given voting rule
+    """
     def is_manipulable(self, voting_rule):
         scores = voting_rule.calculate_scores(self)
 
@@ -102,6 +123,7 @@ class Profile:
                 if preference_order.is_x_more_preferred_than_y(should_be_winner, winner):
                     possible_winners_excluding_current_one = copy.deepcopy(possible_winners)
                     possible_winners_excluding_current_one.remove(should_be_winner)
+                    # can the voting rule manipulate this preference order s.t. the should_be_winner wins?
                     new_preference_order, success = voting_rule.manipulate_order(preference_order,
                                                                                  preference_order_index,
                                                                                  winner,
@@ -115,6 +137,7 @@ class Profile:
                     new_profile = self.manipulate_preference_order(preference_order_index, new_preference_order)
                     new_scores = voting_rule.calculate_scores(new_profile)
                     new_winners = voting_rule.get_winners(new_scores)
+                    # Sanity check
                     if should_be_winner not in new_winners:
                         print(str(should_be_winner) + " should have won, but did not")
                         print("Old profile:")
@@ -128,6 +151,9 @@ class Profile:
                         raise Exception("Should be winner not in new winners!")
                     return True
 
+    """
+    Return new profile in which we have swapped out preference order of voter i with a new_preference_order
+    """
     def manipulate_preference_order(self, i, new_preference_order):
         new_list = copy.deepcopy(self.list_of_preferences)
         new_list[i] = new_preference_order
@@ -144,15 +170,28 @@ class VotingRule:
     def get_number(self):
         pass
 
+    """
+    Return a list of scores for the candidates
+    """
     def calculate_scores(self, profile):
         pass
 
+    """
+    Returns a list of possible winners, the candidates with scores in a 'striking distance' of the winners
+    """
     def get_possible_winners(self, candidate_scores, m):
         pass
 
+    """
+    Returns True and a new preference order if we can manupulate the preference order s.t. our possible winner wins,
+    False and the old preference order if it cannot
+    """
     def manipulate_order(self, preference_order, order_index, winner, candidate_which_should_win, possible_winners, profile):
         pass
 
+    """
+    Returns a list of winners, the candidates which have the highest scores
+    """
     @staticmethod
     def get_winners(candidate_scores):
         winners = []
@@ -162,6 +201,9 @@ class VotingRule:
                 winners.append(index)
         return winners
 
+    """
+    Returns a winner using a tiebreaker (lexicographically)
+    """
     @staticmethod
     def break_ties(winners):
         first_winner = min(winners)
@@ -250,6 +292,7 @@ class BordaRule(VotingRule):
             if candidate_which_should_win in winners:
                 return new_preference, True
         return preference_order, False
+
 
 class CopelandRule(VotingRule):
     def __init__(self):
@@ -362,51 +405,3 @@ def main():
 if __name__ == "__main__":
     unittest.main()
     main()
-# Steps:
-# 1. Generate the profiles for various n.
-# 2. Algorithm to determine winner under each rule
-# 3. Find some algorithm to check for manipulablity under each voting rule.
-# 4. Draw sample from profiles generated, look at manipulable fraction, do statistical tests to determine whether difference is significant.
-
-# 1. Generate profiles
-# for n voters, x candidates. profile =  x * n array.
-# 1st item in row is most preferred etc.
-
-# 2. Determine winner under Plurality, Copeland and Borda
-# Borda: assign each candidate a counter. move through array and update counter with Borda-vector values. pick candidate with maximal number (tie breaking?)
-# Plurality: assign each candidate a counter. move through rows of array and give first candidate one point. pick candidate with maximal number (tie breaking?)
-# Copeland: assign each candidate a counter. move through rows of array in following way:
-# give first candidate x-1 points, give all candidates from second place onwards -1 point.
-# give second candidate x-2 points, give all candidates from third place onwards -1 point.
-# ...
-# give last candidate x-x=0 points, assign nobody negative points, move to next row until all rows completed
-# the candidate with most points wins (tie breaking?)
-
-# 3. algorithm to check whether some player stands to benefit from manipulating the vote (for given profile and rule)
-# Plurality:
-# look at candidate count: if margin of victory > 1, declare profile not manipulable (no single player can change anything)
-# if margin of victory < 2, note who lost and look at all voter's profile in following way:
-# if rank of 2nd > actual winner's rank, declare profile manipulable
-# otherwise move to next voter
-# if no voter can manipulate, declare profile not manipulable
-
-# Borda:
-# look at candidate count: if margin of victory > x-1, declare profile not manipulable (no single player can change anything about winner because maximal 'distance in her ranking is x-1)
-# if margin of victory <= x-1, note who was within x-2 of the actual winner and put them in (LOSERS) set. not what the margin of victory (mov) was with respect to them. then look at all voter's 			profile:
-# start with first ranked candidate: if candidate = winner, move to next voter. otherwise, move to second ranked candidate for same voter:
-# if that candidate is ranked higher than winner & in LOSERS, then check winner's rank: if (mov) of winner wrt to second candidate <= 1+ (x-rank of winner), then declare profile manipulable. 			(1 for putting second placed candidate on top, (x-rank of winner) for putting winner at the bottom). otherwise, move to third ranked candidate:
-# if that candidate is ranked higher than winner & in LOSERS, then check winner's rank: if (mov) of winner wrt to third candidate <= 2+ (x-rank of winner), then declare profile manipulable. 			(2 for putting third placed candidate on top, (x-rank of winner) for putting winner at the bottom). otherwise, move to forth ranked candidate:
-# etc.
-# if, for all voters, no candidate fullfils all three criteria (candidate ranked higher than winner, in LOSERS, within manipulable range), declare profile not manipulable
-
-# Copeland:
-#
-#
-#
-#
-#
-
-
-# 4. Draw sufficiently large sample of profiles for varying n.
-# Run all profiles in sample through 2. and 3. for each rule. Note fraction that are manipulable for each.
-# Do statistical test for significance of difference in fraction of manipulable between the three. (unsure how to do a three-way test still. see: http://isites.harvard.edu/fs/docs/icb.topic576892.files/15Anova.pdf)
