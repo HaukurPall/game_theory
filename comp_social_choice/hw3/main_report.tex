@@ -46,7 +46,7 @@ Given some profile $\mathbf{R}$ we determined the winner by assigning each candi
 \noindent The algorithms to determine the manipulability run as follows:\\
 \begin{itemize}
 \item \textit{Plurality}: \begin{enumerate}
-\item  Compute the respective margin of victory (MOV) between \textit{actual winner} and all other candidates. If MOV$>1$ for all candidates, then declare the profile-rule pair non-manipulable. (One invdividual voter whose first option is not the winner can at most 'push' another candidate by $1$ point. If the MOV is larger than this she can not manipulate successfully.) Put all the candidates for whome MOV$<2$ in a set of \textit{potential winners}. These are the candidates in 'striking distance' who could still be manipulated into winning.
+\item  Compute the respective margin of victory (MOV) between \textit{actual winner} and all other candidates. If MOV$>1$ for all candidates, then declare the profile-rule pair non-manipulable. (One invdividual voter whose first option is not the winner can at most 'push' another candidate by $1$ point. If the MOV is larger than this she can not manipulate successfully.) Put all the candidates for whom MOV$<2$ in a set of \textit{potential winners}. These are the candidates in 'striking distance' who could still be manipulated into winning.
 \item For all candidates in \textit{potential winners} look at each voter's profile and see if two conditions hold: \\
 a) The \textit{potential winner} is strictly preferred to the \textit{actual winner} by the voter under consideration.\\
 b) The \textit{potential winner} was not already ranked in the first position by the voter.\\
@@ -72,5 +72,5 @@ By moving $B$ to the top, $B$ now has $\alpha-1$ many points. If $i$ moves $A$ b
 \item \textit{Copeland}: This works essentially the same as what we use for Borda-manipulability. The only difference is that, instead of the Borda scoring vector, we use the one we induced to determine the winner for the specific profile under consideration.
 \end{itemize}
 \section{Descriptive Analysis \& Logistic Regression}
-\section{Discussion \& Conlcusion}
+\section{Discussion \& Conclusion}
 \end{document}
