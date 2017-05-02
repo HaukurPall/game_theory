@@ -17,8 +17,8 @@
 \usepackage{float}
 \usepackage{bm}
 \usepackage{graphicx}
-%\graphicspath{ {/home/sh/Desktop/CSC/CSC_HW/miniproject/} }
-%\graphicspath{{images/png}}
+\graphicspath{ {/home/sh/Desktop/CSC/CSC_HW/miniproject/images/} }
+\usepackage[rightcaption]{sidecap}
 \usepackage[normalem]{ulem}
 \date{}
 \begin{document}
@@ -74,9 +74,32 @@ By moving $B$ to the top, $B$ now has $\alpha-1$ many points. If $i$ moves $A$ b
 \item \textit{Copeland}: This works essentially the same as what we use for Borda-manipulability. The only difference is that, instead of the Borda scoring vector, we use the one we induced to determine the winner for the specific profile under consideration.
 \end{itemize}
 \section{Descriptive Analysis \& Logistic Regression}
-Figures ... show the frequencies of manipulable profiles for $100$ profiles between $10$ and $1000$ voters.
+Figures $1$ and $2$ show the frequencies of manipulable profiles for $100$ profiles between $10$ and $1000$ voters.
 \subsection{Descriptive Analysis}
-%\includegraphics[scale=•]{6candidates}
+\begin{SCfigure}[0.5][h]
+\caption{Fraction of manipulable profiles on the x-axis plotted against the number of voters on the y-axis, for each voting rule. Each datapoint represents $100$ profiles for $3$ candidates.}
+\includegraphics[scale=0.35]{3candidates}
+\end{SCfigure}
+
+\begin{SCfigure}[0.5][h]
+\caption{Fraction of manipulable profiles on the x-axis plotted against the number of voters on the y-axis, for each voting rule. Each datapoint represents $100$ profiles for $6$ candidates.}
+\includegraphics[scale=0.35]{6candidates}
+\end{SCfigure}
+
+As the plots already give away, there is no difference discernible between the Borda and the Copeland manipulability. We therefore present them together.
+
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{|l|l|l|}
+\hline
+               & Average Manipulable Fraction: 3 Candidates & Average Manipulable Fraction: 6 Candidate \\ \hline
+Plurality      & $0.1195$                                   & $0.2264$                                  \\ \hline
+Borda/Copeland & $0.75$                                     & $0.1634$                                  \\ \hline
+\end{tabular}
+\end{table}
+
 \subsection{Logistic Regression}
 We used the algorithms described earlier to generate a large amount of data on manipulability. Next, we would like to know how probable it is that a profile with a given number of candidates and voters is manipulable under our three voting rules. Furthermore, we would like to compare the impact the choice of voting rule has on manipulability and how high our confidence in this impact should be as compared to pure accident. Finally, we would like to compare the importance of voting rules with respect to man...(line truncated)...
 
