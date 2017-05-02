@@ -40,180 +40,74 @@
     }
 }
 
-\title{Homework 2}
+\title{Homework 3}
 \author{Haukur Páll Jónsson\\
 Computational Social Choice}
 
 \maketitle
 
-\begin{question}{1}{Anti-plurality}
+\begin{question}{3}{}
 
-
+We count the number of single peaked profiles given $m$ candidates and $n$ voters.
 \end{question}
 
-\begin{answer}{a)}{Consensus}
+\begin{answer}{a)}{Counting}
 
-Claim: \textit{Unanimous loser} consensus criterion and the \textit{discrete distance} characterize the anti-plurality rule.
+Given the defintion of single peakedness in class I claim that given a ordering, $>>$ on $X$ there are $2^{m-1}$ possible preference orders giving $(2^{m-1})^n$ possible profiles assuming $n$ voters. I proof this by induction on $m$.
 
-Consider a profile in which $x$ (or a collection) is elected a anti-plurality winner, i.e. it is ranked last least often. Thus for all other candidates, $y$, which do not get elected they are ranked last more often than $x$. Therefore we can consider a unanimous loser consensus profile in which $x$ is the loser. The discrete distance between the consensus profile and the profile in which $x$ was elected the anti-plurality winner will be maximal since we always need to place $x$ last more often than any other candidate. If there were multiple winners, they will have the same maximal discrete distance.
+For $m=1$ then the claim clearly holds since there is just one ordering possible and one profile possible, which is single peaked.
+
+For clarity I also show that the claim holds for $m=3$. Then by the claim there are 4 possible preference orders, $\boldsymbol{R_i}$ which do not break single peakedness. For ordering $a >> b >> c$ then we have the possible preference orders $a \succ b \succ c$, $b \succ a \succ c$, $b \succ c \succ a$ and $c \succ b \succ a$.
+
+Now we show that the claim holds for $m+1$. We go in reverse order. Since a preference order is fully determined when we select a candidate which is on either end of $>>$ we start by selecting that candidate. We have two possibilities. For each of these two possibilities we can add those two possibilites to the end of all possible preference orders with $m$ candidates, which by the induction hypotheses, are $2^{m-1}$. Therefore we have $2^{m-1}\cdot 2=2^m$ possible preference orders for $m+1$.
+
+Therefore, we have $2^{m-1}$ possible preference orders given a ordering $>>$. Then each voter can have one of these preferences. Thus we get: $(2^{m-1})^n$ profiles in total, given a ordering.
+
+Now consider that we have $m!$ possible orderings $>>$. You are tempted to say that then we have $m! \cdot (2^{m-1})^n$ single-peaked profiles but in fact we are counting at least double, since for each profile which satisfies a ordering, that profile also satisfies the reverse ordering. Therefore, we can only say that $m! \cdot (2^{m-1})^n/2$ is an upper bound.
 \end{answer}
 
-\begin{answer}{b)}{Distance}
+\begin{question}{4}{Decision problem}
 
-Claim: \textit{Unanimous winner} consensus criterion and \textit{end-to-end distance} characterize the anti-plurality rule.
-
-
-The end-to-end distance between two profiles $\boldsymbol{R}$ and $\boldsymbol{R'}$ is:
-
-$$\sum{i \in \N}{}{dist_e(\boldsymbol{R_i}, \boldsymbol{R_i'})}$$
-
-And $dist_e(\boldsymbol{R_i}, \boldsymbol{R_i'})$ is defined as 1 iff $first(\boldsymbol{R_i}) \neq last(\boldsymbol{R_i'})$. 0 otherwise.
-
-Using a similar argument as above, we consider a unanimous winner consensus profile, $\boldsymbol{R}$, and compare it to some other profile, $\boldsymbol{R'}$. $\boldsymbol{R}$ with the lowest end-to-end distance to $\boldsymbol{R'}$ will be our winner. To see this simply observe that if $x$ is the unanimous winner in $\boldsymbol{R}$ and the end-to-end distance between $\boldsymbol{R}$ and $\boldsymbol{R'}$ was the least implies that $x$ needed to be removed from the last place least often, i.e. $x$ was last least often.
-
-\end{answer}
-
-\begin{answer}{c)}{Noise model}
-
-Any noise model in which the probability of vetoing the correct alternative is less than the probability of vetoing any other alternative.
-
-\end{answer}
-
-\begin{question}{2}{Anonymous and neutral}
-
+Let $N=\{1,2, ..., n\}$ be the voters, $X=\{x_1,x_2,...,x_m\}$ be the alternatives/candidates. Let $F:\mathcal{L}(X)^n \mapsto \mathcal{L}(X)$ be a S.W.F.. $\boldsymbol{R} \in \mathcal{L}(X)^n$. A rank, $p$, is a position in a preference order.
 \end{question}
 
-\begin{answer}{a)}{Proof}
+\begin{answer}{a)}{The problem}
 
-Claim: There is not rule which satisfies anonymity and neutrality with $|X|=3$ adn $n\pmod 3=0$ for all profiles.
+The decision problem, Q, which I formulate is:
 
-Consider the \textit{condorcet paradox}:
+Instance: S.W.F. $F$, Profile $\boldsymbol{R}$ a candidate $x$ and rank $p$.
 
-\begin{align*}
-a \succ b \succ c \\
-c \succ a \succ b \\
-b \succ c \succ a \\
-\end{align*}
-Assume w.l.o.g. that $a$ wins. Then by neutrality we exchange $a$ and $b$ and then $b$ and $c$:
-\begin{align*}
-c \succ a \succ b \\
-b \succ c \succ a \\
-a \succ b \succ c \\
-\end{align*}
-Then the winner should be $c$ but if we apply anonymity then we get:
-\begin{align*}
-a \succ b \succ c \\
-c \succ a \succ b \\
-b \succ c \succ a \\
-\end{align*}
-This is again our original case, so $a$ should win. Contradiction. Since $a$ was chosen arbitrarily the argument applies to all resolute voting rules. The same argument applies if we assume w.l.o.g. that there is a tie between $a$ and $b$. Thus, the only possible outcome is a three-way tie between $a$, $b$ and $c$ (no alternative is not an option).
+Question: Is candidate $x$ ranked at $p$ for $F(\boldsymbol{R})$?
 
-Thus we can construct the same argument with $x \in \N$ voters for each preference order in the condorcet paradox, $3 \cdot x$ voters in total. Thus, for voters of any multiple of $3$, there is no voting rule which satisfies anonymity and neutrality with $|X|=3$ which does not lead to a three-way tie.
+If we have an oracle which solves Q in 1 time unit we can use Q like this:
 
-Claim: The \textit{plurality rule} satisfies anonymity and neutrality never returns a three-way tie for $n\pmod 3=1$ or $n\pmod 3=2$ voters for $|X|=3$.
+We place all candidates $x \in X$ to $X_l$ and go through candidates $x \in X_l$ and ask if this candidate $x$ is in ranked first given $F$ and $\boldsymbol{R}$. If we get a $yes$ then we put $x$ in first place of $\mathcal{L}(X)$ and move to the next rank and remove $x$ from $X_l$. If we get a $no$ then we go to the next candidate in $X_l$.
 
-It is easy to see that the plurality rule satisfies anonymity and neutrality. Let us now show that it is impossible to have a three-way tie with the plurality rule with $n\pmod 3=1$ or $n\pmod 3=2$ voters.
-
-Consider the total number of points available when using the plurality rule with $n$ voters. It is $n$. If there is a three-way tie for $|X|=3$ the plurality rule it implies that those points are divided equally between all alternatives. Since only whole numbers are considered this can only be the case if $n\pmod 3=0$. In all other cases a three-way tie is impossible since we cannot divide the points equally between the alternatives.
+In a worst case scenario we will need to go through all $m$ candidates in $X_l$ and ask Q for the first placement, $m-1$ for the second placement and so on. This gives:
+$$\sum{i=1}{m}{i}=\frac{m \cdot (m+1)}{2}=O(m^2)$$
 \end{answer}
 
-\begin{question}{3}{Combinatorics}
+\begin{answer}{b)}{Still polynomial}
 
-For $N=\{1,2, ..., n\}$ voters and $X=\{x_1, x_2, ..., x_m\}$ alternatives we count the number of social choice functions, $\mathcal{L}(X)^n \mapsto 2^X$, possible given certain constraints.
+If Q takes polynomial time unit we consider the previous algorithm again in worst case scenario. Then finding the first place takes $m \cdot poly$ time units and the second placement takes $(m-1) \cdot poly$ time units, etc.. Then we get:
+
+$$\sum{i=1}{m}{i \cdot poly}=poly \cdot \sum{i=1}{m}{i}=poly \cdot \frac{m \cdot (m+1)}{2}=O(m^k) \cdot O(m^2)=O(m^k)$$
+
+Therefore, the algorithm still runs in polynomial time.
+\end{answer}
+
+\begin{answer}{c)}{Not polynomial}
+
+Claim: If Q is not decidable in $poly$ time then finding $F(\boldsymbol{R})$ is not solvable in $poly$ time.
+
+To show this, I show the contrapositive: If finding $F(\boldsymbol{R})$ is solvable in $poly$ time then Q is decidable in $poly$ time.
+
+Suppose that we have an algorithm in which we can find $F(\boldsymbol{R})$ in $poly$ time. Given that solution, $\mathcal{L}(X)$, we can answer the decision problem Q stated above by simply checking the solution: Is candidate $x$ ranked at $p$ in $F(\boldsymbol{R})$? If we start at the beginning of $F(\boldsymbol{R})$ then go to rank $p$ in $p$ steps and check if $x$ is indeed there. This procedure takes linear time which is less than $poly$ time. Therefore the finding $F(\boldsymbol{R})$ and going through this procedure takes $poly$ time. Therefore, if we can find $F(\boldsymbol{R})$ in $poly$ time then Q is decidable in $poly$ time. Therefore, If Q is not decidable in $poly$ time then finding $F(\boldsymbol{R})$ is not solvable in $poly$ time.
+\end{answer}
+
+\begin{question}{5}{Programming}
+
+I did this excercise with Max Rapp and Silvan Hungerbuhler.
 \end{question}
-\begin{answer}{a)}{Total}
 
-Cardinality of the domain $\mathcal{L}(X)^n$:
-
-For each ballot we can order the $m$ alternatives, thus there are $m!$ combinations for each ballot.
-We have $n$ independent ballots, thus we have $m!^n$ combinations of ballots.
-We order the ballots to achieve complete profiles, thus $m!^n \cdot n!$ combinations of profiles. In these combinations there are profiles which ''look the same,, (for example, they contain exactly the same preference orders in order) but since we consider each ballot as unique, we count each of them.
-Similiarly we can permute each profile in $m!$ different ways, thus we get our total amount of profiles $m!^n \cdot n! \cdot m!$ combinations of profiles. Similarly as above, we will have many duplicates but since we need to consider each permuted profile as unique we count all of them.
-
-Cardinality of the codomain $2^X$:
-
-We consider resolute and non-resolute social choice functions. Thus the possible outcomes of a function are:
-
-$$\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m}$$
-
-We do not need to order outcomes.
-
-Then the number of functions, given the cardinality of the domain and range (in our case the codomain is also the range), is:
-\begin{align*}
-|(2^X)|^{|\mathcal{L}(X)^n|}&=(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{m!^n \cdot n! \cdot m!} \\
-&=(\binom{3}{1} + \binom{3}{2} + \binom{3}{3})^{3!^3 \cdot 3! \cdot 3!} \\
-&=(3 + 3 + 1)^{3!^5}= 7^{6^5}
-\end{align*}
-
-
-\end{answer}
-\begin{answer}{b)}{Anonymous}
-
-An anonymous S.C.F. gives the same result, even though we order the ballots differently. Thus we consider all ordering of ballots as the same profile. Thus we divide the original domain cardinality by all possible ordering of ballots, $n!$ (or equivalently omit counting the orderings). This gives the number of functions as:
-$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n! \cdot m!}{n!}}=7^{6^4}$$
-\end{answer}
-\begin{answer}{c)}{Neutral}
-
-A neutral S.C.F. gives the same result, even though we change the labels of the candidates, on each individual ballot and the result. Thus we consider all ballots which we can permute to another ballot, via neutrality, as the same ballot. There are $m!$ permutations of each ballot which we can do thus we have the number of functions as:
-
-$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n! \cdot m!}{m!}}=7^{6^4}$$
-\end{answer}
-\begin{answer}{d)}{Anonymous and Neutral}
-
-We simply consider both restrictions at the same time and get:
-
-$$(\binom{m}{1} + \binom{m}{2} + ... + \binom{m}{m})^{\frac{m!^n \cdot n! \cdot m!}{n! \cdot m!}}=7^{6^3}$$
-\end{answer}
-\begin{answer}{e)}{Resolute}
-
-A resolute S.C.F. only gives outcomes which are a single candidate. Thus, from the original codomain argument we eliminate the possibilities of multiple winners so that the cardinality of the codomain becomes:
-
-$$\binom{m}{1}$$
-
-So the total number of functions becomes:
-
-$$(\binom{m}{1})^{m!^n \cdot n! \cdot m!}=3^{6^5}$$
-\end{answer}
-\begin{answer}{f)}{Resolute and Anonymous}
-
-We simply consider both restrictions at the same time and get:
-$$(\binom{m}{1})^{\frac{m!^n \cdot n! \cdot m!}{n!}}=3^{6^4}$$
-\end{answer}
-\begin{answer}{g)}{Resolute and Neutral}
-
-Same argument.
-
-$$(\binom{m}{1})^{\frac{m!^n \cdot n! \cdot m!}{m!}}=3^{6^4}$$
-\end{answer}
-\begin{answer}{h)}{Resolute, Anonymous and Neutral}
-
-Same argument.
-
-$$(\binom{m}{1})^{\frac{m!^n \cdot n! \cdot m!}{n! \cdot m!}}=3^{6^3}$$
-\end{answer}
-\begin{question}{4}{Arrow\'s theorem}
-
-We replace the strictly stronger Pareto principle condition with a weaker condition of surjectivity.
-
-Let $F$ be a paretian S.C.F., $X$ the set of alternatives, $N$ the set of voters and $\boldsymbol{R}$ an arbitrarly profile.
-\end{question}
-\begin{answer}{a)}{Proof}
-
-I follow proof plan suggested in homework.
-
-Claim: Every Pareto resolute S.C.F. is surjective.
-
-It is always possible to construct a profile $\boldsymbol{R}$ which, when mapped by $F$ resolutetsly returns any candidate.
-Simply consider the profile in which all voters prefer $x$ the most. Now clearly, $\mathbf{N}^{\mathbf{F}}_{x\succ y}=N$ since $F$ is paretian it implies that no other candidate, $y$, can win. Therefore no other candidate than $x$ can win. Since $x$ is arbitrary candidate we can apply the argument to all candidates. Thus we can construct a profile in which any $x$ can win. Thus, every Pareto resolute S.C.F. is surjective.
-
-Claim: There exists a resolute surjective S.C.F. which is not paretian.
-
-Consider the \textit{Anti-plurality}, rule. It is surjective since, using a similar argument as above, we can construct $\boldsymbol{R}$ in which some $x$ is at the bottom and all other candidates have at least 1 vote (making it resolute), thus $x$ wins by the rule. Since $x$ is arbitrary, we can make any $x$ win. Also in this case $\mathbf{N}^{\mathbf{F}}_{y\succ x}=N$ for all other candidates $y$ but $x$ wins thus the antecedent of the paretian condition is true but consequent is false. Therefore it is not paretian. We can make the rule resolute by adding tiebreaker, for example a lexicographic tiebreaker.
-\end{answer}
-\begin{answer}{b)}{Counter example}
-
-We show that there exists a S.C.F. which is resolute, independent and nondictatorial.
-
-Simply consider the \textit{anti-dictatorship} rule. Similarly to the dictatorship, we choose some $i \in \N$ to be a dictator for all profiles and then we select $i$\'s least preferred option, $F(R)=bot(R_i)$. It is clearly resolute. It is nondictatorial since for every profile $\boldsymbol{R}$, $F(R) \neq top(R_i)$. It is also independent since for any change of ordering of the winner, $x$ and some other candidate, $y$, which does not change their relative positions, $y$ cannot win. This is because since $x$ won, that candidate was at the bottom and $y$ can only be above $x$, should $y$ win then $y$ needs to be at the bottom. Therefore their relative positions would have to have changed in order for $y$ to win. There fore the anti-dictatorship rule is resolute, independent and nondictatorial.
-\end{answer}
 \end{document}

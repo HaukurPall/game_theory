@@ -3,18 +3,6 @@ import matplotlib.pyplot as plt
 import time
 
 
-def plot_line_graph(x, y, y_name, x_name):
-    """
-    Helper function
-    """
-    plt.plot(x, y)
-    plt.ylabel(y_name)
-    plt.xlabel(x_name)
-    # plt.xscale('log')
-    plt.savefig(x_name + y_name + '.png')
-    plt.clf()
-
-
 def generate_profiles(number_of_voters=10, number_of_candidates=3, number_of_profiles=10):
     profiles = []
     for profile in range(0, number_of_profiles):
