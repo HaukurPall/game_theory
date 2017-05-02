@@ -1,0 +1,71 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\title{%
+  COMSOC HW 3: Report on Question 5 \\
+  \large Max Rapp, Haukur J{\'o}nsson, Silvan Hungerb{\"u}hler}
+
+\usepackage{mathptmx} % "times new roman"
+\usepackage{amssymb}
+\usepackage{amsmath, amsthm}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{comment}
+%\usepackage[margin=1in]{geometry}
+\usepackage{float}
+\usepackage{bm}
+
+\usepackage[normalem]{ulem}
+\date{}
+\begin{document}
+\maketitle
+\section{Introduction}
+It is clear from the Gibbard-Satterthwaite Theorem that any reasonable voting rule is in principle prone to manipulation. That is, there will be profiles for which some voters stand to improve the outcome of the vote by reporting dishonest preferences. It is unclear, however, how often such situations will arise in practice. We are therefore asked to assess and compare the \textit{Borda}, \textit{Plurality} and \textit{Copeland} rules with respect to their practical proneness to manipulability.
+
+There are various factors that could potentially influence the prevalence of manipulability: the number of candidates partaking in the election, the voting rule employed, the number of voters in the profile and assumptions concerning the distribution over possible profiles. In order to individually account for these factors we set up a logistic regression model. This allows us to seperately account for each factor's effect on the expected probability of a given profile-cum-voting rule being manipulable. 
+
+Using algorithms described in Section 2 we generated a data set in the following way:
+First, we randomly generated $100$ profiles for all either $6$ or $20$ candidates and between between $3$ and $1000$ voters.  Seconldy, we determined the winner in all of the profiles under each voting rule. Then we checked for each profile and voting rule whether some voter in the profile under consideration a) stands to gain from successfull manipulation and b) has the powers to induce it. If both points are satisfied, then we declare the outcome manipulable, otherwise, we declare it non-manipulable. For each profile-voting rule pair we thus get a binary verdict: manipulable or not. The fraction of manipulable under some voting rule is be the voting rules practical proneness to manipulation.
+
+The report is structured as follows: The following Section provides some detail on the algorithms we used to determine the winners for a given profile-voting rule pair and whether said outcome can be manipulated. The third Section presents the results of the Logistic Regression Analysis and the fourth discusses them and concludes the report.
+\section{Determining Winners \& Manipulability}
+Given some profile $\mathbf{R}$ we determined the winner by assigning each candidate a counter on which we put points. The candidate with most points wins, ties are broken lexicographically. The points were awarded thus for the three rules:
+\begin{itemize}
+\item \textit{Plurality}: A candidate's points is the number of times the candidate shows up in the first spot.
+\item \textit{Borda}: The points of a candidate are her Borda-score.
+\item \textit{Copeland}: A candidate's points are the number of pair-wise matchups a candidate wins minus the number of pair-wise matchups a candidate loses.
+\end{itemize}
+
+\noindent The algorithms to determine the manipulability run as follows:\\
+\begin{itemize}
+\item \textit{Plurality}: \begin{enumerate}
+\item  Compute the respective margin of victory (MOV) between \textit{actual winner} and all other candidates. If MOV$>1$ for all candidates, then declare the profile-rule pair non-manipulable. (One invdividual voter whose first option is not the winner can at most 'push' another candidate by $1$ point. If the MOV is larger than this she can not manipulate successfully.) Put all the candidates for whome MOV$<2$ in a set of \textit{potential winners}. These are the candidates in 'striking distance'.
+\item For all candidates in \textit{potential winners} look at each voter's profile and see if two conditions hold: \\
+a) The \textit{potential winner} is strictly preferred to the \textit{actual winner} by the voter under consideration.\\
+b) The \textit{potential winner} was not already ranked in the first position by the voter.\\
+If both conditions hold for some voter, then declare manipulability. Otherwise, declare non-manipulability.
+\end{enumerate}
+\item \textit{Borda}: \begin{enumerate}
+\item Compute the MOV for between all candidates and the \textit{actual winner}. If MOV$>x-1$ for all candidates, then declare the profile-rule pair non-manipulable. (One invdividual voter whose first option is not the winner can at most 'push' another candidate by $x-1$ point. If the MOV is larger than this she can not manipulate successfully.) Put all the candidates for whome MOV$<x-1$ in a set of \textit{potential winners}. These are the candidates in 'striking distance'.
+\item For all candidates in \textit{potential winners} look at each voter's profile and see if three conditions hold: \\
+a) The \textit{potential winner} is strictly preferred to the \textit{actual winner} by the voter under consideration.\\
+b) The \textit{potential winner} was not already ranked in the first position by the voter.\\
+If some condition fails to hold, move to next candidate. Otherwise, proceed in the following way:\\
+Move the \textit{potential winner} all the way to the top of the ballot under consideration, while moving the \textit{actual winner} successively one spot further back in the ranking. . If for some constellation the \textit{potential winner} manages to win instead of the \textit{
+actual winner}, declare the profile manipulable. If for all candidates and all voters thus considered such a constellation cannot be found, declare non-manipulability.\\
+Perhaps by way of clarification, we cannot simply put the \textit{actual winner} all the way to the bottom when checking for manipulability but need to proceed step-by-step because of situations like the following:\\
+Assume there are many candidates. The 3 candidates at the top of the Borda-score ranking - $A,B,C$ - have this many points:\\
+$A$ - $\alpha$\\
+$B$ - $\alpha-2$\\
+$C$ - $\alpha-1$\\
+Voter $i$ has the following ranking:\\
+$\text{some candidate}\succ B \succ A \succ \text{some candidate} \succ C \succ \text{some candidate} \succ ...$\\
+By moving $B$ to the top, $B$ now has $\alpha-1$ many points. If $i$ moves $A$ back one spot, then $A$ now has $\alpha-1$ points too (we could define this as having manipulated successfully, since the winner now depends on the tie breaking we perform). But if $i$ were to move $A$ further back still, then $C$ would have to move up, thus obtaining $\alpha$ many points and winning clearly. But $C$ is dispreferred by $i$, so this manipulation is not desirable for him.\\ In order to exclude cases like this one, we therefore need to move the \textit{actual winner} back cautiously and check at each step what with the other candidates happens that are in strikin distance of becoming the winners. On the other hand, we can move $B$ up with no further considerations, because this will at most hurt other candidates' Borda-score.
+\item 3. If we find one candidate in the \textit{possible winners} that a) some voter prefers to actual winner b) will become the winner by moving him to the top and the \textit{actual winner} at some spot behind what he previously occupied, then declare profile manipulable. Otherwise, declare it non-manipulable.
+\end{enumerate}
+\end{itemize}
+\section{Logistic Regression}
+\section{Discussion \& Conlcusion}
+\end{document}
