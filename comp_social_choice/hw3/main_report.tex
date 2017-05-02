@@ -17,8 +17,8 @@
 \usepackage{float}
 \usepackage{bm}
 \usepackage{graphicx}
-%\graphicspath{ {images/} }
-
+%\graphicspath{ {/home/sh/Desktop/CSC/CSC_HW/miniproject/} }
+%\graphicspath{{images/png}}
 \usepackage[normalem]{ulem}
 \date{}
 \begin{document}
@@ -74,8 +74,10 @@ By moving $B$ to the top, $B$ now has $\alpha-1$ many points. If $i$ moves $A$ b
 \item \textit{Copeland}: This works essentially the same as what we use for Borda-manipulability. The only difference is that, instead of the Borda scoring vector, we use the one we induced to determine the winner for the specific profile under consideration.
 \end{itemize}
 \section{Descriptive Analysis \& Logistic Regression}
-\subsection*{Descriptive Analysis}
-\subsection*{Logistic Regression}
+Figures ... show the frequencies of manipulable profiles for $100$ profiles between $10$ and $1000$ voters.
+\subsection{Descriptive Analysis}
+%\includegraphics[scale=•]{6candidates}
+\subsection{Logistic Regression}
 We used the algorithms described earlier to generate a large amount of data on manipulability. Next, we would like to know how probable it is that a profile with a given number of candidates and voters is manipulable under our three voting rules. Furthermore, we would like to compare the impact the choice of voting rule has on manipulability and how high our confidence in this impact should be as compared to pure accident. Finally, we would like to compare the importance of voting rules with respect to man...(line truncated)...
 
 The adequate tool to answer these questions is regression analysis. Since our dependent variable (manipulable? yes/no) is a binary, categorical variable, we should not use simple linear regression since it is unlikely to yield a good fit. Instead the method of choice is logistic regression.
