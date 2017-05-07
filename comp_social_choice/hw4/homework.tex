@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
+\usepackage{graphicx} % disjoint union
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+% math enumerate
+\renewcommand{\theenumi}{\roman{enumi}}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+% Disjoint union
+\newcommand\Dunion{
+  \mathop{\mathchoice
+    {\ooalign{$\displaystyle\bigcup$\cr\hss\scalebox{.65}{\raisebox{0.45ex}{\sffamily +}}\hss}}
+    {\ooalign{$\textstyle\bigcup$\cr\hss\scalebox{.9}{\raisebox{0.5ex}{\tiny\sffamily +}}\hss}}
+    {\ooalign{$\scriptstyle\bigcup$\cr\hss\scalebox{.45}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    {\ooalign{$\scriptscriptstyle\bigcup$\cr\hss\scalebox{.38}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    }
+}
+
+\title{Homework 4}
+\author{Haukur Páll Jónsson\\
+Computational Social Choice}
+
+\maketitle
+
+\begin{question}{1}{Necessary winner}
+
+Let $N=\{1,2, ..., n\}$ be the set of voters, $X=\{x_1,x_2,...,x_m\}$ be the set of candidates.
+I provide a polynomial algorithm which produeces the \textit{Necessary winner} for the plurality rule.
+\end{question}
+
+\begin{answer}{a)}{The algorithm}
+
+We assume w.l.o.g. that we know $|N|=n$ and $|X|=m$.
+
+To begin with we define and store the \textit{maximal score of a candidate $x \in X$} as $max(x)=n$. Similarly we define and store the \textit{minimal score of a candidate $x \in X$} as $min(x)=0$. This takes $O(m)$ steps.
+
+Furthermore, for each $i \in N$ we define and store the set of \textit{undominated candidates for voter $i \in N$} as $undom(i)$, to begin with the set contains all candidates. This takes $O(n)$ steps.
+
+We assume that the preferences are \textit{elicit finely}, that is, we assume that each information increment consists of $x \succ_i y$. There are in total $n \cdot m \cdot (m-1)$ such increments. For every given $x \succ_i y$ we remove $y$, if present
+\footnote{Many of the information increments do not contain information which will help deciding the necessary winner. This is because we do not care about the complete order, we only care about the cases when we remove a candidate from the set of \textit{undominated candidates for voter i} and it is possible that we already seen $x \succ_j y$ which implies that we have removed $y$ from $undom(j)$ and $y \succ_j z$, remove $z$ from $undom(j)$ and therefore $x \succ_j z$ would not give us more information since we cannot remove $z$ again from $undom(j)$.}
+, from $undom(i)$.
+
+If $y$ was removed from $undom(i)$ then we decrement $max(y)$ by 1. Furthermore, if $x$ is now the only element of $undom(i)$ then we increment $min(x)$ by 1.
+
+If $y$ was removed from $undom(i)$, then we then define a \textit{possible winner} as candidate $x^*$ which satisfy $\max_{x \in X} min(x) \leq max(x^*)$. Checking this condition takes $O(m)$ steps. If there is only one \textit{possible winner} she is the \textit{necessary winner}. If there are multiple \textit{possible winners}, then we define a \textit{necessary winner} as all possible winners $x^*$ if for all other possible winners $x'$: $max(x^*) = max(x') =min(x^*) = min(x')$, i.e. they are tied in first postion and cannot get more points. Checking this condition takes $O(m)$ steps.
+
+We therefore end up, roughly, with the running time of: $O(n) + O(m) + O((n \cdot m^2) \cdot (O(m) + O(m)))=O(n \cdot m^3)$\footnote{How should you use the Big-oh notation to argue algebraically? Is this ok?}
+
+If we would use \textit{course elicitation} the algorithm would run would be faster since then in each information increment we would remove $m-1$ candidates from $undom(i)$, leaving only one, in each iteration. The running time would be, roughly, $O(n \cdot m^2)$.
+\end{answer}
+
+\begin{question}{2}{Iterative voting}
+
+Let $N=\{1,2, ..., n\}$ be the set of voters, $X=\{x_1,x_2,x_3\}$ be the set of candidates. $F$ be the \textit{borda rule}. $\boldsymbol(R^0)$ be \textit{true preferences}. We only consider \textit{best responses} and break ties using a fixed \textit{lexicographic order}.
+\end{question}
+
+\begin{answer}{a)}{Counterexample}
+
+$$\succ_1=\succ_2=a\succ b\succ c$$
+$$\succ_3=\succ_4=c\succ a\succ b$$
+$$\succ_5=\succ_6=b\succ c\succ a$$
+$$\succ_7=a\succ b\succ c$$
+$$\succ_8=b\succ a\succ c$$
+$$\succ_9=c\succ a\succ b$$
+$$\succ_10=c\succ b\succ a$$
+We start with $\boldsymbol(R^0)=(\succ_1,\succ_2,\succ_3,\succ_4,\succ_5,\succ_6,\succ_7,\succ_8,\succ_9,\succ_10)$, i.e. $[\textcolor{red}{10},10,10]$.
+
+Voter 10 puts $b$ one up and we get:
+$$[10,\textcolor{red}{11},9]$$
+
+$$[10,\textcolor{red}{11},9]$$
+
+\end{answer}
+
+\begin{question}{3}{Combinatorial domains}
+
+
+\end{question}
+
+\begin{answer}{a)}{Weak condorcet winner}
+
+Idea: Using single goals will only induce 1 strict linear ordering, two goals can induce 4 strict orderings.
+
+\end{answer}
+
+\end{document}
