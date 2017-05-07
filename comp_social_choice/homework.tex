@@ -1,0 +1,60 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
+\usepackage{graphicx} % disjoint union
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+% math enumerate
+\renewcommand{\theenumi}{\roman{enumi}}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+% Disjoint union
+\newcommand\Dunion{
+  \mathop{\mathchoice
+    {\ooalign{$\displaystyle\bigcup$\cr\hss\scalebox{.65}{\raisebox{0.45ex}{\sffamily +}}\hss}}
+    {\ooalign{$\textstyle\bigcup$\cr\hss\scalebox{.9}{\raisebox{0.5ex}{\tiny\sffamily +}}\hss}}
+    {\ooalign{$\scriptstyle\bigcup$\cr\hss\scalebox{.45}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    {\ooalign{$\scriptscriptstyle\bigcup$\cr\hss\scalebox{.38}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    }
+}
+
+\title{Homework XXX}
+\author{Haukur Páll Jónsson\\
+Computational Social Choice}
+
+\maketitle
+
+\begin{question}{question_number}{question_name}
+
+
+\end{question}
+
+\begin{answer}{answer_number}{answer_name}
+
+
+\end{answer}
+
+
+\end{document}
