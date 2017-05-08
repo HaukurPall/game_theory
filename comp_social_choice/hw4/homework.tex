@@ -80,20 +80,27 @@ Let $N=\{1,2, ..., n\}$ be the set of voters, $X=\{x_1,x_2,x_3\}$ be the set of 
 
 \begin{answer}{a)}{Counterexample}
 
-$$\succ_1=\succ_2=a\succ b\succ c$$
-$$\succ_3=\succ_4=c\succ a\succ b$$
-$$\succ_5=\succ_6=b\succ c\succ a$$
-$$\succ_7=a\succ b\succ c$$
-$$\succ_8=b\succ a\succ c$$
-$$\succ_9=c\succ a\succ b$$
-$$\succ_10=c\succ b\succ a$$
-We start with $\boldsymbol(R^0)=(\succ_1,\succ_2,\succ_3,\succ_4,\succ_5,\succ_6,\succ_7,\succ_8,\succ_9,\succ_10)$, i.e. $[\textcolor{red}{10},10,10]$.
+$$\succ_1=a\succ c\succ b$$
+$$\succ_2=c\succ b\succ a$$
+We start with $\boldsymbol(R^0)=(\succ_1,\succ_2,\succ_3,\succ_4,\succ_5,\succ_6,\succ_7,\succ_8,\succ_9,\succ_10)$, i.e. $[2,1,\textcolor{red}{3}]$.
 
-Voter 10 puts $b$ one up and we get:
-$$[10,\textcolor{red}{11},9]$$
+Voter 1, puts $b$ up and $c$ down we get:
+$$\succ_1=a\succ b\succ c$$
+$$[\textcolor{red}{2},2,2]$$
 
-$$[10,\textcolor{red}{11},9]$$
+Voter 2, puts $b$ up and $c$ down we get:
+$$\succ_2=b\succ c\succ a$$
+$$[2,\textcolor{red}{3},1]$$
 
+Voter 1, puts $b$ back down again and $c$ up again we get:
+$$\succ_1=a\succ c\succ b$$
+$$[\textcolor{red}{2},2,2]$$
+
+Voter 2, also falls back to her truthful preference:
+$$\succ_2=c\succ b\succ a$$
+$$[2,1,\textcolor{red}{3}]$$
+
+We are now in the exact same position as to begin with and voter 1 has again an incentive to put $b$ down and $c$ up.
 \end{answer}
 
 \begin{question}{3}{Combinatorial domains}
