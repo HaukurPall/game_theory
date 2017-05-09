@@ -75,16 +75,16 @@ If we would use \textit{course elicitation} the algorithm would run would be fas
 
 \begin{question}{2}{Iterative voting}
 
-Let $N=\{1,2, ..., n\}$ be the set of voters, $X=\{x_1,x_2,x_3\}$ be the set of candidates. $F$ be the \textit{borda rule}. $\boldsymbol(R^0)$ be \textit{true preferences}. We only consider \textit{best responses} and break ties using a fixed \textit{lexicographic order}.
+Let $N=\{1,2, ..., n\}$ be the set of voters, $X=\{x_1,x_2,x_3\}$ be the set of candidates. $F$ be the \textit{borda rule}. $\boldsymbol{R^0}$ be \textit{true preferences}. We only consider \textit{best responses} and break ties using a fixed \textit{lexicographic order} and show that iterated voting does need not converge.
 \end{question}
 
 \begin{answer}{a)}{Counterexample}
 
 $$\succ_1=a\succ c\succ b$$
 $$\succ_2=c\succ b\succ a$$
-We start with $\boldsymbol(R^0)=(\succ_1,\succ_2,\succ_3,\succ_4,\succ_5,\succ_6,\succ_7,\succ_8,\succ_9,\succ_10)$, i.e. $[2,1,\textcolor{red}{3}]$.
+We start with $\boldsymbol{R^0}=(\succ_1,\succ_2)$, i.e. $[2,1,\textcolor{red}{3}]$.
 
-Voter 1, puts $b$ up and $c$ down we get:
+Voter 1, puts $b$ up and $c$ down (by argument of \textit{best responses}) and votes:
 $$\succ_1=a\succ b\succ c$$
 $$[\textcolor{red}{2},2,2]$$
 
@@ -105,16 +105,30 @@ We are now in the exact same position as to begin with and voter 1 has again an 
 
 \begin{question}{3}{Combinatorial domains}
 
+Using the language of prioritised goals and restrict ourselves s.t. voters can only specify a single goal.
 
+Let $\mathcal{D}=D_1 \times D_2 \times ... \times D_p$ with $|D_i|=2$ and we assciate $\mathcal{D}$ with a set $PS=\{X_1, ..., X_p\}$ of propositional variables.
 \end{question}
 
 \begin{answer}{a)}{Weak condorcet winner}
 
-Lemma: Using single goals will only induce 1 strict linear ordering.
-Weak concorcet implies that there is a preference which is more often on the left side than the right side.
-Argument by construction? Induction on length/number of preferences?
+First I show that that a \textit{weak condorcet winner} need not be unique. Consider this example with only a single voter, two alternatives, $x$ and $y$, and a goal $x \lor y:1$. This induces this preference order:
 
+$$xy \sim \overline{x}y  \sim x\overline{y} \succ_1 \overline{x}\overline{y}$$
 
+In which there are three \textit{weak condorcet winners}.
+
+Now I show that a \textit{weak condorcet winner} always exists for the case when voters only express a single goal, $\phi$.
+
+We start by observing that restricting our selves to a single goal representation, each voter will induce at most two equivalence classes on the set of alternatives since the equivalence classes are defined on when an alternative satisfies a goal or not. For a single goal, it is either satisfied or not. In the case of tautologies or contradictions only one equivalence classe is induced but in those cases each alternative ties with another, thus fulfulling the requirmment of a \textit{weak condorcet winner}.
+
+Each alternative is either satisfied by a voter's goal and it always the case that for each voter there is an alternative which more prefered than another, $\exists x:x \succ_i y$, for some voter $i$ or they are all equivalent, $\forall x,x':x \neq x' \land x \sim x'$
+
+Now consider the construction of a profile by adding preference orders which should eliminate\footnote{The construction is general but the incentive is that it should elimiate \textit{weak condorcet winners}}\textit{weak condorcet winners} and show that it always contains a \textit{weak condorcet winner}. We have already showed that there is always an alternative with is more prefered than other alternatives or they are all equivalent thus we choose w.l.o.g. a goal for our first voter which is only satisfied by 1 alternative, $x^1$. At this stage $x^1$ is the \textit{condorcet winner} (then also the weak). For the second voter we choose another goal which is only satisfied by 1 alternative. That alternative can either be $x^1$ or $x^2$, distinct from $x^1$. If we choose $x^1$ then $x^1$ continues to be a \textit{condorcet winner}. If we choose $x^2$, distinct from $x^1$ then $x^1$ and x^2$ are both \textit{weak condorcet winners}. For the third voter we can, depending on what we did for voter two, do one of the following. Choose to satisfy an already established \textit{condorcet winner}, a \textit{weak condorcet winner} making it a \textit{condorcet winner} or an alternative which is neither an making all of them \textit{weak condorcet winners}. This construction can continue until we have exhausted all candidates and we are required to choose a previous \textit{weak condorcet winner} making it a \textit{condorcet winner}.
+
+If we now consider a construction in which we choose to satisfy multiple candidates at once, then we are essentially doing this selection twice in a row. One might object and say that it is possible to choose an alternative which is neither a \textit{condorcet winner} nor a \textit{weak condorcet winner} but will not make that candidate a \textit{weak condorcet winner}, which is true, but it implies that previously you have chosen to satisfy other alternative(s) more than that one, making them the \textit{condorcet winner} or \textit{weak condorcet winner}.
+
+Therefore, no matter how we decide to construct the profile, at each point there will be a (or multiple) \textit{weak condorcet winner}. Therefore, there always exists a \textit{weak condorcet winner} if each voter only specifies only a single goal.
 \end{answer}
 
 \end{document}
