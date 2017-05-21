@@ -1,0 +1,88 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{tikz} % for drawing stuff
+\usepackage{xcolor} % for \textcolor{}
+\usepackage{readarray} % for \getargsC{}
+\usepackage{graphicx} % disjoint union
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+% Math sets
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+
+% Setup of project
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{answer}[2][Answer]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2:}]}{\end{trivlist}}
+\begin{document}
+% math enumerate
+\renewcommand{\theenumi}{\roman{enumi}}
+
+% Short hands
+\let\oldsum\sum
+\renewcommand{\sum}[3]{\oldsum\limits_{#1}^{#2}#3}
+\let\oldprod\prod
+\renewcommand{\prod}[3]{\oldprod\limits_{#1}^{#2}#3}
+
+% Disjoint union
+\newcommand\Dunion{
+  \mathop{\mathchoice
+    {\ooalign{$\displaystyle\bigcup$\cr\hss\scalebox{.65}{\raisebox{0.45ex}{\sffamily +}}\hss}}
+    {\ooalign{$\textstyle\bigcup$\cr\hss\scalebox{.9}{\raisebox{0.5ex}{\tiny\sffamily +}}\hss}}
+    {\ooalign{$\scriptstyle\bigcup$\cr\hss\scalebox{.45}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    {\ooalign{$\scriptscriptstyle\bigcup$\cr\hss\scalebox{.38}{\raisebox{0.3ex}{\sffamily +}}\hss}}
+    }
+}
+
+\title{Homework 5}
+\author{Haukur Páll Jónsson\\
+Computational Social Choice}
+
+\maketitle
+
+\begin{question}{1}{Standard STV vs Elimination first STV}
+
+Consider this counter example
+\end{question}
+
+\begin{answer}{a)}{}
+Let $N=\{1,2\}$ be the set of voters, $X=\{a,b,c\}$ be the set of alternatives, let $k=2$ and the ballot given as: \\
+
+$$a\succ_1 b\succ_1 c$$
+$$a\succ_2 b\succ_2 c$$
+
+First we observe that the $k$ winner STV rule defined in class will always elect $\{a,b\}$ but if we use the elimination first STV rule which is given in the homework then it is possible that we eliminate $b$ and get a winner set $\{a,c\}. The crucial difference between the rules is that elimination first STV does (Monotonicity? Is hard because of tiebreaking)
+
+\end{answer}
+
+\begin{question}{2}{}
+
+
+\end{question}
+\begin{answer}{a)}{Borda with incomplete preferences}
+
+This is clearly a case of incomplete preference orders, in which we can consider all possible complete profiles given the incomplete profiles, and we can compute the necessary winner from the given information similarly as we did in a previous homework.
+\end{answer}
+\begin{answer}{b)}{May\'s theorem not automatable}
+
+May\'s theorem states something about all possible S.C.F. ? Is it because of assumption plus the contradiction?
+\end{answer}
+\begin{answer}{c)}{Single result Chamberlin and Courant}
+
+If Chamberlin and Courant rule is used with $k=1$ then it corresponds with the Borda rule. If we assign regret to all candidates of each voter, the most preferred option having no regret. The rule elects the candidate with this minimal score. This score is the reversed Borda score, if we reverse the score, to the Borda score, and elect the candidate with the highest score we have the Borda rule.
+\end{answer}
+\begin{answer}{d)}{Slater in JA}
+
+?
+\end{answer}
+\begin{answer}{e)}{Slater in JA}
+
+Impartial culture in JA would imply that all \textit{complete} and \textit{consistent} \textit{judgement sets} are equally likely to be held by a voter. But since judgment sets are defined by the \textit{agenda}, then would all propositional formulas need to be equally likely to be in the agenda?
+\end{answer}
+\end{document}
