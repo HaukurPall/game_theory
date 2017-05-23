@@ -48,30 +48,30 @@ Computational Social Choice}
 
 \begin{question}{1}{Standard STV vs Elimination first STV}
 
-Consider this counter example
+Consider this example
 \end{question}
 
 \begin{answer}{a)}{}
-Let $N=\{1,2\}$ be the set of voters, $X=\{a,b,c\}$ be the set of alternatives, let $k=2$ and the ballot given as: \\
-
+Let $N=\{1,2,3,4,5\}$ be the set of voters, $X=\{a,b,c\}$ be the set of alternatives, let $k=2$ and the ballot given as: \\
 $$a\succ_1 b\succ_1 c$$
 $$a\succ_2 b\succ_2 c$$
-
-First we observe that the $k$ winner STV rule defined in class will always elect $\{a,b\}$ but if we use the elimination first STV rule which is given in the homework then it is possible that we eliminate $b$ and get a winner set $\{a,c\}. The crucial difference between the rules is that elimination first STV does (Monotonicity? Is hard because of tiebreaking)
-
+$$a\succ_3 b\succ_3 c$$
+$$a\succ_4 b\succ_4 c$$
+$$c\succ_5 b\succ_5 a$$
+First we observe that the $k$ winner STV rule defined in class will always elect $\{a,b\}$ but if we use the elimination first STV rule which is given in the homework then we eliminate $b$, the plurality loser, and get a winner set $\{a,c\}$. The crucial difference between the rules is that STV can favor the plurality loser.
 \end{answer}
 
 \begin{question}{2}{}
 
 
 \end{question}
-\begin{answer}{a)}{Borda with incomplete preferences}
+\begin{answer}{a)}{Borda with missing candidates in preferences}
 
-This is clearly a case of incomplete preference orders, in which we can consider all possible complete profiles given the incomplete profiles, and we can compute the necessary winner from the given information similarly as we did in a previous homework.
+I work under the assumption that when working with subsets of a ranking, some candidates will be missing from the ordering but other than that, they induce a strict ordering over the subset. I, therefore, do not consider that some candidates might be equivalent in the order or that the ordering is somehow broken. Every voter should assign equally many points, $m \cdot (m-1)/2$. Therefore, we might assume that candidates which are not ordered are the ones which are least preferred. We then assign $m-1$ points to the most preferred candidate, $m-2$ to the next and so on. When we reach the end of the ordering, we distribute the remaining points equally between the unmentioned candidates.
+
 \end{answer}
-\begin{answer}{b)}{May\'s theorem not automatable}
-
-May\'s theorem states something about all possible S.C.F. ? Is it because of assumption plus the contradiction?
+\begin{answer}{b)}{May's theorem not automatable}
+When trying to find an answer to this question I found the paper "Proving classical theorems of social choice theory in modal logic" by Giovanni Ciná and Ulle Endriss from 2016. In this paper it is mentioned that it is an open question wether May's theorem could be proven in this logic automatically. The proof method used in this paper is a one which translates a theorem of the logic used in the paper to a theorem of propositional logic and then checks if there exists a model which satisfies that formula. The problem one might encounter when attempting to prove May's theorem with this approach might be that the number of propositional variables needed to express the theorem is simply too great (since the satisfiability problem is NP-complete) and therefore not computable in sufficient amount of time. A satisfiability tool for the logic used in the paper simply does not exists and creating such a tool and getting it to the level of todays SAT solvers takes a while to do.
 \end{answer}
 \begin{answer}{c)}{Single result Chamberlin and Courant}
 
@@ -79,10 +79,11 @@ If Chamberlin and Courant rule is used with $k=1$ then it corresponds with the B
 \end{answer}
 \begin{answer}{d)}{Slater in JA}
 
-?
-\end{answer}
-\begin{answer}{e)}{Slater in JA}
+Let $\Phi$ be the set of agenda. We consider a profile, $\boldsymbol{J}$, of complete and consistent judgment sets, $\mathcal{J}(\Phi)$. We can translate the Slater rule to JA like so: The Slater rule elects $j \in \mathcal{J}(\Phi)$ which minimises $\sum{k \in \boldsymbol{J}}{}{H(j,k)}$, where $H(j,k)$ is the Hamming-distance between $j$ and $k$.
 
-Impartial culture in JA would imply that all \textit{complete} and \textit{consistent} \textit{judgement sets} are equally likely to be held by a voter. But since judgment sets are defined by the \textit{agenda}, then would all propositional formulas need to be equally likely to be in the agenda?
+\end{answer}
+\begin{answer}{e)}{Impartial culture in JA}
+
+Impartial culture in JA would translate like so: Given a set of agenda, $\Phi$ then each complete and consistent judgment sets, $\mathcal{J}(\Phi)$ is equally likely to be held by a voter, i.e. a uniform probability.
 \end{answer}
 \end{document}
